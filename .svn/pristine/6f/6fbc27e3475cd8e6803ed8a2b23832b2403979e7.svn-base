@@ -1,0 +1,603 @@
+﻿@model Inventory.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SalesOrder</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Currency.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Currency.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentTerms.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentTerms.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sales.OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sales.OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesRep)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalesRep)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PONumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PONumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RequestShipDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RequestShipDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DueDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderSubTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderSubTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderExtra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderExtra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PickingRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PickingRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PackingRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PackingRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InvoicedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InvoicedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountPaid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountPaid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Balance)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Balance)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnSubTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnSubTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnExtra)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnExtra)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnFee)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnFee)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RestockRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RestockRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddressRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddressRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BillingAddressType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BillingAddressType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddress1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddress1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddress2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddress2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingCity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingCountry)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingCountry)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingPostalCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingPostalCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddressRemarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddressRemarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippingAddressType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippingAddressType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Custom5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Custom5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModDttm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModDttm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TimeStamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SplitPartNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SplitPartNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShowShipping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShowShipping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShipToCompanyName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShipToCompanyName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExchangeRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Total)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Total)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PaymentStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PaymentStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InventoryStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InventoryStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCancelled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCancelled)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SummaryLinePermutation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SummaryLinePermutation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NonCustomerCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NonCustomerCost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NonCustomerCostIsPercemt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NonCustomerCostIsPercemt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsQuote)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsQuote)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsInvoiced)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsInvoiced)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCompleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsCompleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SameBillingAndShipping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SameBillingAndShipping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsTaxInclusive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsTaxInclusive)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SalesOrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

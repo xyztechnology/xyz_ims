@@ -1,0 +1,42 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class initialcreate3 : DbMigration
+    {
+        public override void Up()
+        {
+            AlterColumn("dbo.Product", "Version", c => c.Int());
+            AlterColumn("dbo.Product", "ItemTypeId", c => c.Int());
+            AlterColumn("dbo.Product", "ReorderPoint", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ReorderQuantity", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "MasterPackQty", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "InnerPackQty", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseLength", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseWidth", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseHeight", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseWeight", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ProductLength", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ProductWidth", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ProductHeight", c => c.Decimal(precision: 18, scale: 2));
+        }
+        
+        public override void Down()
+        {
+            AlterColumn("dbo.Product", "ProductHeight", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ProductWidth", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ProductLength", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseWeight", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseHeight", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseWidth", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "CaseLength", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "InnerPackQty", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "MasterPackQty", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ReorderQuantity", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ReorderPoint", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.Product", "ItemTypeId", c => c.Int(nullable: false));
+            AlterColumn("dbo.Product", "Version", c => c.Int(nullable: false));
+        }
+    }
+}

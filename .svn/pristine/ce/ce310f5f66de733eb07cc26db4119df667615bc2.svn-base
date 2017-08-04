@@ -1,0 +1,30 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class inti123 : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.PurchaseOrderDetail", "IsReceived", c => c.Boolean(nullable: false));
+            AddColumn("dbo.ReceivedOrder", "ReceivedNumber", c => c.String());
+            AddColumn("dbo.ReceivedOrder", "ReceivedDate", c => c.DateTime());
+            DropColumn("dbo.PurchaseOrder", "Status");
+            DropColumn("dbo.ReceivedOrder", "OrderNo");
+            DropColumn("dbo.ReceivedOrder", "OrderDate");
+            DropColumn("dbo.ReceivedOrder", "Status");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.ReceivedOrder", "Status", c => c.String());
+            AddColumn("dbo.ReceivedOrder", "OrderDate", c => c.DateTime());
+            AddColumn("dbo.ReceivedOrder", "OrderNo", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "Status", c => c.String());
+            DropColumn("dbo.ReceivedOrder", "ReceivedDate");
+            DropColumn("dbo.ReceivedOrder", "ReceivedNumber");
+            DropColumn("dbo.PurchaseOrderDetail", "IsReceived");
+        }
+    }
+}

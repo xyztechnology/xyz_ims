@@ -1,0 +1,22 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class inti1234 : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.ReceivedOrder", "PurchaseOrderId", c => c.Int());
+            CreateIndex("dbo.ReceivedOrder", "PurchaseOrderId");
+            AddForeignKey("dbo.ReceivedOrder", "PurchaseOrderId", "dbo.PurchaseOrder", "PurchaseOrderId");
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.ReceivedOrder", "PurchaseOrderId", "dbo.PurchaseOrder");
+            DropIndex("dbo.ReceivedOrder", new[] { "PurchaseOrderId" });
+            DropColumn("dbo.ReceivedOrder", "PurchaseOrderId");
+        }
+    }
+}

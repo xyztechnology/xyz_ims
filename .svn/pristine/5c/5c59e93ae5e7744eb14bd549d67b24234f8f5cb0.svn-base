@@ -1,0 +1,38 @@
+﻿@model Inventory.Models.Customer
+
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.CustomerList != null)
+    {
+        foreach (var item in Model.CustomerList)
+        {
+
+            <tr>
+                <td>
+                    @item.Address1
+                </td>
+                <td>
+                    @Ajax.ActionLink(@item.Name, "Edit", // <-- Text to display
+                              "Customer",
+
+                 new
+                 {
+                     id = item.CustomerId
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                </td>
+            </tr>
+        
+
+        }
+
+    }
+</table>

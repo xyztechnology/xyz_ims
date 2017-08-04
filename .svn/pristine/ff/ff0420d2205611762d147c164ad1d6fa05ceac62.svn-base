@@ -1,0 +1,95 @@
+﻿@model Inventory.Models.Inventorystore
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+
+
+
+        j(".Rte").on("keyup", function (e) {
+
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var Rate = al.find(".Rte").val();
+            var amount = Quantity * Rate;
+            al.find(".Amt").val(amount);
+
+
+        });
+
+
+
+    });
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+
+
+        j(".Amt").on("keyup", function (e) {
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var Amount = al.find(".Amt").val();
+            var rate = Amount / Quantity;
+            al.find(".Rte").val(rate)
+          
+
+        });
+    });
+
+
+</script>
+
+@using (Html.BeginCollectionItem("inventoryStore.InventoryStorList"))
+{
+
+    <table>
+        <tr>
+            @Html.HiddenFor(m => m.InventorystoreId)
+
+            <td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select", new { @style = "height:25px" })</td>
+
+            <td>@Html.TextBoxFor(m => m.Quantity, new { @onchange = "TotalQty(this.value)", @class = "Qty" })</td>
+            <td>@Html.TextBoxFor(m => m.Rate, new { @class = "Rte" })</td>
+            <td>@Html.TextBoxFor(m => m.Amount, new { @onblur = "CalcRate()", @class = "Amt" })</td>
+
+
+
+
+
+        </tr>
+
+    </table>
+
+
+}

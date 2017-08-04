@@ -1,0 +1,35 @@
+﻿@model Inventory.Models.TransactionAnalysisSubSetup
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+
+@using (Html.BeginCollectionItem("TransactionAnalysisSubSetup.TransactionAnalysisSubSetupList"))
+{
+
+
+    <table>
+        <tr>
+            <td>
+                @Html.HiddenFor(m => m.TransactionAnalysisId)
+                @Model.TransactionAnalysisSetup.Name
+            </td>
+            <td>
+                @Html.DropDownListFor(model => model.TransactionAnalysisSubSetupId, Utility.GetProductList())
+            </td>
+
+
+
+
+
+        </tr>
+
+
+    </table>
+
+
+
+}
+
+
+

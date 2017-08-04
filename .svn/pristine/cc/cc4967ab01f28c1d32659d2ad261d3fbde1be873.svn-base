@@ -1,0 +1,24 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class sfdsfsdf : DbMigration
+    {
+        public override void Up()
+        {
+            AlterColumn("dbo.Customer", "Version", c => c.Int());
+            AlterColumn("dbo.Customer", "Phone", c => c.Int());
+            AlterColumn("dbo.Customer", "Fax", c => c.Int());
+            AlterColumn("dbo.Customer", "AddressType", c => c.Int());
+        }
+        
+        public override void Down()
+        {
+            AlterColumn("dbo.Customer", "AddressType", c => c.Int(nullable: false));
+            AlterColumn("dbo.Customer", "Fax", c => c.Int(nullable: false));
+            AlterColumn("dbo.Customer", "Phone", c => c.Int(nullable: false));
+            AlterColumn("dbo.Customer", "Version", c => c.Int(nullable: false));
+        }
+    }
+}

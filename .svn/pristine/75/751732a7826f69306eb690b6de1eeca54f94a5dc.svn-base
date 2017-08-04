@@ -1,0 +1,131 @@
+﻿@model Inventory.Models.WorkOrderLine
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+
+<script type="text/javascript">
+    $("#Add-Item").on('change', '.prod', function () {
+
+        var df = j(this).closest("tr");
+
+        var proId = df.find(".prod").val();
+
+        $.ajax({
+            url: "@Url.Action("GetProductDetail", "JsonRequest")",
+            data: {
+
+                prodid: proId
+            },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                df.find(".rte").val(data.Rate);
+            }
+        });
+
+
+
+
+
+    })
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+
+        j(".rte").on("keyup", function (e) {
+
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var Rate = al.find(".rte").val();
+            var amount = Quantity * Rate;
+            al.find(".amt").val(amount);
+
+
+        });
+
+        j(".Qty").on("keyup", function (e) {
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var rate = al.find(".rte").val();
+            var amount = rate * Quantity;
+            al.find(".amt").val(amount);
+
+
+        });
+
+        j(".amt").on("keyup", function (e) {
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var Amount = al.find(".amt").val();
+            var rate = Amount / Quantity;
+            al.find(".rte").val(rate);
+
+
+        });
+
+    });
+</script>
+
+
+
+@using (Html.BeginCollectionItem("workOrderLine.WorkOrderLineList"))
+{
+    <table>
+        <tr>
+            @Html.HiddenFor(m => m.WorkOrderLineId)
+            @Html.HiddenFor(m => m.ParentWorkOrderLineId)
+
+            <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new {@onchange = "AddNewProduct(this.value)", @style = "width:80px",@class="prod" })</td>
+
+            <td>@Html.TextBoxFor(m => m.Quantity, new {@class = "Qty", @style = "width:50px" })</td>
+            <td>@Html.TextBoxFor(m => m.PartsCost, new {@class = "rte", @style = "width:50px" })</td>
+            <td>@Html.TextBoxFor(m => m.TotalAverageCost, new { @onkeypress = "DestiAmount()", @class = "amt", @style = "width:70px" })</td>
+            <td>
+                @if (Model != null && Model.WorkOrderId != 0)
+                {
+                    <a href="/Workorder/DeleteInventory/?id=@Model.WorkOrderId" class="row-button" id="row-button" type="text/plain"> &nbsp;&nbsp;&nbsp;&nbsp;  </a>
+                }
+                else
+                {
+                    <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+
+                }
+            </td>
+
+
+
+
+        </tr>
+
+    </table>
+
+
+}
+

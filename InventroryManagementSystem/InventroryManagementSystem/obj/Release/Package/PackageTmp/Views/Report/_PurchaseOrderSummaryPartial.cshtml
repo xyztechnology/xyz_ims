@@ -1,0 +1,38 @@
+﻿@model Inventory.Models.Report.PurchaseOrderSummary
+
+<br /><br />
+
+<table class="table table-bordered">
+    <tr>
+        <td><strong>PO Number</strong></td>
+        <td><strong>Status</strong></td>
+        <td><strong>Vendor</strong></td>
+        <td><strong>PO Date</strong></td>
+        <td><strong>Order Total</strong></td>
+        <td><strong>Amount Paid</strong></td>
+        <td><strong>Balance</strong></td>
+
+    </tr>
+
+
+    @if (Model.PurchaseOrderSummaryList != null)
+    {
+        foreach (var item in Model.PurchaseOrderSummaryList)
+        {
+
+            
+            <tr>
+                <td>@item.OrderNo </td>
+                <td>@item.Status</td>
+                <td>@item.VendorName</td>
+                <td>@item.OrderDate</td>
+                <td>@item.Quantity</td>
+                <td>@item.AmountPaid</td>
+                <td>@item.Balance</td>
+            </tr>
+      
+        }
+    }
+
+</table>
+

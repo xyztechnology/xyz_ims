@@ -1,0 +1,179 @@
+﻿@model Inventory.Models.Product
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/JQueryForm.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+<script>
+    function ChangeImage(input) {
+
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgThumbnail').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#ajaxUploadForm').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    $('#ajaxUploadForm').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+                    $('#SearchResult').html(result);
+                    $('#ajaxUploadForm').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                $('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+</script>
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("Search", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+{
+    <div class="col-md-4">
+        <div class="box box-primary">
+            <div class="box-body">
+                <strong>SEARCH</strong>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Item Name", new { @class = "control-label col-md-4" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+               <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Category", new { @class = "control-label col-md-4" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(model => model.CategoryId,Utility.GetProductCategory(),"Select")
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data", id = "ajaxUploadForm" }))
+    {
+        <div class="col-md-3">
+            <div class="box box-primary">
+                <div class="box-body" style="border:groove">
+                    <strong>BASIC</strong><br /><div class="form-group">
+                        @Html.LabelFor(model => model.Name, "Item Name", new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Name)
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, "Category", new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.CategoryId, Utility.GetProductCategory(), "Select")
+                            @Html.ValidationMessageFor(model => model.CategoryId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ItemType, "Type", new { @class = "control-label col-md-3" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.ItemTypeId, Utility.GetProductType(), "Select")
+                            @Html.ValidationMessageFor(model => model.ItemTypeId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    @Html.LabelFor(model => model.ProductCode, "Code", new { @class = "control-label col-md-3" })
+                    <div class="col-md-2">
+                        @Html.EditorFor(model => model.ProductCode)
+                        @Html.ValidationMessageFor(model => model.ProductCode)
+                    </div>
+                </div>
+
+                </div></div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-3">
+                    <h3>Picture</h3>
+                    <div class="box box-primary">
+                        <div class="box-body" style="border:groove">
+                            <div id="preview">
+                                <img src="~/Image/noimage.png" id="imgThumbnail" alt="preview" style="width: 210px; height: 80px" />
+                            </div>
+                            @Html.FileFor(model => model.file, new { @onchange = "ChangeImage(this)", @id = "fileupload", Name = "file" })
+
+                            <input type="button" value="Clear " class="btn btn-default" />
+                        </div>
+                    </div>
+                </div>
+              
+                <div class="row">
+              
+                    <div class="col-md-4"></div>
+                    <div class="col-md-8">
+                        <div class="box box-primary">
+                            <div class="box-body" style="border:groove">
+                                <br /><br />
+                                <strong>Inventory</strong>
+                                <div class="box-body">
+                                    <table id="example2" class="table table-bordered">
+                                        <tr>
+                                            <td>
+                                                <b> Location</b>
+                                            </td>
+                                            <td><b>Quantity</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td>
+                                            <td>@Html.Editor("Quantity")</td>
+                                        </tr>
+                                        <tr><td colspan="2">@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td></tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr><td colspan="2"></td></tr>
+                                        <tr><td><b>Quantity On Hand</b></td><td>0</td></tr>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div></div>}
+            </div>
+
+
+
+
+
+

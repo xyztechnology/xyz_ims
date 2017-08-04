@@ -1,0 +1,71 @@
+﻿@model Inventory.Models.Report.Vendor
+@{
+    ViewBag.Title = "VendorProductList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>VendorProductList</h2>
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    function ShowLoader() {
+        j("#divLoading").show();
+    }
+    function EndLoader() {
+        j("#divLoading").hide();
+    }
+
+</script>
+<br />
+<div id="divLoading" style="margin: 0px; padding: 0px; position: fixed; right: 0px;
+    top: 0px; width: 100%; height: 100%; background-color: #666666; z-index: 30001;
+    opacity: .8; filter: alpha(opacity=70); display: none">
+    <p style="position: absolute; top: 30%; left: 45%; color: White; text-align: center;">
+        <img src="~/Image/ajax-loading.gif" />
+        <br />
+        Loading Please Wait...........
+    </p>
+</div>
+
+
+@using (Ajax.BeginForm("VendorProductList", "Report", new AjaxOptions { HttpMethod = "Post", OnBegin = "ShowLoader", OnComplete = "EndLoader", UpdateTargetId = "ReportArea" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="col-md-12">
+        <div class="form-group">
+            @Html.LabelFor(model => model.VendorId, "Vendor", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.VendorId, Utility.GetVendor(), "Select", new { @style = "width:700px;height:25px" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryId, "Category", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.CategoryId, Utility.GetProductCategory(), "Select", new { @style = "width:700px;height:25px" })
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductId, "Product", new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.ProductId, Utility.GetProductList(), "Select", new { @style = "width:700px;height:25px" })
+                <br /><br />
+                <input type="submit" value="Search" class="bg-blue" />
+            </div>
+        </div>
+    </div>
+    
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div id="ReportArea">
+            @Html.Partial("_VendorProductListPartial");
+
+        </div>
+    </div>
+</div>

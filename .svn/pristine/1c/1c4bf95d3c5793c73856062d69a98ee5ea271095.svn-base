@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inventory.Models
+{
+   public  class SalesOrder
+    {
+        [Key()]
+        public int SalesOrderId { get; set; }
+        //public int?  Version { get; set; }
+        public string OrderNumber { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public int? CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual Customer Customer { get; set; }
+      
+        public string OrderRemarks { get; set; }
+        public decimal? OrderSubTotal { get; set; }
+        //public decimal? OrderExtra { get; set; }
+        public decimal? OrderTotal { get; set; }
+      
+        public decimal? AmountPaid { get; set; }
+        public decimal? Balance { get; set; }
+     
+        public string ContactName { get; set; }
+        public string Status { get; set; }
+        public string Phone { get; set; }
+       
+        public int? LocationId { get; set; }
+        [ForeignKey("LocationId")]
+        public virtual Location Location { get; set; }
+      
+        public decimal? Total { get; set; }
+        
+         [NotMapped()]
+        public List<SalesOrder> SaleOrderList { get; set; }
+
+      
+        [NotMapped()]
+        public Product Product { get; set; }
+        [NotMapped()]
+        public SalesOrderDetail SalesOrderDetail { get; set; }
+     
+
+    }
+}

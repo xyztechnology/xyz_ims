@@ -1,0 +1,66 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class kajdkfjkdjfkdf : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.PurchaseRequisition",
+                c => new
+                    {
+                        PurchaseRequisitionId = c.Int(nullable: false, identity: true),
+                        RequisitionNo = c.String(),
+                        RequisitionDate = c.DateTime(),
+                        VendorId = c.Int(),
+                        LocationId = c.Int(),
+                        AdditionalRequirements = c.String(),
+                        Remarks = c.String(),
+                    })
+                .PrimaryKey(t => t.PurchaseRequisitionId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.Vendor", t => t.VendorId)
+                .Index(t => t.LocationId)
+                .Index(t => t.VendorId);
+            
+            CreateTable(
+                "dbo.PurchaseRequisitionLine",
+                c => new
+                    {
+                        PurchaseRequisitionLineId = c.Int(nullable: false, identity: true),
+                        PurchaseRequisitionId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        VendorItemCode = c.String(),
+                        Quantity = c.Decimal(precision: 18, scale: 2),
+                        PurchaseRequisitionLine_PurchaseRequisitionLineId = c.Int(),
+                    })
+                .PrimaryKey(t => t.PurchaseRequisitionLineId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.PurchaseRequisition", t => t.PurchaseRequisitionId)
+                .ForeignKey("dbo.PurchaseRequisitionLine", t => t.PurchaseRequisitionLine_PurchaseRequisitionLineId)
+                .Index(t => t.ProdId)
+                .Index(t => t.PurchaseRequisitionId)
+                .Index(t => t.PurchaseRequisitionLine_PurchaseRequisitionLineId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId", "dbo.PurchaseRequisitionLine");
+            DropForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionId", "dbo.PurchaseRequisition");
+            DropForeignKey("dbo.PurchaseRequisitionLine", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.PurchaseRequisition", "VendorId", "dbo.Vendor");
+            DropForeignKey("dbo.PurchaseRequisition", "LocationId", "dbo.Location");
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "PurchaseRequisitionLine_PurchaseRequisitionLineId" });
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "PurchaseRequisitionId" });
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "ProdId" });
+            DropIndex("dbo.PurchaseRequisition", new[] { "VendorId" });
+            DropIndex("dbo.PurchaseRequisition", new[] { "LocationId" });
+            DropTable("dbo.PurchaseRequisitionLine");
+            DropTable("dbo.PurchaseRequisition");
+        }
+    }
+}

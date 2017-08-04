@@ -1,0 +1,225 @@
+﻿@model Inventory.Models.Product
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/JQueryForm.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+<script>
+    function ChangeImage(input) {
+
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgThumbnail').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#ajaxUploadForm').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    $('#ajaxUploadForm').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+
+                    $('#ajaxUploadForm').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                $('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+</script>
+
+
+@Html.AntiForgeryToken()
+<hr />
+@Html.ValidationSummary(true)
+
+<table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+    <tr>
+        <td>
+            <div class="form-horizontal">
+                <div class="row">
+
+                    <div class="col-md-3">
+
+            @using (Ajax.BeginForm("Search", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+                        {
+                            <div class="box-body">
+                                <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+                                    <tr><td colspan="2"><b>SEARCH</b></td></tr>
+                                    <tr>
+                                        <td><b>Item Name/Code</b></td>
+                                        <td>
+                                            @Html.Editor("SearchName")
+
+                                        </td>
+                                    </tr>
+                                    <tr><td><b>Category</b></td><td>@Html.DropDownListFor(m => m.CategoryId, Utility.GetProductCategory(), "Select")</td></tr>
+
+                                    <tr><td colspan="2"><input type="submit" value="Refresh" class="bg-blue" name="btn" /></td></tr>
+
+
+                                </table>
+                                <table class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+                                    <tr>
+                                        <td>
+                                            <div id="SearchResult">
+                                                @Html.Partial("_ProductList")
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                </table>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <h3>Basic</h3>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, "Item Name", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Name)
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ItemTypeId, "Type", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.ItemTypeId, Utility.GetProductType(), "Select")
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CategoryId, "Category", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(m => m.CategoryId, Utility.GetProductCategory(), "Select")
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Description, "Description", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.Description)
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-2">
+                                @Html.EditorFor(model => model.ProductCode)
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <h3>Picture</h3>
+                        <input id="fileupload" type="file" onchange="ChangeImage(this)" name="file">
+                        <div id="preview">
+                            <img src="~/Image/noimage.png" id="imgThumbnail" alt="preview" style="width: 210px; height: 80px" />
+                        </div>
+                        @* @Html.FileFor(model=>model.file)*@
+
+
+
+                        <input type="button" value="Clear " class="btn btn-default" />
+
+                    </div>
+                
+                    </div>
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-4">
+                        <strong>Inventory</strong>
+                        <div class="box-body">
+                            <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+                                <tr>
+                                    <td>
+                                        <b> Location</b>
+                                    </td>
+                                    <td><b>Quantity</b></td>
+                                </tr>
+                                <tr><td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td><td>0</td></tr>
+                                <tr><td colspan="2">@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td></tr>
+                                <tr><td colspan="2"></td></tr>
+                                <tr><td colspan="2"></td></tr>
+                                <tr><td colspan="2"></td></tr>
+                                <tr><td colspan="2"></td></tr>
+                                <tr><td><b>Quantity On Hand</b></td><td>0</td></tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+                  
+
+
+
+         
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+
+                            <button type="submit" class="btn btn-primary" name="btn" value="Save"><span class="glyphicon glyphicon-ok"></span>Save</button>
+                            @*<input type="submit" value="Create" class="btn btn-default" />*@
+                        </div>
+                    </div>
+                }
+                    
+                </div>
+            </td>
+        </tr>
+    </table>
+                }

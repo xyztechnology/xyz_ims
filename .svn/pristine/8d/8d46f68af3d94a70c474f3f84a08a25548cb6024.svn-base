@@ -1,0 +1,35 @@
+﻿@model Inventory.Models.Inventorystore
+@using InventroryManagementSystem.Helpers
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        AddClickEvents();
+    });
+
+    $("#Add-Items").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        $(this).closest("tr").remove();
+
+    });
+</script>
+
+@using (Html.BeginCollectionItem("inventoryStore.InventoryStorList"))
+{
+
+    <tr>
+
+
+        <td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td>
+
+        <td>@Html.TextBoxFor(m => m.Quantity, new {@onchange = "TotalQty(this.value)", @class = "Qty" })</td>
+
+
+
+
+
+    </tr>
+
+
+
+}

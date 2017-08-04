@@ -1,0 +1,66 @@
+﻿@model Inventory.Models.Inventorystore
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+</script>
+
+@using (Html.BeginCollectionItem("inventoryStore.InventoryStorList"))
+{
+     <div class="col-md-8">
+ <table id="example2" class="table table-bordered" style="width:50%">
+    <tr>
+        @Html.HiddenFor(m => m.InventorystoreId)
+
+        <td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td>
+
+        <td>@Html.TextBoxFor(m => m.Quantity, new {@onchange = "TotalQty(this.value)", @class = "Qty" })</td>
+        <td>
+            @if (Model != null && Model.InventorystoreId != 0)
+{
+    <a href="/Product/DeleteInventory/?id=@Model.InventorystoreId" class="row-button" id="row-button" type="text/plain"> &nbsp;&nbsp;&nbsp;&nbsp;  </a>
+}
+else
+{
+    <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+
+}
+        </td>
+
+
+
+
+    </tr>
+
+     </table>
+         </div>
+
+}

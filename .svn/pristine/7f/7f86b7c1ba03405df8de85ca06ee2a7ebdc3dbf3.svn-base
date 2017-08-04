@@ -1,0 +1,22 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ajdfkjdkfjkd : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId", "dbo.PurchaseRequisitionLine");
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "PurchaseRequisitionLine_PurchaseRequisitionLineId" });
+            DropColumn("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId", c => c.Int());
+            CreateIndex("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId");
+            AddForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionLine_PurchaseRequisitionLineId", "dbo.PurchaseRequisitionLine", "PurchaseRequisitionLineId");
+        }
+    }
+}

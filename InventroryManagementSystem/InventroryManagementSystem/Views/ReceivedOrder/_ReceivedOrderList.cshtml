@@ -1,0 +1,37 @@
+﻿@model Inventory.Models.PurchaseOrderDetail
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+
+
+@using (Html.BeginCollectionItem("ReceivedOrderDetail.ReceivedOrderDetailList"))
+{
+
+
+    <table>
+        <tr>
+            @Html.HiddenFor(m => m.PurchaseOrderId)
+
+            <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new { @class = "productid", @style = "width:82px" })</td>
+            <td>@Html.TextBoxFor(model => model.VendorItemCode, new { @style = "width:130px", @class = "productcode" })</td>
+            <td>@Html.TextBoxFor(model => model.Quantity, new { @style = "width:100px", @class = "qty" })</td>
+            <td>@Html.TextBoxFor(model => model.UnitPrice, new { @style = "width:100px", @class = "price" })</td>
+            <td>@Html.TextBoxFor(model => model.Discount, new { @style = "width:100px", @class = "discount" })</td>
+            <td>@Html.TextBoxFor(model => model.SubTotal, new {@style = "width:100px", @class = "totalsum" })</td>
+            <td>@Html.EditorFor(model => model.IsReceived, new { @style = "width:100px", @class = "totalsum" })</td>
+
+
+
+
+        </tr>
+
+
+    </table>
+
+
+
+}
+
+
+

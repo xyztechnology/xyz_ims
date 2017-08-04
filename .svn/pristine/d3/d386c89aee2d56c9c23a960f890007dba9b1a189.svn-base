@@ -1,0 +1,126 @@
+﻿@model Inventory.Models.PurchaseOrder
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+    
+        <div class="col-md-3">
+            <b>SEARCH</b>
+            <div class="form-group">
+                @Html.LabelFor(model => model.OrderNo, new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.OrderNo)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.Status)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendor, new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.Vendor.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Refresh" class="bg-blue" />
+            </div>
+        </div>
+      
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Vendor, new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.Vendor.Name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Vendor.Name, "Contact", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.Vendor.ContactName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Vendor.Name, "Phone", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.Phone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Vendor.Name, "Address", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.Vendor.ContactName)
+                    </div>
+                </div>
+                <div class="col-md-6"><br />
+                    <div class="container">
+                        <table class="table table-striped">
+                            <tr><th>Item</th>
+                                <th>Vendor Product</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Discount</th>
+                                <th>Sub-Total</th></tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3"><div class="form-group">
+    @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
+
+    <div class="col-md-1">
+        @Html.EditorFor(model => model.Location.LocationId)
+    </div>
+</div></div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OrderNo, new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.OrderNo)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Vendor.Name,"Date", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.OrderNo)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-1">
+                        @Html.EditorFor(model => model.Status)
+                    </div>
+                </div>
+            </div>
+       </div>
+ 
+   
+       
+          
+   
+
+}
+
+

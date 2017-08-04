@@ -1,0 +1,135 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ajdfkjsdkjfs : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.SalesOrder",
+                c => new
+                    {
+                        SalesOrderId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(nullable: false),
+                        OrderNumber = c.String(),
+                        OrderDate = c.DateTime(nullable: false),
+                        CustomerId = c.Int(),
+                        SalesRep = c.String(),
+                        PONumber = c.String(),
+                        RequestShipDate = c.DateTime(nullable: false),
+                        PaymentTermsId = c.Int(),
+                        DueDate = c.DateTime(nullable: false),
+                        OrderRemarks = c.String(),
+                        OrderSubTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        OrderExtra = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        OrderTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Email = c.String(),
+                        PickedDate = c.DateTime(nullable: false),
+                        PickingRemarks = c.String(),
+                        PackedDate = c.DateTime(nullable: false),
+                        PackingRemarks = c.String(),
+                        ShippingRemarks = c.String(),
+                        InvoicedDate = c.DateTime(nullable: false),
+                        AmountPaid = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Balance = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnRemarks = c.String(),
+                        ReturnSubTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnExtra = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnFee = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        RestockRemarks = c.String(),
+                        ContactName = c.String(),
+                        Phone = c.Int(nullable: false),
+                        BillingAddress1 = c.String(),
+                        BillingAddress2 = c.String(),
+                        BillingCity = c.String(),
+                        BillingState = c.String(),
+                        BillingCountry = c.String(),
+                        BillingPostalCode = c.String(),
+                        BillingAddressRemarks = c.String(),
+                        BillingAddressType = c.Int(nullable: false),
+                        ShippingAddress1 = c.String(),
+                        ShippingAddress2 = c.String(),
+                        ShippingCity = c.String(),
+                        ShippingState = c.String(),
+                        ShippingCountry = c.String(),
+                        ShippingPostalCode = c.String(),
+                        ShippingAddressRemarks = c.String(),
+                        ShippingAddressType = c.Int(nullable: false),
+                        Custom1 = c.String(),
+                        Custom2 = c.String(),
+                        Custom3 = c.String(),
+                        Custom4 = c.String(),
+                        Custom5 = c.String(),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        ParentSalesOrderIdId = c.Int(),
+                        SplitPartNumber = c.Int(nullable: false),
+                        LocationId = c.Int(),
+                        ShowShipping = c.Boolean(nullable: false),
+                        ShipToCompanyName = c.String(),
+                        CurrencyId = c.Int(),
+                        ExchangeRate = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Total = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PaymentStatus = c.Int(nullable: false),
+                        InventoryStatus = c.Int(nullable: false),
+                        IsCancelled = c.Boolean(nullable: false),
+                        SummaryLinePermutation = c.String(),
+                        NonCustomerCost = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        NonCustomerCostIsPercemt = c.Boolean(nullable: false),
+                        IsQuote = c.Boolean(nullable: false),
+                        IsInvoiced = c.Boolean(nullable: false),
+                        IsCompleted = c.Boolean(nullable: false),
+                        SameBillingAndShipping = c.Boolean(nullable: false),
+                        IsTaxInclusive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.SalesOrderId)
+                .ForeignKey("dbo.Currency", t => t.CurrencyId)
+                .ForeignKey("dbo.Customer", t => t.CustomerId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.PaymentTerms", t => t.PaymentTermsId)
+                .ForeignKey("dbo.SalesOrder", t => t.ParentSalesOrderIdId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.CurrencyId)
+                .Index(t => t.CustomerId)
+                .Index(t => t.LocationId)
+                .Index(t => t.PaymentTermsId)
+                .Index(t => t.ParentSalesOrderIdId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.PaymentTerms",
+                c => new
+                    {
+                        PaymentTermsId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        DaysDue = c.Int(nullable: false),
+                        Timestamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.PaymentTermsId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.SalesOrder", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.SalesOrder", "ParentSalesOrderIdId", "dbo.SalesOrder");
+            DropForeignKey("dbo.SalesOrder", "PaymentTermsId", "dbo.PaymentTerms");
+            DropForeignKey("dbo.SalesOrder", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.SalesOrder", "CustomerId", "dbo.Customer");
+            DropForeignKey("dbo.SalesOrder", "CurrencyId", "dbo.Currency");
+            DropIndex("dbo.SalesOrder", new[] { "LastModUserId" });
+            DropIndex("dbo.SalesOrder", new[] { "ParentSalesOrderIdId" });
+            DropIndex("dbo.SalesOrder", new[] { "PaymentTermsId" });
+            DropIndex("dbo.SalesOrder", new[] { "LocationId" });
+            DropIndex("dbo.SalesOrder", new[] { "CustomerId" });
+            DropIndex("dbo.SalesOrder", new[] { "CurrencyId" });
+            DropTable("dbo.PaymentTerms");
+            DropTable("dbo.SalesOrder");
+        }
+    }
+}

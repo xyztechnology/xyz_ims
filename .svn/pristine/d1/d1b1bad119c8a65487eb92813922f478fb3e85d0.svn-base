@@ -1,0 +1,72 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class fsdfsdfsd : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.UnitMeasure",
+                c => new
+                    {
+                        UnitMeasureId = c.Int(nullable: false, identity: true),
+                        UnitName = c.String(),
+                    })
+                .PrimaryKey(t => t.UnitMeasureId);
+            
+            AddColumn("dbo.Product", "Uom", c => c.Int());
+            AddColumn("dbo.Product", "soUomName", c => c.Int());
+            AddColumn("dbo.Product", "soUomRatioStd", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "soUomRatio", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "PoUomName", c => c.Int());
+            AddColumn("dbo.Product", "PoUomRatioStd", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "PoUomRatio", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            CreateIndex("dbo.Product", "Uom");
+            AddForeignKey("dbo.Product", "Uom", "dbo.UnitMeasure", "UnitMeasureId");
+            DropColumn("dbo.Product", "ReorderPoint");
+            DropColumn("dbo.Product", "ReorderQuantity");
+            DropColumn("dbo.Product", "MasterPackQty");
+            DropColumn("dbo.Product", "InnerPackQty");
+            DropColumn("dbo.Product", "Custom1");
+            DropColumn("dbo.Product", "Custom2");
+            DropColumn("dbo.Product", "Custom3");
+            DropColumn("dbo.Product", "Custom4");
+            DropColumn("dbo.Product", "Custom5");
+            DropColumn("dbo.Product", "Custom6");
+            DropColumn("dbo.Product", "Custom7");
+            DropColumn("dbo.Product", "Custom8");
+            DropColumn("dbo.Product", "Custom9");
+            DropColumn("dbo.Product", "Custom10");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Product", "Custom10", c => c.String());
+            AddColumn("dbo.Product", "Custom9", c => c.String());
+            AddColumn("dbo.Product", "Custom8", c => c.String());
+            AddColumn("dbo.Product", "Custom7", c => c.String());
+            AddColumn("dbo.Product", "Custom6", c => c.String());
+            AddColumn("dbo.Product", "Custom5", c => c.String());
+            AddColumn("dbo.Product", "Custom4", c => c.String());
+            AddColumn("dbo.Product", "Custom3", c => c.String());
+            AddColumn("dbo.Product", "Custom2", c => c.String());
+            AddColumn("dbo.Product", "Custom1", c => c.String());
+            AddColumn("dbo.Product", "InnerPackQty", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "MasterPackQty", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "ReorderQuantity", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "ReorderPoint", c => c.Decimal(precision: 18, scale: 2));
+            DropForeignKey("dbo.Product", "Uom", "dbo.UnitMeasure");
+            DropIndex("dbo.Product", new[] { "Uom" });
+            DropColumn("dbo.Product", "PoUomRatio");
+            DropColumn("dbo.Product", "PoUomRatioStd");
+            DropColumn("dbo.Product", "PoUomName");
+            DropColumn("dbo.Product", "soUomRatio");
+            DropColumn("dbo.Product", "soUomRatioStd");
+            DropColumn("dbo.Product", "soUomName");
+            DropColumn("dbo.Product", "Uom");
+            DropTable("dbo.UnitMeasure");
+        }
+    }
+}

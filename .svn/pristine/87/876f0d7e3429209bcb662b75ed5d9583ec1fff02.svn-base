@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inventory.Models
+{
+    public class Customer
+    {
+        [Key()]
+        public int CustomerId { get; set; }
+        public int Version { get; set; }
+        public string Name { get; set; }
+        public string VendorPermitNumber { get;set;}
+        public string Remarks { get; set; }
+        //public int? DefaultPricingSchemeId { get; set; }
+        // [ForeignKey("DefaultPricingSchemeId")]
+        //public virtual PricingScheme PricingSchemeId { get; set; }
+        //public decimal Discount { get; set; }
+        //public int? DefaultPaymentTermsId { get; set; }
+        //[ForeignKey("DefaultPaymentTermsId")]
+        //public virtual PaymentTerms PricingSchemeId { get; set; }
+        //public int? TaxingSchemeId { get; set; }
+        //[ForeignKey("TaxingSchemeId")]
+        //public virtual TaxingScheme TaxingSchemeId { get; set; }
+        public string DefaultCarrier { get; set; }
+        public string DefaultPaymentMethod { get; set; }
+        public string ContactName { get; set; }
+        public int Phone { get; set; }
+        public int Fax { get; set; }
+        public string Email { get; set; }
+        public string Address1 { get; set; }
+        public string Address2 { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Country { get; set; }
+        public string PostalCode { get; set; }
+        public string AddressRemarks { get; set; }
+        public int AddressType { get; set; }
+        public bool UsingBillingAddress { get; set; }
+        public string BillingAddress1 { get; set; }
+        public string BillingAddress2 { get; set; }
+        public string BillingCity { get; set; }
+        public string BillingState { get; set; }
+        public string BillingCountry { get; set; }
+        public string BillingPostalCode { get; set; }
+        public string BillingAddressRemarks { get; set; }
+        public int BillingAddress { get; set; }
+        public bool UsingShippingAddress { get; set; }
+        public string ShippingAddress1 { get; set; }
+        public string ShippingAddress2 { get; set; }
+        public string ShippingCity { get; set; }
+        public string ShippingState { get; set; }
+        public string ShippingCountry { get; set; }
+        public string ShippingPostalCode { get; set; }
+        public string ShippingAddressRemarks { get; set; }
+        public int ShippingAddress { get; set; }
+        public string Custom1 { get; set; }
+        public string Custom2 { get; set; }
+        public string Custom3 { get; set; }
+        public string Custom4 { get; set; }
+        public string Custom5 { get; set; }
+        public int? LastModUserId { get; set; }
+        [ForeignKey("LastModUserId")]
+        public virtual User UserId { get; set; }
+        public DateTime LastModDttm { get; set; }
+        public Byte[] TimeStamp { get; set; }
+        public bool IsActive { get; set; }
+        public string Custom6 { get; set; }
+        public string Custom7 { get; set; }
+        public string Custom8 { get; set; }
+        public string Custom9 { get; set; }
+        public string Custom10 { get; set; }
+        public string WebSite { get; set; }
+        public string DefaultSalesRep { get; set; }
+        public int?  DefaultLocationId { get; set; }
+        [ForeignKey("DefaultLocationId")]
+        public virtual Location LocationId { get; set; }
+
+    }
+}

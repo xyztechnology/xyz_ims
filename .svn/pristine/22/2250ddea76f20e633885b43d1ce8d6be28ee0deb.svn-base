@@ -1,0 +1,18 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class sdfsdfsdfsd : DbMigration
+    {
+        public override void Up()
+        {
+            AlterColumn("dbo.Customer", "LastModDttm", c => c.DateTime());
+        }
+        
+        public override void Down()
+        {
+            AlterColumn("dbo.Customer", "LastModDttm", c => c.DateTime(nullable: false));
+        }
+    }
+}

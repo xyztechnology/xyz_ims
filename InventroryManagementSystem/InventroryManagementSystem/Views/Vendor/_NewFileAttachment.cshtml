@@ -1,0 +1,83 @@
+﻿@model Inventory.Models.Vendor
+
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "file attachment";
+    Layout = null;
+}
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#ajaxUploadForm1').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                j("#FileAttachmentArea").html(result);
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    j('#ajaxUploadForm1').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+
+                    j('#ajaxUploadForm1').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                j('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+
+
+</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            AddClickEvents();
+
+        });
+    </script>
+
+
+            @foreach (var item in Model.FileAttachmentData.NewFileList)
+            {
+                Html.RenderPartial("_NewFileAttachmentAddMore", item);
+            }
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

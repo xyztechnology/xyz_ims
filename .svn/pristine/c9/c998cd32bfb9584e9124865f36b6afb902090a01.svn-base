@@ -1,0 +1,39 @@
+﻿@model Inventory.Models.Product
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Type</strong></td>
+                <td><strong>Order#</strong></td>
+                <td><strong>Customer/Vendor Name</strong></td>
+                <td><strong>Order Date</strong></td>
+                <td><strong>Order Status</strong></td>
+                <td><strong>Order Total</strong></td>
+                <td><strong>Quantity</strong></td>
+                <td><strong>Unit Price</strong></td>
+                <td><strong>Sub-Total</strong></td>
+
+            </tr>
+          @if (Model.ProductService != null)
+            {
+                foreach (var item in Model.ProductService.ProductSearchList)
+                {
+
+                    <tr>
+                        <td>@item.ItemName </td>
+                        <td>@item.OrderNo</td>
+                        <td>@item.VendorName</td>
+                        <td>@item.OrderDate.ToShortDateString()</td>
+                        <td>@item.Status</td>
+                        <td>@item.Total</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.UnitPrice</td>
+                        <td>@item.SubTotal</td>
+                    </tr>
+          }
+          }
+        </table>
+
+        
+    </div>
+</div>

@@ -1,0 +1,187 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+using System.IO;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class ProductController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /Product/
+        public ActionResult Index()
+        {
+            Product model = new Product();
+            model.ProductList = new List<Product>();
+            model.ProductList = db.Product.Include(v => v.Category).ToList();
+            return View(model);
+        }
+
+        // GET: /Product/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Product.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // GET: /Product/Create
+        public ActionResult Create()
+        {
+            ViewBag.CategoryId = new SelectList(db.ProductCategory, "CategoryId", "Name");
+            ViewBag.ItemTypeId = new SelectList(db.ItemType, "ItemTypeId", "ItemName");
+             ViewBag.DefaultLocationId = new SelectList(db.Location, "LocationId", "Name");
+            Product product = new Product();
+            product.ProductList = new List<Product>();
+            product.ProductList = db.Product.Include(v => v.Category).ToList();
+           
+            return View(product);
+        }
+
+        // POST: /Product/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Product product)
+        {
+
+            if (ModelState.IsValid)
+            {
+                using (ApplicationDbContext dbnew = new ApplicationDbContext())
+                {
+                    FileAttachment _fileattach = new FileAttachment();
+                    if (product.file != null)
+                    {
+                        _fileattach.Data = Utility.ReturnByte(product.file);
+                        _fileattach.TimeStamp = Utility.ReturnByte(product.file);
+                        _fileattach.FileName = Path.GetFileName(product.file.FileName);
+                        dbnew.FileAttachment.Add(_fileattach);
+
+                    }
+                    product.PictureFileAttachmentId = _fileattach.FileAttachmentId;
+
+                    dbnew.Product.Add(product);
+                    dbnew.SaveChanges();
+                    product.ProductList = new List<Product>();
+                    product.ProductList = db.Product.Include(v => v.Category).ToList();
+                    return RedirectToAction("Create");
+                }
+
+
+            }
+
+            return View(product);
+        }
+
+        public ActionResult Search(Product model, string SearchName)
+        {
+            if (SearchName != null)
+            {
+                var collection = db.Product.Where(x => x.Name.Contains(SearchName)).ToList();
+                model.ProductList = collection;
+            }
+            if (model.CategoryId != null)
+            {
+                var collection = db.Product.Where(x => x.CategoryId == model.CategoryId).ToList();
+                model.ProductList = collection;
+
+            }
+            if (model.Name != null && model.CategoryId != null)
+            {
+                var collection = db.Product.Where(x => x.Name.Contains(SearchName) && x.CategoryId == model.CategoryId).ToList();
+                model.ProductList = collection;
+
+            }
+
+            return PartialView("_ProductList", model);
+        }
+
+        // GET: /Product/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Product.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+           return View(product);
+        }
+
+        // POST: /Product/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(product).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(product);
+        }
+
+        // GET: /Product/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Product product = db.Product.Find(id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            return View(product);
+        }
+
+        // POST: /Product/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Product product = db.Product.Find(id);
+            db.Product.Remove(product);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult GetItems(int CatogoryId)
+        {
+            var product = db.Product.Include(p => p.Category).Include(p => p.FileAttachmentId).Include(p => p.LocationId).Include(p => p.UserId).Include(p => p.VendorId).Where(x => x.CategoryId == CatogoryId);
+            return PartialView("_Items", product.ToList());
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

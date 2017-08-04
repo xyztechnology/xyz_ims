@@ -1,0 +1,75 @@
+﻿@model Inventory.Models.PurchaseRequisitionLine
+@using InventroryManagementSystem.Helpers
+
+
+<script type="text/javascript">
+    $("#Add-Item").on('change', '.productid', function () {
+
+        var df = j(this).closest("tr");
+
+        var TypeId = df.find(".productid").val();
+
+
+        $.ajax({
+            url: "@Url.Action("GetProductcode", "JsonRequest")",
+            data: {
+
+                prodid: TypeId
+            },
+            dataType: "json",
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+
+
+
+                df.find(".productcode").val(data.ProductCode);
+            }
+        });
+
+
+
+
+
+    })
+
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+
+
+</script>
+
+
+
+@using (Html.BeginCollectionItem("PurchaseRequisitionLine.PurchaseRequisitionLineList"))
+{
+
+
+        <tr>
+            <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new { @class = "productid", @style = "width:82px" })</td>
+            <td>@Html.TextBoxFor(model => model.VendorItemCode, new { @style = "width:130px", @class = "productcode" })</td>
+            <td>@Html.TextBoxFor(model => model.Quantity, new { @style = "width:100px", @class = "qty" })</td>
+            <td>
+                <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+            </td>
+
+
+
+        </tr>
+
+
+
+
+
+}
+
+
+

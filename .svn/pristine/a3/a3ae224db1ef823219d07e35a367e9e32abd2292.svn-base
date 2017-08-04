@@ -1,0 +1,34 @@
+﻿@model Inventory.Models.Product
+
+  
+    <table border="1">
+
+        <tr>
+
+            <th>
+
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+
+        </tr>
+
+
+@foreach (var item in Model.ProductList)
+{
+        <tr>
+            <td>
+               @item.Name
+            </td>
+            <td>
+                @item.Category
+            </td>
+        </tr>
+}
+
+    </table>
+    
+

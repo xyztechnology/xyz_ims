@@ -1,0 +1,280 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+using System.Collections;
+using System.Data.Entity.Infrastructure;
+using Inventory.Models.StoreProcedure;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class VendorController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /Vendor/
+        public ActionResult Index()
+        {
+            Vendor model = new Vendor();
+            model.VendorList = new List<Vendor>();
+            var vendor = db.Vendor.Include(v => v.Currency).Include(v => v.UserId);
+            model.VendorList = vendor.ToList();
+            return View(model);
+        }
+
+        // GET: /Vendor/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vendor);
+        }
+
+        // GET: /Vendor/Create
+        public ActionResult Create()
+        {
+            Vendor vendor = new Vendor();
+            vendor.FileAttachmentData = new Inventory.Models.FileAttachment();
+            vendor.FileAttachmentData.FileList = new List<Inventory.Models.FileAttachment>();
+            vendor.FileAttachmentData.FileList.Add(vendor.FileAttachmentData);
+            vendor.VendorList = new List<Vendor>();
+            vendor.VendorList = db.Vendor.Include(v => v.Currency).Include(v => v.UserId).ToList();
+            return View(vendor);
+
+        }
+
+        public ActionResult _FileAttachment(int? id)
+        {
+            Vendor vendor = new Vendor();
+            vendor.FileAttachmentData = new Inventory.Models.FileAttachment();
+            vendor.FileAttachmentData.FileList = new List<Inventory.Models.FileAttachment>();
+            if (id != 0)
+            {
+                vendor.FileAttachmentData.FileList = db.VendorAttachment.Where(x => x.VendorId == id).Select(m => new FileAttachment() { }).ToList();
+            }
+            else
+            {
+                vendor.FileAttachmentData.FileList.Add(vendor.FileAttachmentData);
+            }
+            return PartialView(vendor);
+        }
+
+        [HttpPost]
+        public ActionResult _FileAttachment(Vendor attach)
+        {
+            Session.Add("FileList", attach.FileAttachmentData.FileList);
+            return Json(attach, JsonRequestBehavior.AllowGet);
+        }
+
+        // POST: /Vendor/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateUpdate(Vendor vendor)
+        {
+            var filelist = Session["FileList"] as FileAttachment;
+            if (ModelState.IsValid)
+            {
+                if (vendor.VendorId == 0)
+                {
+                    db.Vendor.Add(vendor);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Entry(vendor).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+                var customerlist = db.Vendor.Include(v => v.Currency).Include(v => v.UserId);
+                vendor.VendorList = new List<Vendor>();
+                vendor.VendorList = customerlist.ToList();
+                return PartialView("_VendorList", vendor);
+            }
+
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", vendor.CurrencyId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", vendor.LastModUserId);
+            return View(vendor);
+        }
+
+        public ActionResult Search(Vendor model)
+        {
+            IEnumerable<Vendor> list = db.Vendor;
+            if (!string.IsNullOrEmpty(model.Name))
+            {
+                list = list.Where(x => x.Name.Contains(model.Name));
+            }
+
+            if (!string.IsNullOrEmpty(model.ContactName))
+            {
+                list = list.Where(x => x.ContactName.Contains(model.ContactName));
+
+
+            }
+            long? ph = model.Phone;
+            if (!string.IsNullOrEmpty(ph.ToString()))
+            {
+                list = list.Where(x => x.Phone == ph);
+
+
+            }
+
+            model.VendorList = list.ToList();
+
+
+            return PartialView("_VendorList", model);
+        }
+        public ActionResult SearchIndex(Vendor model)
+        {
+            IEnumerable<Vendor> list = db.Vendor;
+            if (!string.IsNullOrEmpty(model.Name))
+            {
+                list = list.Where(x => x.Name.Contains(model.Name));
+            }
+
+            if (!string.IsNullOrEmpty(model.ContactName))
+            {
+                list = list.Where(x => x.ContactName.Contains(model.ContactName));
+
+
+            }
+            long? ph = model.Phone;
+            if (!string.IsNullOrEmpty(ph.ToString()))
+            {
+                list = list.Where(x => x.Phone == ph);
+
+
+            }
+
+            model.VendorList = list.ToList();
+
+
+            return View("Index", model);
+        }
+
+        public ActionResult _Common()
+        {
+            Vendor vendor = new Vendor();
+            vendor.FileAttachmentData = new Inventory.Models.FileAttachment();
+            vendor.FileAttachmentData.FileList = new List<Inventory.Models.FileAttachment>();
+            return PartialView(vendor);
+        }
+
+        // GET: /Vendor/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return PartialView("_Common");
+
+
+            }
+            vendor.VendorService = new VendorService();
+            vendor.VendorService.vendordetaillist = new List<VendorService>();
+
+            string vendordetaillist = "SP_GetVendorDetail" + " " + id;
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<VendorService>(vendordetaillist).ToList();
+
+            vendor.VendorService.vendordetaillist = list.ToList();
+            return PartialView("_Common", vendor);
+
+
+        }
+
+        // POST: /Vendor/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "VendorId,Version,Name,Remarks,DefaultCarrier,Address1,Address2,City,State,Country,PostalCode,AddressRemarks,AddressType,ContactName,Phone,Fax,Email,Custom1,Custom2,Custom3,Custom4,Custom5,LastModUserId,LastModDttm,TimeStamp,IsActive,Custom6,Custom7,Custom8,Custom9,Custom10,WebSite,CurrencyId,Discount,IsTaxInclusivePricing,DefaultPaymentMethod")] Vendor vendor)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(vendor).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", vendor.CurrencyId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", vendor.LastModUserId);
+            return View(vendor);
+        }
+
+        // GET: /Vendor/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vendor);
+        }
+
+        // POST: /Vendor/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Vendor vendor = db.Vendor.Find(id);
+            db.Vendor.Remove(vendor);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult FileAttachment()
+        {
+            FileAttachment model = new FileAttachment();
+            model.FileList = new List<FileAttachment>();
+            return PartialView("_FileAttachment", model);
+        }
+
+        public ActionResult _AddMoreFile()
+        {
+            FileAttachment model = new FileAttachment();
+            return PartialView("_FileAttachmentAddMore", model);
+        }
+
+        public ActionResult VendorProduct()
+        {
+            return PartialView("_VendorProduct");
+        }
+
+        public ActionResult OrderHistory()
+        {
+            return PartialView("_OrderHistory");
+        }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

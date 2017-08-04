@@ -1,0 +1,116 @@
+﻿@model Inventory.Models.Product
+
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+
+@using (Ajax.BeginForm("CreateUpdate", "Customer", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+{
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+
+                        <tr><td><b>Search</b></td></tr>
+                        <tr>
+                            <td><b>Item Name/Code</b></td>
+                            <td>
+                                @Html.EditorFor(model => model.Name)
+
+                            </td>
+                        </tr>
+                        <tr><td><b>Category</b></td><td>@Html.EditorFor(model => model.Name)</td></tr>
+
+                        <tr><td colspan="2"><input type="submit" value="Refresh" class="bg-blue" /></td></tr>
+
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Name", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Name)
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProductCode, "Product Code", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.ProductCode)
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ItemTypeId, "Type", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(m => m.ItemTypeId, @Utility.GetProductType(), "Select")
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryId, "Category", new { @class = "control-label col-md-3" })
+
+                    <div class="col-md-3">
+                        @Html.DropDownListFor(m => m.CategoryId, @Utility.GetProductCategory(), "Select")
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-4 col-md-4">
+
+                @Html.TextAreaFor(model => model.PictureFileAttachmentId, new { @style = "width:300px;height:80px" })
+                @Html.ValidationMessageFor(model => model.PictureFileAttachmentId)
+                <br />
+                <input type="file" name="file" value="Browse " class="btn btn-default" />
+                <input type="button" value="Clear " class="btn btn-default" />
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+
+
+            <div class="col-sm-3 col-md-3" style="padding-left:700px">
+                <strong>Inventory</strong>
+                <table id="example2" class="table table-bordered table-hover">
+                    <tr>
+                        <td>
+                            <b> Location</b>
+</td>
+                        <td><b>Quantity</b></td>
+                    </tr>
+                    <tr><td><b>Default Location</b></td><td>0</td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td colspan="2"></td></tr>
+                    <tr><td><b>Quantity On Hand</b></td><td>0</td></tr>
+
+                </table>
+            </div>
+        </div>
+        
+    </div>
+}

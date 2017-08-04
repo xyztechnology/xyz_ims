@@ -1,0 +1,39 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+
+
+}
+
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="modal-body">
+
+
+
+
+
+    <div id="tabs">
+        <ul>        
+            <li><a href="@Url.Action("CompanySetup", "GeneralSetting")">Company Setup</a></li>
+            <li><a href="@Url.Action("Register", "Account")">Add User</a></li>
+            <li><a href="@Url.Action("DocNumber", "GeneralSetting")">Doc Number</a></li>
+            <li><a href="@Url.Action("LocationSetup", "GeneralSetting")">Inventory Location</a></li>
+            <li><a href="@Url.Action("SubLocationSetup", "GeneralSetting")">Sub Location</a></li>
+        </ul>
+       
+    </div>
+
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+            $("#dialog").dialog({ width: 900 });
+        });
+    </script>
+
+</div>
+
+
+
+
+

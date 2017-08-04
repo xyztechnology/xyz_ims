@@ -1,0 +1,99 @@
+﻿@model Inventory.Models.Product
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/JQueryForm.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+<script>
+    function ChangeImage(input) {
+
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgThumbnail').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $(function () {
+        $('#ajaxUploadForm').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    $('#ajaxUploadForm').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+                    $('#SearchResult').html(result);
+                    $('#ajaxUploadForm').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                $('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+</script>
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("Search", "Product", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+    {
+        <div class="col-md-4">
+            <div class="box box-primary">
+                <div class="box-body">
+                    <strong>SEARCH</strong>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, "Item Name", new { @class = "control-label col-md-4" })
+                        <div class="col-md-2">
+                            @Html.EditorFor(model => model.Name)
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Category, "Category", new { @class = "control-label col-md-4" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.CategoryId, Utility.GetProductCategory(), "Select")
+                            @Html.ValidationMessageFor(model => model.CategoryId)<br /><br />
+                            <input type="submit" value="Search" class="bg-blue" />
+                        </div>
+                    </div>
+                </div>
+                <div id="SearchResult">
+                    @Html.Partial("_ProductList")
+                </div>
+            </div>
+        </div>
+    }
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>
+

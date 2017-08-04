@@ -1,0 +1,331 @@
+﻿@model Inventory.Models.Product
+@using InventroryManagementSystem.Helpers
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+<script type="text/javascript">
+
+
+    var j = jQuery.noConflict();
+
+
+    j("#tabsproduct").tabs();
+
+
+    
+
+
+    function bindStandardMesaure(value) {
+
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+
+                    j("label[for='lblstandard']").html(data.UnitName);
+                }
+            });
+        }
+
+    }
+
+
+
+    function bindSalesMesaure(value) {
+
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+
+                    j("label[for='lablsale']").html(data.UnitName);
+                }
+            });
+        }
+
+    }
+
+
+
+    function bindPurchaseMesaure(value) {
+
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+
+                    j("label[for='lblpurchase']").html(data.UnitName);
+                }
+            });
+        }
+
+    }
+
+
+</script>
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(document).ready(function () {
+        TotalQty();
+    });
+    function TotalQty() {
+
+        var sum = 0;
+
+        j('.Qty').each(function () {
+
+            var al = j(this).closest("tr");
+            var all = al.find(".Qty").val();
+
+            sum += Number(all);
+
+        });
+
+        j("#InnerPackQty").val(Number(sum));
+
+    }
+
+</script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+
+
+<style>
+    #row-buttonadd {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/index.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    #row-button {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/del.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+</style>
+
+<div id="tabsproduct">
+    <ul>
+
+        <li><a href="#tab1">Product Info</a></li>
+        <li><a href="#tab2">Product Vendors</a></li>
+        <li><a href="#tab3">Order History</a></li>
+
+
+    </ul>
+
+
+
+    @using (Html.BeginForm("Create", "Product", FormMethod.Post, new { enctype = "multipart/form-data", id = "ajaxUploadForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.ProdId)
+        @Html.HiddenFor(m => m.PictureFileAttachmentId)
+        <div class="tab-pane  active" id="tab1">
+            <div class="form-horizontal">
+                <div class="col-md-12 well well-smal">
+                    <div class="row well well-small">
+                        <div class="col-md-5">
+
+                            <strong>BASIC</strong><br />
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, "Item Name", new { @class = "control-label col-md-4" })
+                                <div class="col-md-1">
+                                    @Html.EditorFor(model => model.Name)
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ProductCode, "Code", new { @class = "control-label col-md-4" })
+                                <div class="col-md-1">
+                                    @Html.EditorFor(model => model.ProductCode)
+                                    @Html.ValidationMessageFor(model => model.ProductCode)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, "Category", new { @class = "control-label col-md-4" })
+                                <div class="col-md-1">
+                                    @Html.DropDownListFor(model => model.CategoryId, Utility.GetProductCategory(), "Select")
+                                    @Html.ValidationMessageFor(model => model.CategoryId)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ItemType, "Type", new { @class = "control-label col-md-4" })
+                                <div class="col-md-1">
+                                    @Html.DropDownListFor(model => model.ItemTypeId, Utility.GetProductType(), "Select")
+                                    @Html.ValidationMessageFor(model => model.ItemTypeId)
+                                </div>
+                            </div>
+
+
+
+
+
+                        </div>
+
+                        <div class="col-md-1"></div>
+
+                        <div class="col-md-6 well well-small">
+
+                            <h4>Picture</h4>
+
+                            <div class="box box-primary">
+
+
+                                <div id="preview">
+                                    @if (Model.FileAttachment != null && Model.FileAttachment.Data != null)
+                                    {
+                                    <img src="data:image/jpg;base64,@(Convert.ToBase64String(Model.FileAttachment.Data))" id="imgThumbnail" style="width: 210px; height: 80px" />
+
+                                    }
+                                    else
+                                    {
+
+                                    <img src="~/Image/noimage.png" id="imgThumbnail" style="width: 210px; height: 80px" />
+
+                                    }
+                                </div>
+                                @Html.FileFor(model => model.file, new { @onchange = "ChangeImage(this)", @id = "fileupload", Name = "file" })
+
+                                <input type="button" value="Clear " class="btn btn-default" />
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <table>
+                                <tr><th><b>Unit Of Measure</b></th></tr>
+                                <tr>
+                                    <th><strong> UOM</strong></th>
+
+                                    <td>@Html.DropDownListFor(m => m.Uom, @Utility.GetMeasureList(), "Select", new { @onchange = "bindStandardMesaure(this.value)" })</td>
+                                </tr>
+
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.soUomName)</th>
+                                    <td>@Html.DropDownListFor(m => m.soUomName, @Utility.GetMeasureList(), "Select", new { @onchange = "bindSalesMesaure(this.value)" })</td>
+                                </tr>
+                                <tr>
+                                    <th>Conversion</th>
+                                    <td>@Html.TextBoxFor(m => m.soUomRatio)<label for="lablsale"></label>
+
+
+                                    <td>@Html.TextBoxFor(m => m.soUomRatioStd)<label for="lblstandard"></label></td>
+                                </tr>
+
+                                <tr>
+                                    <th>Purchase UOM</th>
+                                    <td>@Html.DropDownListFor(m => m.PoUomName, @Utility.GetMeasureList(), "Select", new { @onchange = "bindPurchaseMesaure(this.value)" })</td>
+                                </tr>
+                                <tr>
+                                    <th>Conversion</th>
+                                    <td>@Html.TextBoxFor(m => m.PoUomRatio)<label for="lblpurchase"></label></td>
+                                    <td>@Html.TextBoxFor(m => m.PoUomRatioStd)<label for="lblstandard"></label></td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+
+                    </div>
+
+
+                    <div class="row col-md-12 well well-small" id="Add-Item" style="height:200px; overflow:scroll">
+                        <strong>Inventory</strong>
+
+
+                        @Html.ActionLink(" ", "_InventoryStore", null, new { @class = "addProductItem row-button pull-right", @id = "row-buttonadd" })
+                        <table style="width:100%">
+                            <tr>
+                                <th>
+                                    Location
+                                </th>
+                                <th>Quantity</th>
+                                <th>Rate</th>
+                                <th>Amount</th>
+                                <th></th>
+                            </tr>
+
+                            @foreach (var item in Model.inventoryStore.InventoryStorList)
+                            {
+                                Html.RenderPartial("_InventoryStore", item);
+                            }
+
+
+
+                        </table>
+
+
+                    </div>
+
+                    <table><tr><td><b>Quantity On Hand</b></td><td>@Html.TextBoxFor(m => m.InnerPackQty)</td></tr></table>
+
+
+
+
+                    <input type="submit" value="Save" class="bg-blue" />
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="tab-pane" id="tab2">
+            @Html.Partial("_ProductVendors")
+
+        </div>
+        <div class="tab-pane" id="tab3">
+            @Html.Partial("_OrderHistory")
+        </div>
+
+    }
+</div>
+
+

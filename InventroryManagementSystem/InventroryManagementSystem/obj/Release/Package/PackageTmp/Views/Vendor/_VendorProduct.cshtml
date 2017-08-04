@@ -1,0 +1,31 @@
+﻿@model Inventory.Models.Vendor
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Item</strong></td>
+                <td><strong>Description</strong></td>
+                <td><strong>Product Code</strong></td>
+                <td><strong>Cost</strong></td>
+
+            </tr>
+            @if (Model.VendorService!=null)
+            { 
+            foreach (var item in Model.VendorService.vendordetaillist)
+            {
+               <tr>
+
+                <td>@item.Name</td>
+                <td>@item.Description</td>
+                <td>@item.ProductCode</td>
+                <td>@item.UnitPrice</td>
+
+            </tr> 
+            }
+            }
+            
+
+        </table>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@model Inventory.Models.TransactionAnalysisSubSetup
+
+
+<div class="modal-body">
+
+
+    <span class="glyphicon glyphicon-sign"></span>
+    @using (Html.BeginForm("CreateSubHead", "TransactionAnalysisSetup", FormMethod.Post, new { id = "CreateSubHead" }))
+    {
+        @Html.HiddenFor(m => m.TransactionAnalysisId)
+        <table>
+
+            <tr>
+                <td><label class="control-label col-md-2">Name</label></td>
+                <td>
+                    @Html.EditorFor(model => model.Name)
+                    @Html.ValidationMessageFor(model => model.Name)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label class="control-label col-md-2">Code</label></td>
+                <td>
+                    @Html.EditorFor(model => model.Code)
+                    @Html.ValidationMessageFor(model => model.Code)
+                </td>
+            </tr>
+
+        </table>
+
+
+    }
+
+
+</div>
+
+

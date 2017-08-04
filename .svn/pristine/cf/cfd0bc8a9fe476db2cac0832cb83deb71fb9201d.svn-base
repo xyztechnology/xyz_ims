@@ -1,0 +1,176 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class adjfkdjkjf : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropForeignKey("dbo.PurchaseOrder", "PaymentTermsId", "dbo.PaymentTerms");
+            DropIndex("dbo.Product", new[] { "PictureFileAttachmentId" });
+            DropIndex("dbo.PurchaseOrder", new[] { "PaymentTermsId" });
+            CreateTable(
+                "dbo.SalesOrderDetail",
+                c => new
+                    {
+                        SalesOrderDetailId = c.Int(nullable: false, identity: true),
+                        SalesOrderId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        Quantity = c.Double(nullable: false),
+                        UnitPrice = c.Double(nullable: false),
+                        Discount = c.Double(nullable: false),
+                        SubTotal = c.Double(nullable: false),
+                    })
+                .PrimaryKey(t => t.SalesOrderDetailId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.SalesOrder", t => t.SalesOrderId)
+                .Index(t => t.ProdId)
+                .Index(t => t.SalesOrderId);
+            
+            AlterColumn("dbo.SalesOrder", "Version", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "OrderDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "RequestShipDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "DueDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "OrderSubTotal", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "OrderExtra", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "OrderTotal", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "PickedDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "PackedDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "InvoicedDate", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "AmountPaid", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "Balance", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnSubTotal", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnExtra", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnTotal", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnFee", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "Phone", c => c.String());
+            AlterColumn("dbo.SalesOrder", "BillingAddressType", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "ShippingAddressType", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "LastModDttm", c => c.DateTime());
+            AlterColumn("dbo.SalesOrder", "SplitPartNumber", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "ExchangeRate", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "Total", c => c.Decimal(precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "PaymentStatus", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "InventoryStatus", c => c.Int());
+            AlterColumn("dbo.SalesOrder", "NonCustomerCost", c => c.Decimal(precision: 18, scale: 2));
+            CreateIndex("dbo.Product", "PictureFileAttachmentId");
+            AddForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment", "FileAttachmentId");
+            DropColumn("dbo.PurchaseOrder", "Version");
+            DropColumn("dbo.PurchaseOrder", "VendorOrderNumber");
+            DropColumn("dbo.PurchaseOrder", "PaymentTermsId");
+            DropColumn("dbo.PurchaseOrder", "Carrier");
+            DropColumn("dbo.PurchaseOrder", "ContactName");
+            DropColumn("dbo.PurchaseOrder", "Phone");
+            DropColumn("dbo.PurchaseOrder", "VendorAddress1");
+            DropColumn("dbo.PurchaseOrder", "VendorAddress2");
+            DropColumn("dbo.PurchaseOrder", "VendorCity");
+            DropColumn("dbo.PurchaseOrder", "VendorState");
+            DropColumn("dbo.PurchaseOrder", "VendorCountry");
+            DropColumn("dbo.PurchaseOrder", "VendorPostalCode");
+            DropColumn("dbo.PurchaseOrder", "VendorAddressRemarks");
+            DropColumn("dbo.PurchaseOrder", "VendorAddressType");
+            DropColumn("dbo.PurchaseOrder", "ShipToAddress1");
+            DropColumn("dbo.PurchaseOrder", "ShipToAddress2");
+            DropColumn("dbo.PurchaseOrder", "ShipToCity");
+            DropColumn("dbo.PurchaseOrder", "ShipToState");
+            DropColumn("dbo.PurchaseOrder", "ShipToCountry");
+            DropColumn("dbo.PurchaseOrder", "ShipToPostalCode");
+            DropColumn("dbo.PurchaseOrder", "ShipToAddressRemarks");
+            DropColumn("dbo.PurchaseOrder", "ShipToAddress");
+            DropColumn("dbo.PurchaseOrder", "RequestShipDate");
+            DropColumn("dbo.PurchaseOrder", "OrderSubTotal");
+            DropColumn("dbo.PurchaseOrder", "OrderExtra");
+            DropColumn("dbo.PurchaseOrder", "OrderTotal");
+            DropColumn("dbo.PurchaseOrder", "ReceiveRemarks");
+            DropColumn("dbo.PurchaseOrder", "DueDate");
+            DropColumn("dbo.PurchaseOrder", "TaxAmount");
+            DropColumn("dbo.PurchaseOrder", "ReturnTotal");
+            DropColumn("dbo.PurchaseOrder", "AditionalCost");
+            DropColumn("dbo.PurchaseOrder", "PaymentStatus");
+            DropColumn("dbo.PurchaseOrder", "InventoryStatus");
+            DropColumn("dbo.PurchaseOrder", "IsCancelled");
+            DropColumn("dbo.PurchaseOrder", "IsCompleted");
+            DropColumn("dbo.PurchaseOrder", "IsTaxInclusive");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.PurchaseOrder", "IsTaxInclusive", c => c.Boolean());
+            AddColumn("dbo.PurchaseOrder", "IsCompleted", c => c.Boolean());
+            AddColumn("dbo.PurchaseOrder", "IsCancelled", c => c.Boolean());
+            AddColumn("dbo.PurchaseOrder", "InventoryStatus", c => c.Int());
+            AddColumn("dbo.PurchaseOrder", "PaymentStatus", c => c.Int());
+            AddColumn("dbo.PurchaseOrder", "AditionalCost", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "ReturnTotal", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "TaxAmount", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "DueDate", c => c.DateTime());
+            AddColumn("dbo.PurchaseOrder", "ReceiveRemarks", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "OrderTotal", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "OrderExtra", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "OrderSubTotal", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.PurchaseOrder", "RequestShipDate", c => c.DateTime());
+            AddColumn("dbo.PurchaseOrder", "ShipToAddress", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToAddressRemarks", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToPostalCode", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToCountry", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToState", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToCity", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToAddress2", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ShipToAddress1", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorAddressType", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorAddressRemarks", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorPostalCode", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorCountry", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorState", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorCity", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorAddress2", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "VendorAddress1", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "Phone", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "ContactName", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "Carrier", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "PaymentTermsId", c => c.Int());
+            AddColumn("dbo.PurchaseOrder", "VendorOrderNumber", c => c.String());
+            AddColumn("dbo.PurchaseOrder", "Version", c => c.Int());
+            DropForeignKey("dbo.SalesOrderDetail", "SalesOrderId", "dbo.SalesOrder");
+            DropForeignKey("dbo.SalesOrderDetail", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropIndex("dbo.SalesOrderDetail", new[] { "SalesOrderId" });
+            DropIndex("dbo.SalesOrderDetail", new[] { "ProdId" });
+            DropIndex("dbo.Product", new[] { "PictureFileAttachmentId" });
+            AlterColumn("dbo.SalesOrder", "NonCustomerCost", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "InventoryStatus", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "PaymentStatus", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "Total", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ExchangeRate", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "SplitPartNumber", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "LastModDttm", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "ShippingAddressType", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "BillingAddressType", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "Phone", c => c.Int(nullable: false));
+            AlterColumn("dbo.SalesOrder", "ReturnFee", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnTotal", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnExtra", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "ReturnSubTotal", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "Balance", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "AmountPaid", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "InvoicedDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "PackedDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "PickedDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "OrderTotal", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "OrderExtra", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "OrderSubTotal", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AlterColumn("dbo.SalesOrder", "DueDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "RequestShipDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "OrderDate", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.SalesOrder", "Version", c => c.Int(nullable: false));
+            DropTable("dbo.SalesOrderDetail");
+            CreateIndex("dbo.PurchaseOrder", "PaymentTermsId");
+            CreateIndex("dbo.Product", "PictureFileAttachmentId");
+            AddForeignKey("dbo.PurchaseOrder", "PaymentTermsId", "dbo.PaymentTerms", "PaymentTermsId");
+            AddForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment", "FileAttachmentId");
+        }
+    }
+}

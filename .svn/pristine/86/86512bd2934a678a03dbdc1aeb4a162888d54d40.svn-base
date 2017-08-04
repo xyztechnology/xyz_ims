@@ -1,0 +1,193 @@
+﻿@model Inventory.Models.Vendor
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="~/Scripts/JQueryForm.js"></script>
+
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+<script>
+    $(function () {
+        $("#tabs").tabs();
+        $("#dialog").dialog({ width: 900 });
+    });
+</script>
+<script type="text/javascript">
+
+
+    $(function () {
+
+        $('#ajaxUploadForm').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    $('#ajaxUploadForm').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+                    $('#SearchResult').html(result);
+                    $('#ajaxUploadForm').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                $('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+
+</script>
+
+
+
+<hr />
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" style="border:5px solid #3A87AD">
+    <a href="#Close" title="Close" class="modal-close btn btn-danger">close</a>
+    <div class="modal-content" style="width:800px !important;margin:10px auto !important">
+        <div class="modal-body"></div>
+    </div>
+</div>
+
+
+
+
+<p align="right">
+    <a href="@Url.Action("FileAttachment", "Vendor")" class="modal-link btn-primary" style="">
+        File Attachment
+    </a>
+</p>
+<div class="form-horizontal">
+    <div class="col-sm-3">
+        @using (Ajax.BeginForm("Search", "Vendor", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SearchResult" }))
+        {
+            <div class="box-body">
+                <div class="box box-primary">
+
+                    <div class="box-body">
+                        <strong>SEARCH</strong>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-3" })
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.Name)
+                                @Html.ValidationMessageFor(model => model.Name)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, "Contact", new { @class = "control-label col-md-3" })
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.ContactName)
+                                @Html.ValidationMessageFor(model => model.ContactName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-3" })
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.Phone)
+                                @Html.ValidationMessageFor(model => model.Phone)
+                                <br /><br />
+                                <input type="submit" value="Search" class="bg-primary" />
+                            </div>
+
+
+
+
+                        </div>
+                        <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+                            <tr>
+                                <td>
+                                    <div id="SearchResult">
+                                        @Html.Partial("_VendorList")
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="col-md-9">
+    @using (Ajax.BeginForm("CreateUpdate", "Vendor", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace }, new { id = "ajaxUploadForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div id="ContentArea">
+
+            @Html.Partial("_Common")
+
+        </div>
+        
+    }
+
+
+
+    <div id="tabs">
+        <ul>
+
+            <li><a href="@Url.Action("CompanySetup", "Vendor")">Vendor Info</a></li>
+            <li><a href="@Url.Action("VendorProduct", "Vendor")">Vendor Product</a></li>
+            <li><a href="@Url.Action("VendorOrderHistory", "Vendor")">Order Hisdtory</a></li>
+            
+        </ul>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

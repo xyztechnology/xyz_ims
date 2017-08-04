@@ -1,0 +1,140 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class VendorController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /Vendor/
+        public ActionResult Index()
+        {
+            Vendor model = new Vendor();
+            model.VendorList = new List<Vendor>();
+            var vendor = db.Vendor.Include(v => v.Currency).Include(v => v.UserId);
+            model.VendorList = vendor.ToList();
+            return View(model);
+        }
+
+        // GET: /Vendor/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vendor);
+        }
+
+        // GET: /Vendor/Create
+        public ActionResult Create()
+        {
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code");
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name");
+            return View();
+        }
+
+        // POST: /Vendor/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="VendorId,Version,Name,Remarks,DefaultCarrier,Address1,Address2,City,State,Country,PostalCode,AddressRemarks,AddressType,ContactName,Phone,Fax,Email,Custom1,Custom2,Custom3,Custom4,Custom5,LastModUserId,LastModDttm,TimeStamp,IsActive,Custom6,Custom7,Custom8,Custom9,Custom10,WebSite,CurrencyId,Discount,IsTaxInclusivePricing,DefaultPaymentMethod")] Vendor vendor)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Vendor.Add(vendor);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", vendor.CurrencyId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", vendor.LastModUserId);
+            return View(vendor);
+        }
+
+        // GET: /Vendor/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", vendor.CurrencyId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", vendor.LastModUserId);
+            return View(vendor);
+        }
+
+        // POST: /Vendor/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="VendorId,Version,Name,Remarks,DefaultCarrier,Address1,Address2,City,State,Country,PostalCode,AddressRemarks,AddressType,ContactName,Phone,Fax,Email,Custom1,Custom2,Custom3,Custom4,Custom5,LastModUserId,LastModDttm,TimeStamp,IsActive,Custom6,Custom7,Custom8,Custom9,Custom10,WebSite,CurrencyId,Discount,IsTaxInclusivePricing,DefaultPaymentMethod")] Vendor vendor)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(vendor).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", vendor.CurrencyId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", vendor.LastModUserId);
+            return View(vendor);
+        }
+
+        // GET: /Vendor/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Vendor vendor = db.Vendor.Find(id);
+            if (vendor == null)
+            {
+                return HttpNotFound();
+            }
+            return View(vendor);
+        }
+
+        // POST: /Vendor/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Vendor vendor = db.Vendor.Find(id);
+            db.Vendor.Remove(vendor);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

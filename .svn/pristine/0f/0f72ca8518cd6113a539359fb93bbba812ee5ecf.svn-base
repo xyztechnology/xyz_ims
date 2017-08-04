@@ -1,0 +1,175 @@
+﻿@model Inventory.Models.CompanySetup
+<div class="modal-body">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <table><tr><td style="background-color: #DBE5E0">
+         <br />
+                <div class="col-md-8">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Logo, new { @class = "control-label col-md-4" })
+
+                        <div class="col-md-2">
+                            @Html.TextAreaFor(model => model.Logo,new {@style = "width:210px;height:80px" })
+                            @Html.ValidationMessageFor(model => model.Logo)
+                        </div>
+                    </div>
+                   </div><div class="col-md-3">
+    <input type="button" value="Browse" class="bg-blue" /><br />
+                           <br />  <input type="button" value="Clear" class="bg-blue" />
+</div>
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group"><br />
+                                   @Html.LabelFor(model => model.Name,"Company Name", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Name,new { @style = "width:360px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Name)
+                                   </div>
+                               </div>
+                           </div></div>
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Address1, "Address1", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Address1, new { @style = "width:360px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Address1)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Address2, "Address2", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Address2, new { @style = "width:360px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Address2)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-12">
+                               <div class="col-md-6"><div class="form-group">
+    <br />
+    @Html.LabelFor(model => model.City, "City", new { @class = "control-label col-md-5" })
+
+    <div class="col-md-1">
+        @Html.EditorFor(model => model.City)
+        @Html.ValidationMessageFor(model => model.City)
+    </div>
+</div></div><div class="col-md-6">
+    <div class="form-group">
+        <br />
+        @Html.LabelFor(model => model.State, "State", new { @class = "control-label col-md-4" })
+
+        <div class="col-md-1">
+            @Html.EditorFor(model => model.State)
+            @Html.ValidationMessageFor(model => model.State)
+        </div>
+    </div>
+</div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-12">
+                               <div class="col-md-6">
+                                   <div class="form-group">
+                                       <br />
+                                       @Html.LabelFor(model => model.Country, "Country", new { @class = "control-label col-md-5" })
+
+                                       <div class="col-md-1">
+                                           @Html.EditorFor(model => model.Country)
+                                           @Html.ValidationMessageFor(model => model.Country)
+                                       </div>
+                                   </div>
+                               </div><div class="col-md-6">
+                                   <div class="form-group">
+                                       <br />
+                                       @Html.LabelFor(model => model.PostalCode, "PostalCode", new { @class = "control-label col-md-4" })
+
+                                       <div class="col-md-1">
+                                           @Html.EditorFor(model => model.PostalCode)
+                                           @Html.ValidationMessageFor(model => model.PostalCode)
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+
+
+
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Phone, "Phone", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Phone, new { @style = "width:160px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Phone)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Fax, "Fax", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Fax, new { @style = "width:160px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Fax)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Email, "Email", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Email, new { @style = "width:360px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Email)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                           <div class="col-md-8">
+                               <div class="form-group">
+                                   <br />
+                                   @Html.LabelFor(model => model.Website, "Website", new { @class = "control-label col-md-4" })
+
+                                   <div class="col-md-2">
+                                       @Html.TextBoxFor(model => model.Website, new { @style = "width:360px;height:25px" })
+                                       @Html.ValidationMessageFor(model => model.Website)
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+            <div class="row"><div style="padding-left:130px">
+   <br /> <input type="button" value="Refresh" class="bg-blue" /></div>
+</div>
+
+               
+</td></tr></table>
+       
+    }
+
+</div>

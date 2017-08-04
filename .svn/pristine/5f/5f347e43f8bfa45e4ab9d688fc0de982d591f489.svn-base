@@ -1,0 +1,27 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class int1 : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.TransactionAnalysisSetup",
+                c => new
+                    {
+                        TransactionAnalysisId = c.Int(nullable: false, identity: true),
+                        ParentId = c.Int(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.TransactionAnalysisId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropTable("dbo.TransactionAnalysisSetup");
+        }
+    }
+}

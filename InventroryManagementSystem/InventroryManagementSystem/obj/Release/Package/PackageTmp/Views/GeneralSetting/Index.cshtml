@@ -1,0 +1,44 @@
+﻿@{
+
+  
+    Layout = null;
+
+
+}
+<link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
+<script type="text/javascript">
+    $("#tabs").tabs();
+
+</script>
+
+
+<div class="modal-body">
+
+
+
+
+
+    <div id="tabs" style="width:800px">
+        <ul>
+            <li><a href="@Url.Action("CompanySetup", "GeneralSetting")">Company Setup</a></li>
+            <li><a href="@Url.Action("Register", "Account")">Add User</a></li>
+            <li><a href="@Url.Action("DocNumber", "GeneralSetting")">Doc Number</a></li>
+            <li><a href="@Url.Action("LocationSetup", "GeneralSetting")">Inventory Location</a></li>
+            <li><a href="@Url.Action("SubLocationSetup", "GeneralSetting")">Sub Location</a></li>
+        </ul>
+
+    </div>
+
+
+
+</div>
+
+
+
+
+

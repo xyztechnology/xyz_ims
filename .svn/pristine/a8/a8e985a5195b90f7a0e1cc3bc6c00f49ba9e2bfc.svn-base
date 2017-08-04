@@ -1,0 +1,120 @@
+﻿@model Inventory.Models.Vendor
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<div id="VendorDetails"></div>
+
+<table id="example2" class="table table-bordered table-hover">
+    <tr>
+        <td><div class="form-horizontal">
+    <div class="col-md-12">
+        <strong>SEARCH</strong>
+
+        @using (Html.BeginForm("SearchIndex", "Vendor"))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(model => model.Name, new { @style = "width:900px;height:25px" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Contact", new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(model => model.ContactName, new { @style = "width:900px;height:25px" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(model => model.Phone, new { @style = "width:900px;height:25px" })<br />
+                        <br />
+                        <input type="submit" value="Search" class="bg-blue" />
+                    </div>
+                </div>
+        }
+
+    </div>
+</div></td>
+    </tr>
+    <tr>
+        <td>
+            <div class="row">
+                <div class="col-md-12">
+                    <table id="example2" class="table table-bordered">
+                        <tr>
+                            <td><strong>Name</strong></td>
+                            <td><strong>Contact</strong></td>
+                            <td><strong>Phone</strong></td>
+                            <td><strong>Email</strong></td>
+                            <td><strong>Website</strong></td>
+                            <td><strong>Edit</strong></td>
+                        </tr>
+                        @foreach (var item in Model.VendorList)
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>@item.ContactName</td>
+                                <td>@item.Phone</td>
+                                <td>@item.Email</td>
+                                <td>@item.WebSite</td>
+                                <td>
+                                    <a href="#" onclick="GetDetails(@item.VendorId)">Details</a>
+                               
+                                </td>
+
+                              
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div></td>
+    </tr>
+</table>
+  
+   <script type="text/javascript">
+    var j = jQuery.noConflict();
+    j(function () {
+
+
+
+
+        function GetDetails(id) {
+            alert(id);
+            j("#VendorDetails").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 800,
+                resizable: false,
+                title: 'Vendor File Attachment',
+                modal: true,
+
+                open: function () {
+                    j(this).load('/Vendor/Details?id=' + id);
+
+                },
+
+
+
+                buttons: {
+
+                    Save: function () {
+                        j("form").submit();
+                    },
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+            });
+
+        }
+    });
+
+
+</script>

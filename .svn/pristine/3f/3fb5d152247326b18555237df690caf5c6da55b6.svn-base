@@ -1,0 +1,68 @@
+﻿@model Inventory.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+
+
+
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+
+
+
+    <div class="form-horizontal">
+        @using (Ajax.BeginForm("Search", "SalesOrder", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+        {
+            
+                <div class="col-md-3">
+                    <b>SEARCH</b>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderNumber,"Issue No", new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.EditorFor(model => model.OrderNumber)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status,"Status", new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.EditorFor(model => model.Status)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Customer, new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.DropDownListFor(model => model.CustomerId,Utility.GetCustomerName(),"Select")
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Search" class="bg-blue" />
+                    </div>
+
+                    <div id="SearchResult">
+                    @Html.Partial("_CreateSearchlist")
+                </div>
+        </div>
+        }
+     </div>
+
+
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>
+
+

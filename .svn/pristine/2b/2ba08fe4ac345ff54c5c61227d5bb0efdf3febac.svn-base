@@ -1,0 +1,36 @@
+﻿@model Inventory.Models.Product
+@using InventroryManagementSystem.Helpers
+
+@using (Html.BeginCollectionItem("ProductList"))
+{
+
+    <div class="row">
+
+        <table class="table table-hover table-nomargin dataTable table-bordered table-no-padding" style="width:100%">
+            <tr>
+
+
+                <td>vvvvvvvvv</td>
+                <td>dvbfdbf</td>
+                <td>vvfv</td>
+                <td>dfbfdb</td>
+                <td>fbfgb</td>
+                <td>bgfb</td>
+                <td>bfbfb</td>
+
+                <td>
+                    <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+                </td>
+
+
+
+            </tr>
+
+
+        </table>
+
+    </div>
+
+}
+
+

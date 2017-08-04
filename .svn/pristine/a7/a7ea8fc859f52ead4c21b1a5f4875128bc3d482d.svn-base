@@ -1,0 +1,33 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class adjkfjd : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.Inventorystore",
+                c => new
+                    {
+                        LocationId = c.Int(nullable: false, identity: true),
+                        Sublocation = c.String(),
+                        Quantity = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TimeStamp = c.Binary(),
+                        ProdId = c.Int(),
+                    })
+                .PrimaryKey(t => t.LocationId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .Index(t => t.ProdId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Inventorystore", "ProdId", "dbo.Product");
+            DropIndex("dbo.Inventorystore", new[] { "ProdId" });
+            DropTable("dbo.Inventorystore");
+        }
+    }
+}

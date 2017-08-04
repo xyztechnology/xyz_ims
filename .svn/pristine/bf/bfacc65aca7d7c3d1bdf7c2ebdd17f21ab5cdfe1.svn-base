@@ -1,0 +1,183 @@
+﻿@model Inventory.Models.TransactionAnalysisSetup
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<script src="~/Scripts/jquery.jstree.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+<div id="AddNewMainHead"></div>
+<div id="AddNewSubHead"></div>
+
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" style="border:5px solid #3A87AD">
+    <a href="#Close" title="Close" class="modal-close-btn">close</a>
+    <div class="modal-content" style="width:500px !important;margin:10px auto !important">
+        <div class="modal-body"></div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+    @Html.HiddenFor(m => m.Idtosave)
+    <div class="bs-docs-example form-inline">
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Create Product Catogory Here</legend>
+            <table>
+                <tr>
+                    <td>
+
+                        <input type="button" class="btn btn-success" id="btnCreateMainHead" value="Create" />
+                        <input class="btn btn-danger" type="button" value="Delete" onclick="Remove()" />
+                    </td>
+                </tr>
+                <tr>
+
+
+                    <td style="vertical-align: top">
+                        <div id="TAMenuHead" class="FolderTreeTitle" style="height: 600px; overflow: scroll; width: 300px;padding-left:10px">
+                        </div>
+                        @Html.Partial("_GroupTree")
+
+
+                    </td>
+
+                    <td style="vertical-align: top">
+                        <table>
+
+                            <tr>
+
+                                <td>
+                                    <input type="button" class="btn btn-success" id="btnCreateSubHead" value="Create" />
+
+
+                                    <div id="Area">
+
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+        </fieldset>
+
+    </div>
+
+</section>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#btnCreateMainHead').on('click', function () {
+            j("#AddNewMainHead").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 400,
+                resizable: false,
+                title: 'Create Transaction Analaysis Main Head',
+                modal: true,
+                open: function () {
+
+
+                  
+
+                    j(this).load('@Url.Action("CreateHead", "TransactionAnalysisSetup")');
+
+
+                },
+
+                buttons: {
+                    Create: function () {
+                        j("#CreateHead").submit();
+
+                    },
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+            });
+            return false;
+        });
+
+
+
+
+
+
+
+        j('#btnCreateSubHead').on('click', function () {
+            var selectedFolderId = document.getElementById("Idtosave").value;
+
+            j("#AddNewSubHead").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 400,
+                resizable: false,
+                title: 'Create Transaction Analaysis Sub Head',
+                modal: true,
+                open: function () {
+                    j(this).load('/TransactionAnalysisSetup/CreateSubHead?id=' + selectedFolderId);
+
+                },
+
+                buttons: {
+                    Create: function () {
+                        j("#CreateSubHead").submit();
+                    },
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+            });
+            return false;
+        });
+
+    });
+
+
+
+
+
+    j(function () {
+        j('#TransactionAnalysisSubSetupId').on('click', function () {
+         
+            j("#AddNewSubHead").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 400,
+                resizable: false,
+                title: 'Edit Transaction Analaysis Sub Head',
+                modal: true,
+                open: function () {
+                    j(this).load(this.href);
+
+                },
+
+                buttons: {
+                    Create: function () {
+                        j("#CreateSubHead").submit();
+                    },
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+            });
+            return false;
+        });
+    });
+
+
+</script>

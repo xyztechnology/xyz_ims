@@ -1,0 +1,22 @@
+﻿@model Inventory.Models.Inventorystore
+@using InventroryManagementSystem.Helpers
+
+@using (Html.BeginCollectionItem("inventoryStore.InventoryStorList"))
+{
+
+    <tr>
+
+
+        <td>@Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")</td>
+
+        <td>@Html.TextBoxFor(m => m.Quantity)</td>
+
+
+
+
+
+    </tr>
+
+
+
+}

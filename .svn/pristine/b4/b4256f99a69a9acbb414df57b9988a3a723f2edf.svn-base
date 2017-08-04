@@ -1,0 +1,26 @@
+﻿@model Inventory.Models.Vendor
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Order#</strong></td>
+                <td><strong>Order Date</strong></td>
+                <td><strong>Status</strong></td>
+                <td><strong>Total</strong></td>
+                <td><strong>Amount Paid</strong></td>
+                <td><strong>Balance Due</strong></td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+            </tr>
+
+        </table>
+    </div>
+</div>

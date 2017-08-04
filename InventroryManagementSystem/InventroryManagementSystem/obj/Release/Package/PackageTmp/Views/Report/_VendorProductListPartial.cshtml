@@ -1,0 +1,47 @@
+﻿@model Inventory.Models.Report.Vendor
+ @{
+InventroryManagementSystem.Models.ApplicationDbContext db = new InventroryManagementSystem.Models.ApplicationDbContext();
+  }
+
+<br /><br />
+
+<table class="table table-bordered">
+    <tr>
+        <td><strong>Item</strong></td>
+        <td><strong>Category</strong></td>
+        <td><strong>Vendor</strong></td>
+        <td><strong>Vendor Product Code</strong></td>
+        <td><strong>Unit Cost</strong></td>
+
+    </tr>
+ 
+
+    @if (Model.VendorList != null)
+    {
+        //foreach(var item in Model.VendorList.Select(m=>m.VendorId).Distinct())
+        //{
+        //    var vendor=db.Vendor.Where(x=>x.VendorId==item).FirstOrDefault();
+              
+                foreach (var itemnew in Model.VendorList)
+                {
+
+      <tr>
+            <td colspan="5">@itemnew.VendorName</td>
+        </tr>
+
+            <tr>
+                <td>@itemnew.Item </td>
+                <td>@itemnew.Category</td>
+                <td>@itemnew.VendorName</td>
+                <td>@itemnew.VendorProductCode</td>
+                <td>@itemnew.UnitPrice</td>
+
+            </tr>
+        <tr><td colspan="5"></td></tr>
+        
+      }
+    }
+
+</table>
+
+

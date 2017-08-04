@@ -1,0 +1,28 @@
+﻿@model Inventory.Models.FileAttachment
+@using InventroryManagementSystem.Helpers
+
+@using (Html.BeginCollectionItem("FileAttachmentData.FileList"))
+{
+ 
+
+        <table class="table table-hover table-nomargin dataTable table-bordered table-no-padding" style="width:100%">
+            <tr>
+
+                <td>
+                    @Html.FileFor(m => m.file)
+                </td>
+                <td>@Html.TextBoxFor(m => m.FileDescription, new { @placeholder = "File Description" })</td>
+
+                <td>
+                    <button type="button" class="row-button btn btn-danger" title="Delete row" id="row-button">Remove</button>
+                </td>
+
+
+
+            </tr>
+
+
+        </table>
+
+    
+}

@@ -1,0 +1,76 @@
+﻿@model Inventory.Models.Customer
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+
+@using (Ajax.BeginForm("CreateUpdate", "Customer", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+                        <tr><td colspan="2"><b>SEARCH</b></td></tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                @Html.TextBox("SearchName")
+
+                            </td>
+                        </tr>
+                        <tr><td>Contact</td><td>@Html.Editor("ContactName")</td></tr>
+                        <tr>
+                            <td>Phone</td>
+                            <td>@Html.EditorFor(model => model.Phone)</td>
+                        </tr>
+
+                        <tr><td colspan="2"><input type="submit" value="Refresh" name="btn"  class="bg-blue"/></td></tr>
+
+
+
+
+
+
+                    </table>
+                    <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+                        <tr>
+                            <td>
+                                <div id="SearchResult">
+                                    @Html.Partial("_CustomerList")
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                 
+
+                </div>
+            </div>
+            <div id="ContentArea">
+                @Html.Partial("_Common")
+            </div>
+
+
+
+        </div>
+     
+    </div>
+
+}

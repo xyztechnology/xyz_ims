@@ -1,0 +1,97 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+
+
+}
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="modal-body">
+
+
+
+
+
+    <div id="tabs">
+        <ul>
+         
+            <li><a href="@Url.Action("CompanySetup", "GeneralSetting")">Company Setup</a></li>
+            <li><a href="@Url.Action("","")">Add User</a></li>
+            <li><a href="@Url.Action("","")">Doc Number</a></li>
+            <li><a href="@Url.Action("LocationSetup", "GeneralSetting")">Inventory Location</a></li>
+            <li><a href="@Url.Action("SubLocationSetup", "GeneralSetting")">Sub Location</a></li>
+        </ul>
+       
+    </div>
+
+    <script>
+        $(function () {
+            $("#tabs").tabs();
+            $("#dialog").dialog({ width: 900 });
+        });
+    </script>
+
+</div>
+
+
+
+
+
+
+@*<table>
+        <tr>
+            <td>
+
+                @Ajax.ActionLink("Company", "AddCompany", // <-- Text to display
+                          "Vendor",
+
+
+             new AjaxOptions
+             {
+                 UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                 InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                 HttpMethod = "GET", //
+
+             })
+                <br />
+
+                @Ajax.ActionLink("User", "AddUser", // <-- Text to display
+                          "Vendor",
+
+
+             new AjaxOptions
+             {
+                 UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                 InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                 HttpMethod = "GET", //
+
+             })
+                <br />
+
+                @Ajax.ActionLink("Doc Number", "AddUser", // <-- Text to display
+                          "Vendor",
+
+
+             new AjaxOptions
+             {
+                 UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                 InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                 HttpMethod = "GET", //
+
+             })
+                <br />
+            </td>
+            <td>
+                <div id="ContentArea">
+                    @{
+                        Html.RenderAction("CompanySetup", "GeneralSetting");
+                    }
+                </div>
+            </td>
+        </tr>
+    </table>*@
+
+
+
+
+

@@ -1,0 +1,249 @@
+﻿@model Inventory.Models.CompanySetup
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>  
+<script>
+    function ChangeImage(input) {
+
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgThumbnail').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+
+    $(document).ready(function () {
+        $('#btncatsave').click(function () {
+
+            // Checking whether FormData is available in browser
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#FileUpload1").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                // Adding one more key to FormData object
+                fileData.append('Name', "Manas");
+
+                $.ajax({
+
+                    url: '@Url.Action("CompanySetupUpload", "GeneralSetting")',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    success: function (result) {
+                        alert(result);
+                    },
+                    error: function (err) {
+                        alert(err.statusText);
+                    }
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        });
+    });
+</script>
+
+
+
+<div class="modal-body">
+
+
+    <form id="upload" enctype="multipart/form-data" action="@Url.Action("CompanySetup", "GeneralSetting")" method="POST">
+
+
+        @Html.AntiForgeryToken()
+
+        <table>
+            <tr>
+                <td style="background-color: #DBE5E0">
+                    <br />
+
+
+
+                    <div class="col-md-8">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Logo, new { @class = "control-label col-md-4" })
+
+                            <div class="col-md-2">
+
+                                <input type="file" id="FileUpload1" onchange="ChangeImage(this)" />
+                                <div id="preview">
+                                    <img src="~/Image/noimage.png" id="imgThumbnail" alt="preview" style="width: 210px; height: 80px" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Name, "Company Name", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Name, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Address1, "Address1", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Address1, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Address1)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Address2, "Address2", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Address2, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Address2)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.City, "City", new { @class = "control-label col-md-5" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.City)
+                                        @Html.ValidationMessageFor(model => model.City)
+                                    </div>
+                                </div>
+                            </div><div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.State, "State", new { @class = "control-label col-md-4" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.State)
+                                        @Html.ValidationMessageFor(model => model.State)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.Country, "Country", new { @class = "control-label col-md-5" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.Country)
+                                        @Html.ValidationMessageFor(model => model.Country)
+                                    </div>
+                                </div>
+                            </div><div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.PostalCode, "PostalCode", new { @class = "control-label col-md-4" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.PostalCode)
+                                        @Html.ValidationMessageFor(model => model.PostalCode)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Phone, "Phone", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Phone, new { @style = "width:160px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Phone)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Fax, "Fax", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Fax, new { @style = "width:160px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Fax)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Email, "Email", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Email, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Website, "Website", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Website, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Website)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="padding-left:130px">
+                            <br /> <input type="button" value="Save" class="bg-blue" id="btncatsave" />
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>
+        </table>
+
+    </form>
+
+</div>

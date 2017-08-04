@@ -1,0 +1,58 @@
+﻿@model Inventory.Models.Location
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+<div class="modal-body">
+@using (Ajax.BeginForm("LocationSetup", "GeneralSetting", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+        {
+
+          @Html.AntiForgeryToken()
+  
+        
+                <table>
+                    <tr>
+                        <td style="background-color: #DBE5E0">
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(model => model.Name, "Location Name", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => model.Name, new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.Name)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.IsActive, new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.IsActive)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div style="padding-left:130px">
+                                    <br /> <input type="submit" value="Save" class="bg-blue" />
+                                </div>
+                            </div>
+
+
+
+                    </tr>
+                </table>
+   
+}
+</div>

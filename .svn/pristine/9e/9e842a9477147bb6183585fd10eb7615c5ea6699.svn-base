@@ -1,0 +1,133 @@
+﻿@model Inventory.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <div class="col-md-3">
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+
+                    <tr><td>Search</td></tr>
+                    <tr>
+                        <td>Order</td>
+                        <td>
+                            @Html.EditorFor(model => model.ContactName)
+
+                        </td>
+                    </tr>
+                    <tr><td>Invetory Status</td><td>@Html.EditorFor(model => model.ContactName)</td></tr>
+                    <tr>
+                        <td>Payment Status</td>
+                        <td>@Html.EditorFor(model => model.Phone)</td>
+                    </tr>
+                    <tr>
+                        <td>Customer</td>
+                        <td>@Html.EditorFor(model => model.Phone)</td>
+                    </tr>
+                    <tr>
+                        <td>Show Quotes</td>
+                        <td>@Html.EditorFor(model => model.Phone)</td>
+                    </tr>
+                    <tr><td colspan="2"><input type="submit" value="Refresh" /></td></tr>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+
+           
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Name, new { @class = "control-label col-md-2" })
+          
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Customer.Name)
+                     
+                    </div>
+                   
+                
+                </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer.Phone, new { @class = "control-label col-md-2" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Customer.Phone)
+
+                </div>
+            </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Customer.Address1, new { @class = "control-label col-md-2" })
+
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Customer.Address1)
+
+                    </div>
+
+
+                </div>
+           
+            </div>
+      
+            </div>
+        
+  
+        <div class="col-md-3">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Customer, new { @class = "control-label col-md-2" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Customer.Address1)
+
+                </div>
+
+
+            </div>
+        </div>
+    <div class="col-md-12">
+        <div class="box-body">
+            <table id="example2" class="table table-bordered table-hover">
+                <tr><td></td>
+                    <td>Item </td>
+                    <td>Quantity</td>
+                    <td>Unit Price</td>
+                    <td>Discount</td>
+                    <td>Sub-Total</td>
+                  
+                </tr>
+                <tr><td colspan="6"></td></tr>
+                <tr><td colspan="6"></td></tr>
+                <tr><td colspan="6"></td></tr>
+                <tr><td colspan="6"></td></tr>
+                <tr><td colspan="6"></td></tr>
+            </table>
+        </div>
+    </div>
+  <div class="col-md-3"></div>
+      <div class="col-md-6">
+     <div class="form-group">
+    @Html.LabelFor(model => model.Remarks, new { @class = "control-label col-md-2" })
+    <div class="col-md-2">
+        @Html.TextAreaFor(model => model.Remarks, new { @style = "width:400px;height:80px" })
+        @Html.ValidationMessageFor(model => model.Remarks)
+         <br />
+         <input type="button" value="Save" />
+    </div></div>
+</div>
+ <div class="col-md-3">  Subtotal<br />
+    Paid @Html.EditorFor(model => model.Customer.Name)<br />
+    Balance</div>
+    
+    
+  
+   
+}

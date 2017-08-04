@@ -1,0 +1,58 @@
+﻿@model Inventory.Models.FileAttachment
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "file attachment";
+    Layout = null;
+}
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        AddClickEvents();
+
+    });
+</script>
+<div class="modal-body" style="height:500px; overflow-y:scroll">
+    <div class="modal-header">
+        @Html.ActionLink("AddMore ", "_AddMoreFile", null, new { @class = "addProductItem row-button pull-right btn btn-primary", @id = "row-buttonadd", })
+
+
+
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+
+    </div>
+    <div id="Add-Item">
+        <script type="text/javascript">
+            function isNumberKey(evt) {
+                var charCode = (evt.which) ? evt.which : event.keyCode;
+                if (charCode != 46 && charCode > 31
+                    && (charCode < 48 || charCode > 57))
+                    return false;
+
+                return true;
+            }
+        </script>
+
+
+
+
+        @using (Html.BeginForm())
+        {
+
+            @Html.Partial("_FileAttachmentAddMore");
+
+
+
+        }
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+
+</div>
+
+
+
+
+

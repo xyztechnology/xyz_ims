@@ -1,0 +1,141 @@
+﻿@model Inventory.Models.DoCumentNoFormat
+
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        j(".AddSufx").on("keyup", function (e) {
+
+            var df = j(this).closest("tr");
+            df.find(".ShowData").val(null);
+            var pref = df.find(".AddPrefx").val();
+            var ntx = df.find(".AddNxtNum").val();
+            var suf = df.find(".AddSufx").val();
+            var prev = pref + ntx + suf;
+
+            df.find(".ShowData").val(prev);
+
+        });
+
+        j(".AddPrefx").on("keyup", function (e) {
+
+            var df = j(this).closest("tr");
+            df.find(".ShowData").val(null);
+            var pref = df.find(".AddPrefx").val();
+            var ntx = df.find(".AddNxtNum").val();
+            var suf = df.find(".AddSufx").val();
+            var prev = pref + ntx + suf;
+
+            df.find(".ShowData").val(prev);
+
+        });
+
+
+        j(".AddNxtNum").on("keyup", function (e) {
+
+            
+            var df = j(this).closest("tr");
+            df.find(".ShowData").val(null);
+            var pref = df.find(".AddPrefx").val();
+            var ntx = df.find(".AddNxtNum").val();
+            var suf = df.find(".AddSufx").val();
+            var prev = pref + ntx + suf;
+
+            df.find(".ShowData").val(prev);
+
+        });
+
+
+    });
+
+</script>
+
+<div class="modal-body">
+    @using (Ajax.BeginForm("DocNumber", "GeneralSetting", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="box box-primary">
+            <div class="box-body" style="border:groove">
+
+
+                <div class="row">
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-10">
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Prefix, "Prefix")
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.NextNumber, "NextNumber")
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(model => model.Suffix, "Suffix")
+                        </div>
+                        <div class="col-md-2">
+                            Preview
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+
+
+                        <div class="row">
+
+                            <label> Issue Slip</label>
+                            <label> Purchase Order</label>
+                            <label> Count Sheet</label>
+                            <label> Work Order</label>
+                            <label> Good Receive Note</label>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="col-md-10">
+
+                        @for (int i = 0; i < Model.DoCumentNoFormatList.Count(); i++)
+                        {
+                            @Html.HiddenFor(m => Model.DoCumentNoFormatList[i].DoCumentNoFormatId)
+                            <table>
+                                <tr>
+
+                                    <td class="col-md-10">
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => Model.DoCumentNoFormatList[i].Prefix, new { @class = "AddPrefx" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => Model.DoCumentNoFormatList[i].NextNumber, new { @class = "AddNxtNum" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => Model.DoCumentNoFormatList[i].Suffix, new { @class = "AddSufx" })
+                                        </div>
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => Model.DoCumentNoFormatList[i].Preview, new { @class = "ShowData" })
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div style="padding-left:130px">
+                        <br /> <input type="submit" value="Save" class="bg-blue" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    }
+
+</div>

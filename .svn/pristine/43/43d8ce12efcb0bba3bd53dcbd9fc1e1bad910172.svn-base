@@ -1,0 +1,37 @@
+﻿@model Inventory.Models.PurchaseRequisition
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.PurchaseRequisitionList != null)
+    {
+        foreach (var item in Model.PurchaseRequisitionList)
+        {
+
+            if (item.RequisitionNo != null)
+            {
+                
+                
+                <tr>
+                    <td>
+                        @if(item.RequisitionDate != null)
+                        {
+                              @item.RequisitionDate.Value.ToShortDateString()
+                        }
+                        else
+                        {
+                             @item.RequisitionDate
+                        }
+                       
+                    </td>
+                    <td>
+                        @item.RequisitionNo
+               
+                 
+                    </td>
+                </tr>
+            }
+
+
+        }
+
+    }
+</table>

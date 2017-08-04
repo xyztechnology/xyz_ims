@@ -1,0 +1,26 @@
+﻿ @model Inventory.Models.s
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.TransactionAnalysisSetup.TransactionAnalysisSetupList != null)
+    {
+        foreach (var item in Model.TransactionAnalysisSetup.TransactionAnalysisSetupList)
+        {
+            if(item.Name !=null)
+            { 
+             <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                     
+
+                    </td>
+                </tr>
+            
+    }
+
+        }
+
+    }
+</table>
+

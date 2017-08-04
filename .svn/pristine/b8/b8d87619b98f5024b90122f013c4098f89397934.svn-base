@@ -1,0 +1,123 @@
+﻿@model Inventory.Models.Location
+
+<link href="~/Content/themes/base/all.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+<script type="text/javascript">
+    function BindList(data) {
+
+        $("#ListArea").html(data)
+
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function GetData(data) {
+
+        var j = jQuery.noConflict();
+
+        j("#Name").val(data.Name)
+    }
+</script>
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#SubLoacationLink').on('click', function () {
+
+            j("#AddNewSubLocation").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 600,
+                resizable: false,
+                title: 'Create Sublocation',
+                modal: true,
+                open: function () {
+                    $(this).load('/GeneralSetting/SubLocationSetup');
+
+                },
+
+
+            });
+            return false;
+        });
+
+    });
+</script>
+
+
+<div id="AddNewSubLocation"></div>
+
+
+
+<div class="modal-body">
+
+    @using (Ajax.BeginForm("LocationSetup", "GeneralSetting", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, OnSuccess = "BindList" }))
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="box box-primary">
+            <div class="box-body" style="border:groove">
+
+                <table>
+                    <tr>
+                        <td>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(model => model.Name, "Location Name", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+                                            @Html.TextBoxFor(model => model.Name, new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.Name)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+
+                                        @Html.LabelFor(model => model.IsActive, "Is Active", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+                                            @Html.EditorFor(model => model.IsActive, new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.IsActive)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div style="padding-left:130px">
+                                    <input type="button" id="SubLoacationLink" value="Edit Sublocation" />
+                                    <br /> <input type="submit" value="Save" class="bg-blue" />
+                                </div>
+                            </div>
+
+
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="ListArea">
+            @{
+        Html.RenderPartial("_LocationAddMore");
+            }
+        </div>
+
+
+    }
+</div>

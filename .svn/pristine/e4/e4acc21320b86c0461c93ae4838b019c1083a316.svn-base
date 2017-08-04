@@ -1,0 +1,52 @@
+﻿@model Inventory.Models.PurchaseOrderDetail
+@using InventroryManagementSystem.Helpers
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+</script>
+
+@using (Html.BeginCollectionItem("PurchaseOrderDetail.PurchaseOrderDetailList"))
+{
+
+    <div class="row">
+        <div class="col-sm-6">
+            <table id="example2" class="table table-bordered" style="width:50%">
+                <tr>
+
+
+                    <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new { @style = "width:82px" })</td>
+                    <td>@Html.TextBoxFor(model => model.VendorItemCode, new { @style = "width:130px" })</td>
+                    <td>@Html.TextBoxFor(model => model.Quantity, new { @style = "width:100px" })</td>
+                    <td>@Html.TextBoxFor(model => model.UnitPrice, new { @style = "width:100px" })</td>
+                    <td>@Html.TextBoxFor(model => model.Discount, new { @style = "width:100px" })</td>
+                    <td>@Html.TextBoxFor(model => model.SubTotal, new { @style = "width:100px" })</td>
+
+
+                    <td>
+                        <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+                    </td>
+
+
+
+                </tr>
+
+
+            </table>
+</div>
+        </div>
+
+}
+
+

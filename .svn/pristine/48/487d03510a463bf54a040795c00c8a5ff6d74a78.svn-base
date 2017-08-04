@@ -1,0 +1,35 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class fdfsdf : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.VendorAttachment",
+                c => new
+                    {
+                        VendorAttachmentId = c.Int(nullable: false, identity: true),
+                        VendorId = c.Int(nullable: false),
+                        FileAttachmentId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.VendorAttachmentId)
+                .ForeignKey("dbo.FileAttachment", t => t.FileAttachmentId)
+                .ForeignKey("dbo.Vendor", t => t.VendorId)
+                .Index(t => t.FileAttachmentId)
+                .Index(t => t.VendorId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.VendorAttachment", "VendorId", "dbo.Vendor");
+            DropForeignKey("dbo.VendorAttachment", "FileAttachmentId", "dbo.FileAttachment");
+            DropIndex("dbo.VendorAttachment", new[] { "VendorId" });
+            DropIndex("dbo.VendorAttachment", new[] { "FileAttachmentId" });
+            DropTable("dbo.VendorAttachment");
+        }
+    }
+}

@@ -1,0 +1,119 @@
+﻿using Inventory.Models;
+using InventroryManagementSystem.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class GeneralSettingController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult CompanySetup()
+        {
+            CompanySetup model = new CompanySetup();
+            model = db.CompanySetup.FirstOrDefault();
+            if (model != null)
+            {
+                var aatchmodel = db.FileAttachment.Where(x => x.FileAttachmentId == model.PictureFileAttachmentId).FirstOrDefault();
+                if (aatchmodel != null)
+                {
+                    model.Data = aatchmodel.Data;
+                }
+            }
+            return PartialView("_CompanySetUp", model);
+        }
+        [HttpPost]
+        public ActionResult CompanySetup(CompanySetup model, HttpPostedFileBase file)
+        {
+            using (ApplicationDbContext dbnew = new ApplicationDbContext())
+            {
+                if (model.CompanyId == 0)
+                {
+                    FileAttachment _fileattach = new FileAttachment();
+                    if (file != null)
+                    {
+                        _fileattach.Data = Utility.ReturnByte(file);
+                        _fileattach.TimeStamp = Utility.ReturnByte(file);
+                        _fileattach.FileName = Path.GetFileName(file.FileName);
+                        dbnew.FileAttachment.Add(_fileattach);
+
+                    }
+                    model.PictureFileAttachmentId = _fileattach.FileAttachmentId;
+                    dbnew.CompanySetup.Add(model);
+                    dbnew.SaveChanges();
+                }
+                else
+                {
+
+                    FileAttachment _fileattach = dbnew.FileAttachment.Where(x => x.FileAttachmentId == model.PictureFileAttachmentId).FirstOrDefault();
+                    if (file != null)
+                    {
+                  
+                        _fileattach.Data = Utility.ReturnByte(file);
+                        _fileattach.TimeStamp = Utility.ReturnByte(file);
+                        _fileattach.FileName = Path.GetFileName(file.FileName);
+
+                        dbnew.Entry(_fileattach).State = EntityState.Modified;
+
+                        //dbnew.FileAttachment.Add(_fileattach);
+                       
+
+                    }
+
+                   
+                    dbnew.Entry(model).State = EntityState.Modified;
+                   
+                    dbnew.SaveChanges();
+
+                }
+            }
+            return PartialView("_CompanySetUp", model);
+        }
+
+
+
+        public ActionResult LocationSetup()
+        {
+            Location loc = new Location();
+            loc.LocationList = new List<Location>();
+            loc.LocationList = db.Location.ToList();
+            return PartialView("_Location", loc);
+        }
+
+        [HttpPost]
+        public ActionResult LocationSetup(Location model)
+        {
+                db.Location.Add(model);
+                db.SaveChanges();
+
+                model.LocationList = new List<Location>();
+                model.LocationList = db.Location.ToList();
+                return PartialView("_LocationAddMore", model);
+        }
+
+        public ActionResult SubLocationSetup() 
+        {
+            SubLocation loc = new SubLocation();
+            return PartialView("_SubLocation", loc);
+        }
+
+
+        [HttpPost]
+        public ActionResult SubLocationSetup(SubLocation model)
+        {
+            db.SubLocation.Add(model);
+            db.SaveChanges();
+
+            return PartialView("_SubLocation", model);
+        }
+    }
+}

@@ -1,0 +1,35 @@
+﻿@model Inventory.Models.Vendor
+
+
+@foreach (var item in Model.VendorList)
+{
+
+
+
+
+    if (item.Name != null)
+    {
+
+
+        @Ajax.ActionLink(@item.Name, "Edit", // <-- Text to display
+                              "Vendor",
+
+                 new
+                 {
+                     id = item.VendorId
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+    }
+    <br />
+
+}
+
+

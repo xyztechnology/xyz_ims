@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div>
+    <div class="modal-body">
+
+
+
+
+
+        <table>
+            <tr>
+                <td>
+
+                    @Ajax.ActionLink("Company", "AddCompany", // <-- Text to display
+                              "Vendor",
+
+
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                    <br />
+
+                    @Ajax.ActionLink("User", "AddUser", // <-- Text to display
+                              "Vendor",
+
+
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                    <br />
+
+                    @Ajax.ActionLink("Doc Number", "AddUser", // <-- Text to display
+                              "Vendor",
+
+
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                    <br />
+                </td>
+                <td>
+                    <div id="ContentArea">
+                        @{
+                            Html.RenderAction("CompanySetup", "GeneralSetting");
+                        }
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+
+

@@ -1,0 +1,43 @@
+﻿@model Inventory.Models.ReceivedOrder
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.PurchaseOrder.PurchaseOrderList != null)
+    {
+        foreach (var item in Model.PurchaseOrder.PurchaseOrderList)
+        {
+
+            if (item.OrderNo != null)
+            {
+                <tr>
+                    <td>
+                        @item.OrderNo
+                    </td>
+                    <td>
+                        @Ajax.ActionLink(@item.Vendor.Name, "Edit", // <-- Text to display
+                              "ReceivedOrder",
+
+
+                 new
+                 {
+                     id = item.PurchaseOrderId
+                 }, // <-- Action Method Name
+
+
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                    </td>
+                </tr>
+            }
+
+
+        }
+
+    }
+</table>

@@ -1,0 +1,662 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class adjfdfkdf : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.CompanySetup",
+                c => new
+                    {
+                        CompanyId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Phone = c.String(),
+                        Fax = c.String(),
+                        Email = c.String(),
+                        Website = c.String(),
+                        Address1 = c.String(),
+                        Address2 = c.String(),
+                        City = c.String(),
+                        State = c.String(),
+                        Country = c.String(),
+                        PostalCode = c.String(),
+                        TaxNumber = c.String(),
+                        TimeStamp = c.Binary(),
+                        PictureFileAttachmentId = c.Int(),
+                    })
+                .PrimaryKey(t => t.CompanyId)
+                .ForeignKey("dbo.FileAttachment", t => t.PictureFileAttachmentId)
+                .Index(t => t.PictureFileAttachmentId);
+            
+            CreateTable(
+                "dbo.FileAttachment",
+                c => new
+                    {
+                        FileAttachmentId = c.Int(nullable: false, identity: true),
+                        FileAttachmentType = c.Int(nullable: false),
+                        FileName = c.String(),
+                        Data = c.Binary(),
+                        LastModUserId = c.Int(),
+                        LAstModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        RandomGuid = c.Guid(nullable: false),
+                    })
+                .PrimaryKey(t => t.FileAttachmentId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.User",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        PasswordHash = c.Binary(),
+                        PasswordSalt = c.Binary(),
+                        IsAdministrator = c.Boolean(nullable: false),
+                        Timestamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                        Location = c.Int(nullable: false),
+                        DefaultSalesRep = c.String(),
+                        ThousandsSeparator = c.String(),
+                        TargetEdition = c.Int(nullable: false),
+                        IsInternal = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.UserId);
+            
+            CreateTable(
+                "dbo.Currency",
+                c => new
+                    {
+                        CurrencyId = c.Int(nullable: false, identity: true),
+                        Code = c.String(),
+                        Description = c.String(),
+                        Symbol = c.String(),
+                        Timestamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                        DecimalPlaces = c.Short(nullable: false),
+                        DecimalSeparator = c.String(),
+                        ThousandsSeparator = c.String(),
+                        CRCurrencyPosition = c.Short(nullable: false),
+                        CRNegativeType = c.Short(nullable: false),
+                    })
+                .PrimaryKey(t => t.CurrencyId);
+            
+            CreateTable(
+                "dbo.Customer",
+                c => new
+                    {
+                        CustomerId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(nullable: false),
+                        Name = c.String(),
+                        VendorPermitNumber = c.String(),
+                        Remarks = c.String(),
+                        DefaultCarrier = c.String(),
+                        DefaultPaymentMethod = c.String(),
+                        ContactName = c.String(),
+                        Phone = c.Int(nullable: false),
+                        Fax = c.Int(nullable: false),
+                        Email = c.String(),
+                        Address1 = c.String(),
+                        Address2 = c.String(),
+                        City = c.String(),
+                        State = c.String(),
+                        Country = c.String(),
+                        PostalCode = c.String(),
+                        AddressRemarks = c.String(),
+                        AddressType = c.Int(nullable: false),
+                        UsingBillingAddress = c.Boolean(nullable: false),
+                        BillingAddress1 = c.String(),
+                        BillingAddress2 = c.String(),
+                        BillingCity = c.String(),
+                        BillingState = c.String(),
+                        BillingCountry = c.String(),
+                        BillingPostalCode = c.String(),
+                        BillingAddressRemarks = c.String(),
+                        BillingAddress = c.Int(nullable: false),
+                        UsingShippingAddress = c.Boolean(nullable: false),
+                        ShippingAddress1 = c.String(),
+                        ShippingAddress2 = c.String(),
+                        ShippingCity = c.String(),
+                        ShippingState = c.String(),
+                        ShippingCountry = c.String(),
+                        ShippingPostalCode = c.String(),
+                        ShippingAddressRemarks = c.String(),
+                        ShippingAddress = c.Int(nullable: false),
+                        Custom1 = c.String(),
+                        Custom2 = c.String(),
+                        Custom3 = c.String(),
+                        Custom4 = c.String(),
+                        Custom5 = c.String(),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                        Custom6 = c.String(),
+                        Custom7 = c.String(),
+                        Custom8 = c.String(),
+                        Custom9 = c.String(),
+                        Custom10 = c.String(),
+                        WebSite = c.String(),
+                        DefaultSalesRep = c.String(),
+                        DefaultLocationId = c.Int(),
+                    })
+                .PrimaryKey(t => t.CustomerId)
+                .ForeignKey("dbo.Location", t => t.DefaultLocationId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.DefaultLocationId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.Location",
+                c => new
+                    {
+                        LocationId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        LastModUserId = c.Int(nullable: false),
+                        LastModDttm = c.DateTime(nullable: false),
+                        Timestamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.LocationId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.PaymentTerms",
+                c => new
+                    {
+                        PaymentTermsId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        DaysDue = c.Int(nullable: false),
+                        Timestamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.PaymentTermsId);
+            
+            CreateTable(
+                "dbo.Product",
+                c => new
+                    {
+                        ProdId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(nullable: false),
+                        ItemTypeId = c.Int(nullable: false),
+                        Name = c.String(),
+                        Description = c.String(),
+                        Remarks = c.String(),
+                        BarCode = c.String(),
+                        CategoryId = c.Int(),
+                        DefaultLocationId = c.Int(),
+                        DefaultSublocation = c.String(),
+                        ReorderPoint = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReorderQuantity = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Uom = c.String(),
+                        MasterPackQty = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        InnerPackQty = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CaseLength = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CaseWidth = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CaseHeight = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        CaseWeight = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ProductLength = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ProductWidth = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ProductHeight = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ProductWeight = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Custom1 = c.String(),
+                        Custom2 = c.String(),
+                        Custom3 = c.String(),
+                        Custom4 = c.String(),
+                        Custom5 = c.String(),
+                        LastVendorId = c.Int(),
+                        IsSellable = c.Boolean(nullable: false),
+                        IsPurchaseable = c.Boolean(nullable: false),
+                        DateIntroduced = c.DateTime(nullable: false),
+                        DateUpdated = c.DateTime(nullable: false),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                        Custom6 = c.String(),
+                        Custom7 = c.String(),
+                        Custom8 = c.String(),
+                        Custom9 = c.String(),
+                        Custom10 = c.String(),
+                        PictureFileAttachmentId = c.Int(),
+                        SoUomName = c.String(),
+                        SoUomRatioStd = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        SoUomRatio = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PoUotmName = c.String(),
+                        PoUomRatioStd = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PoUomRatio = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        TrackSerials = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.ProdId)
+                .ForeignKey("dbo.ProductCategory", t => t.CategoryId)
+                .ForeignKey("dbo.FileAttachment", t => t.PictureFileAttachmentId)
+                .ForeignKey("dbo.Location", t => t.DefaultLocationId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .ForeignKey("dbo.Vendor", t => t.LastVendorId)
+                .Index(t => t.CategoryId)
+                .Index(t => t.PictureFileAttachmentId)
+                .Index(t => t.DefaultLocationId)
+                .Index(t => t.LastModUserId)
+                .Index(t => t.LastVendorId);
+            
+            CreateTable(
+                "dbo.ProductCategory",
+                c => new
+                    {
+                        CategoryId = c.Int(nullable: false, identity: true),
+                        ParentCategoryId = c.Int(),
+                        Name = c.String(),
+                        TimeStamp = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.CategoryId);
+            
+            CreateTable(
+                "dbo.Vendor",
+                c => new
+                    {
+                        VendorId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(nullable: false),
+                        Name = c.String(),
+                        Remarks = c.String(),
+                        DefaultCarrier = c.String(),
+                        Address1 = c.String(),
+                        Address2 = c.String(),
+                        City = c.String(),
+                        State = c.String(),
+                        Street = c.String(),
+                        Country = c.String(),
+                        PostalCode = c.String(),
+                        AddressRemarks = c.String(),
+                        AddressType = c.Int(nullable: false),
+                        ContactName = c.String(),
+                        Phone = c.Int(nullable: false),
+                        Fax = c.Int(nullable: false),
+                        Email = c.String(),
+                        Custom1 = c.String(),
+                        Custom2 = c.String(),
+                        Custom3 = c.String(),
+                        Custom4 = c.String(),
+                        Custom5 = c.String(),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        IsActive = c.Boolean(nullable: false),
+                        Custom6 = c.String(),
+                        Custom7 = c.String(),
+                        Custom8 = c.String(),
+                        Custom9 = c.String(),
+                        Custom10 = c.String(),
+                        WebSite = c.String(),
+                        CurrencyId = c.Int(),
+                        Discount = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        IsTaxInclusivePricing = c.Boolean(nullable: false),
+                        DefaultPaymentMethod = c.String(),
+                    })
+                .PrimaryKey(t => t.VendorId)
+                .ForeignKey("dbo.Currency", t => t.CurrencyId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.CurrencyId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.PurchaseOrder",
+                c => new
+                    {
+                        PurchaseOrderId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(),
+                        OrderNo = c.String(),
+                        VendorOrderNumber = c.String(),
+                        OrderDate = c.DateTime(),
+                        VendorId = c.Int(),
+                        PaymentTermsId = c.Int(),
+                        Carrier = c.String(),
+                        ContactName = c.String(),
+                        Phone = c.String(),
+                        VendorAddress1 = c.String(),
+                        VendorAddress2 = c.String(),
+                        VendorCity = c.String(),
+                        VendorState = c.String(),
+                        VendorCountry = c.String(),
+                        VendorPostalCode = c.String(),
+                        VendorAddressRemarks = c.String(),
+                        VendorAddressType = c.String(),
+                        ShipToAddress1 = c.String(),
+                        ShipToAddress2 = c.String(),
+                        ShipToCity = c.String(),
+                        ShipToState = c.String(),
+                        ShipToCountry = c.String(),
+                        ShipToPostalCode = c.String(),
+                        ShipToAddressRemarks = c.String(),
+                        ShipToAddress = c.String(),
+                        RequestShipDate = c.DateTime(),
+                        LocationId = c.Int(),
+                        OrderRemarks = c.String(),
+                        OrderSubTotal = c.Decimal(precision: 18, scale: 2),
+                        OrderExtra = c.Decimal(precision: 18, scale: 2),
+                        OrderTotal = c.Decimal(precision: 18, scale: 2),
+                        ReceiveRemarks = c.String(),
+                        DueDate = c.DateTime(),
+                        AmountPaid = c.Decimal(precision: 18, scale: 2),
+                        Status = c.String(),
+                        SubTotal = c.Decimal(precision: 18, scale: 2),
+                        TaxAmount = c.Decimal(precision: 18, scale: 2),
+                        ReturnTotal = c.Decimal(precision: 18, scale: 2),
+                        AditionalCost = c.Decimal(precision: 18, scale: 2),
+                        Total = c.Decimal(precision: 18, scale: 2),
+                        Balance = c.Decimal(precision: 18, scale: 2),
+                        PaymentStatus = c.Int(),
+                        InventoryStatus = c.Int(),
+                        IsCancelled = c.Boolean(),
+                        IsCompleted = c.Boolean(),
+                        IsTaxInclusive = c.Boolean(),
+                    })
+                .PrimaryKey(t => t.PurchaseOrderId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.PaymentTerms", t => t.PaymentTermsId)
+                .ForeignKey("dbo.Vendor", t => t.VendorId)
+                .Index(t => t.LocationId)
+                .Index(t => t.PaymentTermsId)
+                .Index(t => t.VendorId);
+            
+            CreateTable(
+                "dbo.PurchaseOrderAttachment",
+                c => new
+                    {
+                        PurchaseOrderAttachmentId = c.Int(nullable: false, identity: true),
+                        PurchaseOrderId = c.Int(),
+                        FileAttachmentId = c.Int(),
+                        TimeStamp = c.Binary(),
+                    })
+                .PrimaryKey(t => t.PurchaseOrderAttachmentId)
+                .ForeignKey("dbo.FileAttachment", t => t.FileAttachmentId)
+                .ForeignKey("dbo.PurchaseOrder", t => t.PurchaseOrderId)
+                .Index(t => t.FileAttachmentId)
+                .Index(t => t.PurchaseOrderId);
+            
+            CreateTable(
+                "dbo.PurchaseOrderDetail",
+                c => new
+                    {
+                        PurchaseOrderDetailId = c.Int(nullable: false, identity: true),
+                        PurchaseOrderId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        VendorItemCode = c.String(),
+                        Quantity = c.Decimal(precision: 18, scale: 2),
+                        UnitPrice = c.Decimal(precision: 18, scale: 2),
+                        Discount = c.Decimal(precision: 18, scale: 2),
+                        SubTotal = c.Decimal(precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.PurchaseOrderDetailId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.PurchaseOrder", t => t.PurchaseOrderId)
+                .Index(t => t.ProdId)
+                .Index(t => t.PurchaseOrderId);
+            
+            CreateTable(
+                "dbo.PurchaseOrderReturnDetail",
+                c => new
+                    {
+                        PurchaseOrderReturnDetailId = c.Int(nullable: false, identity: true),
+                        PurchaseOrderId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        VendorItemCode = c.String(),
+                        Quantity = c.Decimal(precision: 18, scale: 2),
+                        UnitPrice = c.Decimal(precision: 18, scale: 2),
+                        Discount = c.Decimal(precision: 18, scale: 2),
+                        SubTotal = c.Decimal(precision: 18, scale: 2),
+                        ReturnDate = c.DateTime(nullable: false),
+                    })
+                .PrimaryKey(t => t.PurchaseOrderReturnDetailId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.PurchaseOrder", t => t.PurchaseOrderId)
+                .Index(t => t.ProdId)
+                .Index(t => t.PurchaseOrderId);
+            
+            CreateTable(
+                "dbo.AspNetRoles",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.SalesOrder",
+                c => new
+                    {
+                        SalesOrderId = c.Int(nullable: false, identity: true),
+                        Version = c.Int(nullable: false),
+                        OrderNumber = c.String(),
+                        OrderDate = c.DateTime(nullable: false),
+                        CustomerId = c.Int(),
+                        SalesRep = c.String(),
+                        PONumber = c.String(),
+                        RequestShipDate = c.DateTime(nullable: false),
+                        PaymentTermsId = c.Int(),
+                        DueDate = c.DateTime(nullable: false),
+                        OrderRemarks = c.String(),
+                        OrderSubTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        OrderExtra = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        OrderTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Email = c.String(),
+                        PickedDate = c.DateTime(nullable: false),
+                        PickingRemarks = c.String(),
+                        PackedDate = c.DateTime(nullable: false),
+                        PackingRemarks = c.String(),
+                        ShippingRemarks = c.String(),
+                        InvoicedDate = c.DateTime(nullable: false),
+                        AmountPaid = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Balance = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnRemarks = c.String(),
+                        ReturnSubTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnExtra = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnTotal = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ReturnFee = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        RestockRemarks = c.String(),
+                        ContactName = c.String(),
+                        Phone = c.Int(nullable: false),
+                        BillingAddress1 = c.String(),
+                        BillingAddress2 = c.String(),
+                        BillingCity = c.String(),
+                        BillingState = c.String(),
+                        BillingCountry = c.String(),
+                        BillingPostalCode = c.String(),
+                        BillingAddressRemarks = c.String(),
+                        BillingAddressType = c.Int(nullable: false),
+                        ShippingAddress1 = c.String(),
+                        ShippingAddress2 = c.String(),
+                        ShippingCity = c.String(),
+                        ShippingState = c.String(),
+                        ShippingCountry = c.String(),
+                        ShippingPostalCode = c.String(),
+                        ShippingAddressRemarks = c.String(),
+                        ShippingAddressType = c.Int(nullable: false),
+                        Custom1 = c.String(),
+                        Custom2 = c.String(),
+                        Custom3 = c.String(),
+                        Custom4 = c.String(),
+                        Custom5 = c.String(),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                        ParentSalesOrderIdId = c.Int(),
+                        SplitPartNumber = c.Int(nullable: false),
+                        LocationId = c.Int(),
+                        ShowShipping = c.Boolean(nullable: false),
+                        ShipToCompanyName = c.String(),
+                        CurrencyId = c.Int(),
+                        ExchangeRate = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Total = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PaymentStatus = c.Int(nullable: false),
+                        InventoryStatus = c.Int(nullable: false),
+                        IsCancelled = c.Boolean(nullable: false),
+                        SummaryLinePermutation = c.String(),
+                        NonCustomerCost = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        NonCustomerCostIsPercemt = c.Boolean(nullable: false),
+                        IsQuote = c.Boolean(nullable: false),
+                        IsInvoiced = c.Boolean(nullable: false),
+                        IsCompleted = c.Boolean(nullable: false),
+                        SameBillingAndShipping = c.Boolean(nullable: false),
+                        IsTaxInclusive = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.SalesOrderId)
+                .ForeignKey("dbo.Currency", t => t.CurrencyId)
+                .ForeignKey("dbo.Customer", t => t.CustomerId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.PaymentTerms", t => t.PaymentTermsId)
+                .ForeignKey("dbo.SalesOrder", t => t.ParentSalesOrderIdId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.CurrencyId)
+                .Index(t => t.CustomerId)
+                .Index(t => t.LocationId)
+                .Index(t => t.PaymentTermsId)
+                .Index(t => t.ParentSalesOrderIdId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.AspNetUsers",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        UserName = c.String(),
+                        PasswordHash = c.String(),
+                        SecurityStamp = c.String(),
+                        Discriminator = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.AspNetUserClaims",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ClaimType = c.String(),
+                        ClaimValue = c.String(),
+                        User_Id = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.User_Id)
+                .Index(t => t.User_Id);
+            
+            CreateTable(
+                "dbo.AspNetUserLogins",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        LoginProvider = c.String(nullable: false, maxLength: 128),
+                        ProviderKey = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.LoginProvider, t.ProviderKey })
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .Index(t => t.UserId);
+            
+            CreateTable(
+                "dbo.AspNetUserRoles",
+                c => new
+                    {
+                        UserId = c.String(nullable: false, maxLength: 128),
+                        RoleId = c.String(nullable: false, maxLength: 128),
+                    })
+                .PrimaryKey(t => new { t.UserId, t.RoleId })
+                .ForeignKey("dbo.AspNetRoles", t => t.RoleId)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .Index(t => t.RoleId)
+                .Index(t => t.UserId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.AspNetUserClaims", "User_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
+            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.SalesOrder", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.SalesOrder", "ParentSalesOrderIdId", "dbo.SalesOrder");
+            DropForeignKey("dbo.SalesOrder", "PaymentTermsId", "dbo.PaymentTerms");
+            DropForeignKey("dbo.SalesOrder", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.SalesOrder", "CustomerId", "dbo.Customer");
+            DropForeignKey("dbo.SalesOrder", "CurrencyId", "dbo.Currency");
+            DropForeignKey("dbo.PurchaseOrderReturnDetail", "PurchaseOrderId", "dbo.PurchaseOrder");
+            DropForeignKey("dbo.PurchaseOrderReturnDetail", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.PurchaseOrderDetail", "PurchaseOrderId", "dbo.PurchaseOrder");
+            DropForeignKey("dbo.PurchaseOrderDetail", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.PurchaseOrderAttachment", "PurchaseOrderId", "dbo.PurchaseOrder");
+            DropForeignKey("dbo.PurchaseOrderAttachment", "FileAttachmentId", "dbo.FileAttachment");
+            DropForeignKey("dbo.PurchaseOrder", "VendorId", "dbo.Vendor");
+            DropForeignKey("dbo.PurchaseOrder", "PaymentTermsId", "dbo.PaymentTerms");
+            DropForeignKey("dbo.PurchaseOrder", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.Product", "LastVendorId", "dbo.Vendor");
+            DropForeignKey("dbo.Vendor", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.Vendor", "CurrencyId", "dbo.Currency");
+            DropForeignKey("dbo.Product", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.Product", "DefaultLocationId", "dbo.Location");
+            DropForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropForeignKey("dbo.Product", "CategoryId", "dbo.ProductCategory");
+            DropForeignKey("dbo.Customer", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.Customer", "DefaultLocationId", "dbo.Location");
+            DropForeignKey("dbo.Location", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.CompanySetup", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropForeignKey("dbo.FileAttachment", "LastModUserId", "dbo.User");
+            DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
+            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
+            DropIndex("dbo.SalesOrder", new[] { "LastModUserId" });
+            DropIndex("dbo.SalesOrder", new[] { "ParentSalesOrderIdId" });
+            DropIndex("dbo.SalesOrder", new[] { "PaymentTermsId" });
+            DropIndex("dbo.SalesOrder", new[] { "LocationId" });
+            DropIndex("dbo.SalesOrder", new[] { "CustomerId" });
+            DropIndex("dbo.SalesOrder", new[] { "CurrencyId" });
+            DropIndex("dbo.PurchaseOrderReturnDetail", new[] { "PurchaseOrderId" });
+            DropIndex("dbo.PurchaseOrderReturnDetail", new[] { "ProdId" });
+            DropIndex("dbo.PurchaseOrderDetail", new[] { "PurchaseOrderId" });
+            DropIndex("dbo.PurchaseOrderDetail", new[] { "ProdId" });
+            DropIndex("dbo.PurchaseOrderAttachment", new[] { "PurchaseOrderId" });
+            DropIndex("dbo.PurchaseOrderAttachment", new[] { "FileAttachmentId" });
+            DropIndex("dbo.PurchaseOrder", new[] { "VendorId" });
+            DropIndex("dbo.PurchaseOrder", new[] { "PaymentTermsId" });
+            DropIndex("dbo.PurchaseOrder", new[] { "LocationId" });
+            DropIndex("dbo.Product", new[] { "LastVendorId" });
+            DropIndex("dbo.Vendor", new[] { "LastModUserId" });
+            DropIndex("dbo.Vendor", new[] { "CurrencyId" });
+            DropIndex("dbo.Product", new[] { "LastModUserId" });
+            DropIndex("dbo.Product", new[] { "DefaultLocationId" });
+            DropIndex("dbo.Product", new[] { "PictureFileAttachmentId" });
+            DropIndex("dbo.Product", new[] { "CategoryId" });
+            DropIndex("dbo.Customer", new[] { "LastModUserId" });
+            DropIndex("dbo.Customer", new[] { "DefaultLocationId" });
+            DropIndex("dbo.Location", new[] { "LastModUserId" });
+            DropIndex("dbo.CompanySetup", new[] { "PictureFileAttachmentId" });
+            DropIndex("dbo.FileAttachment", new[] { "LastModUserId" });
+            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.AspNetUserLogins");
+            DropTable("dbo.AspNetUserClaims");
+            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.SalesOrder");
+            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.PurchaseOrderReturnDetail");
+            DropTable("dbo.PurchaseOrderDetail");
+            DropTable("dbo.PurchaseOrderAttachment");
+            DropTable("dbo.PurchaseOrder");
+            DropTable("dbo.Vendor");
+            DropTable("dbo.ProductCategory");
+            DropTable("dbo.Product");
+            DropTable("dbo.PaymentTerms");
+            DropTable("dbo.Location");
+            DropTable("dbo.Customer");
+            DropTable("dbo.Currency");
+            DropTable("dbo.User");
+            DropTable("dbo.FileAttachment");
+            DropTable("dbo.CompanySetup");
+        }
+    }
+}

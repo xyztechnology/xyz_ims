@@ -1,0 +1,41 @@
+﻿@model Inventory.Models.UnitMeasure
+
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.UnitMeasureList != null)
+    {
+        foreach (var item in Model.UnitMeasureList)
+        {
+            if (item.UnitName != null)
+            {
+
+                <tr>
+
+                    <td>
+
+                        @Ajax.ActionLink(@item.UnitName, "UnitMeasureEdit", // <-- Text to display
+                           "GeneralSetting",
+
+
+                 new
+                 {
+                     id = item.UnitMeasureId
+                 }, // <-- Action Method Name
+
+
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     HttpMethod = "GET",
+                     OnSuccess = "GetUnitMeasureData"
+
+                 })
+                    </td>
+                </tr>
+            }
+
+
+        }
+    }
+</table>

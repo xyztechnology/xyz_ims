@@ -1,0 +1,71 @@
+﻿@model Inventory.Models.TransactionAnalysisSubSetup
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#TransactionAnalysisSubSetupId').on('click', function () {
+            alert(this.href)
+            j("#AddNewSubHead").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 400,
+                resizable: false,
+                title: 'Edit Transaction Analaysis Sub Head',
+                modal: true,
+                open: function () {
+                    j(this).load(this.href);
+
+                },
+
+                buttons: {
+                    Create: function () {
+                        j("#CreateSubHead").submit();
+                    },
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<div class="box-body" style="border:groove">
+    <div class="form-horizontal">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td style="width:400px"><b>Name</b> </td>
+                    <td style="width:400px"><b>Code</b> </td>
+                    <td style="width:400px"><b>Action</b></td>
+                </tr>
+
+
+            </thead>
+
+            @foreach (var item in Model.TransactionAnalysisSubSetupList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditSubHead", "TransactionAnalysisSetup", new {id=item.TransactionAnalysisSubSetupId })" id="TransactionAnalysisSubSetupId">Edit</a>
+                        <a href="@Url.Action("DeleteSubHead", "TransactionAnalysisSetup", new {id=item.TransactionAnalysisSubSetupId })">Delete</a>
+
+
+                    </td>
+
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

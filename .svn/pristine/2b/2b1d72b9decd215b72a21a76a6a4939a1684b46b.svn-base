@@ -1,0 +1,31 @@
+﻿using Inventory.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class GeneralSettingController : Controller
+    {
+        //
+        // GET: /GeneralSetting/
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult CompanySetup()
+        {
+            CompanySetup model = new CompanySetup();
+            return PartialView("_CompanySetUp", model);
+        }
+
+
+        public ActionResult LocationSetup()
+        {
+            Location loc = new Location();
+            return PartialView("_Location", loc);
+        }
+	}
+}

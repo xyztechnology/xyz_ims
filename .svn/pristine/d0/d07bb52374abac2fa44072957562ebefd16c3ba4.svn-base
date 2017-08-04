@@ -1,0 +1,30 @@
+﻿@model Inventory.Models.Product
+<table>
+    <tr>Unit Of Measure</tr>
+    <tr>
+        <td>Issue UOM</td>
+        
+        <td>@Html.DropDownListFor(m => m.Uom, @Utility.GetMeasureList())</td>
+    </tr>
+
+    <tr>
+        <td>@Html.LabelFor(m => m.soUomName)</td>
+        <td>@Html.DropDownListFor(m => m.soUomName, @Utility.GetMeasureList())</td>
+    </tr>
+    <tr>
+        <td>Conversion</td>
+        <td>@Html.TextBoxFor(m => m.soUomRatio)<label id=""></label></td>
+
+        <td>@Html.TextBoxFor(m => m.soUomRatioStd)<label id=""></label></td>
+    </tr>
+
+    <tr>
+        <td>Purchase UOM</td>
+        <td>@Html.DropDownListFor(m=>m.PoUomName,@Utility.GetMeasureList())</td>
+    </tr>
+    <tr>
+        <td>Conversion</td>
+        <td>@Html.TextBoxFor(m=>m.PoUomRatio)<label></label></td>
+        <td>@Html.TextBoxFor(m=>m.PoUomRatioStd)<label></label></td>
+    </tr>
+</table>

@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class SalesOrderController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /SalesOrder/
+        public ActionResult Index()
+        {
+            SalesOrder model = new SalesOrder();
+            model.SaleOrderList = new List<SalesOrder>();
+            var SalesOrder = db.Vendor.Include(v => v.Currency).Include(v => v.UserId);
+           // model.SaleOrderList = db.SalesOrder.Include(p => p.Location).Include(p => p.sa).ToList();
+            return View(model);
+        }
+
+        // GET: /SalesOrder/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SalesOrder salesorder = db.SalesOrder.Find(id);
+            if (salesorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(salesorder);
+        }
+
+        // GET: /SalesOrder/Create
+
+        public ActionResult Create()
+        {
+            SalesOrder so  = new SalesOrder();
+            so.SalesOrderDetail = new SalesOrderDetail();
+            so.SalesOrderDetail.SalesOrderDetailList = new List<SalesOrderDetail>();
+            so.SalesOrderDetail.SalesOrderDetailList.Add(so.SalesOrderDetail) ;  
+
+            return View(so);
+        }
+
+        public ActionResult _SalesOrderList()
+        {
+            SalesOrderDetail pr = new SalesOrderDetail();
+            return PartialView(pr);
+        }
+
+
+        // POST: /SalesOrder/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create( SalesOrder salesorder)
+        {
+            if (ModelState.IsValid)
+            {
+
+                using (ApplicationDbContext dbnew = new ApplicationDbContext())
+                {
+
+                    dbnew.SalesOrder.Add(salesorder);
+                    salesorder.SalesOrderDetail.SalesOrderId = salesorder.SalesOrderId;
+                    if (salesorder.SalesOrderDetail != null && salesorder.SalesOrderDetail.SalesOrderDetailList != null)
+                    {
+                        foreach (var item in salesorder.SalesOrderDetail.SalesOrderDetailList)
+                        {
+
+                            item.SalesOrderId = salesorder.SalesOrderId;
+
+                            dbnew.SalesOrderDetail.Add(item);
+                        }
+
+
+                    }
+
+                    dbnew.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", salesorder.CurrencyId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "CustomerId", "Name", salesorder.CustomerId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", salesorder.LocationId);
+            ViewBag.PaymentTermsId = new SelectList(db.ItemType, "PaymentTermsId", "Name", salesorder.PaymentTermsId);
+            ViewBag.ParentSalesOrderIdId = new SelectList(db.SalesOrder, "SalesOrderId", "OrderNumber", salesorder.ParentSalesOrderIdId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", salesorder.LastModUserId);
+            return View(salesorder);
+           
+        }
+        // GET: /SalesOrder/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SalesOrder salesorder = db.SalesOrder.Find(id);
+            if (salesorder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", salesorder.CurrencyId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "CustomerId", "Name", salesorder.CustomerId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", salesorder.LocationId);
+            ViewBag.PaymentTermsId = new SelectList(db.ItemType, "PaymentTermsId", "Name", salesorder.PaymentTermsId);
+            ViewBag.ParentSalesOrderIdId = new SelectList(db.SalesOrder, "SalesOrderId", "OrderNumber", salesorder.ParentSalesOrderIdId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", salesorder.LastModUserId);
+            return View(salesorder);
+        }
+
+        // POST: /SalesOrder/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="SalesOrderId,Version,OrderNumber,OrderDate,CustomerId,SalesRep,PONumber,RequestShipDate,PaymentTermsId,DueDate,OrderRemarks,OrderSubTotal,OrderExtra,OrderTotal,Email,PickedDate,PickingRemarks,PackedDate,PackingRemarks,ShippingRemarks,InvoicedDate,AmountPaid,Balance,ReturnRemarks,ReturnSubTotal,ReturnExtra,ReturnTotal,ReturnFee,RestockRemarks,ContactName,Phone,BillingAddress1,BillingAddress2,BillingCity,BillingState,BillingCountry,BillingPostalCode,BillingAddressRemarks,BillingAddressType,ShippingAddress1,ShippingAddress2,ShippingCity,ShippingState,ShippingCountry,ShippingPostalCode,ShippingAddressRemarks,ShippingAddressType,Custom1,Custom2,Custom3,Custom4,Custom5,LastModUserId,LastModDttm,TimeStamp,ParentSalesOrderIdId,SplitPartNumber,LocationId,ShowShipping,ShipToCompanyName,CurrencyId,ExchangeRate,Total,PaymentStatus,InventoryStatus,IsCancelled,SummaryLinePermutation,NonCustomerCost,NonCustomerCostIsPercemt,IsQuote,IsInvoiced,IsCompleted,SameBillingAndShipping,IsTaxInclusive")] SalesOrder salesorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(salesorder).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CurrencyId = new SelectList(db.Currency, "CurrencyId", "Code", salesorder.CurrencyId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "CustomerId", "Name", salesorder.CustomerId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", salesorder.LocationId);
+            ViewBag.PaymentTermsId = new SelectList(db.ItemType, "PaymentTermsId", "Name", salesorder.PaymentTermsId);
+            ViewBag.ParentSalesOrderIdId = new SelectList(db.SalesOrder, "SalesOrderId", "OrderNumber", salesorder.ParentSalesOrderIdId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", salesorder.LastModUserId);
+            return View(salesorder);
+        }
+
+        // GET: /SalesOrder/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SalesOrder salesorder = db.SalesOrder.Find(id);
+            if (salesorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(salesorder);
+        }
+
+        // POST: /SalesOrder/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            SalesOrder salesorder = db.SalesOrder.Find(id);
+            db.SalesOrder.Remove(salesorder);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

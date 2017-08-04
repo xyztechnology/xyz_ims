@@ -1,0 +1,29 @@
+﻿@model Inventory.Models.PurchaseRequisition
+
+<table id="example2" class="table table-bordered table-hover">
+    @if (Model.PurchaseRequisitionList != null)
+    {
+        foreach (var item in Model.PurchaseRequisitionList)
+        {
+
+            if (item.RequisitionNo != null)
+            {
+                
+                
+                <tr>
+                    <td>
+                        @item.RequisitionDate
+                    </td>
+                    <td>
+                        @item.VendorId
+               
+                 
+                    </td>
+                </tr>
+            }
+
+
+        }
+
+    }
+</table>

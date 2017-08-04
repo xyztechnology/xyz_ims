@@ -1,0 +1,93 @@
+﻿@model Inventory.Models.Vendor
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+
+
+<hr />
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" style="border:5px solid #3A87AD">
+    <a href="#Close" title="Close" class="modal-close-btn">close</a>
+    <div class="modal-content" style="width:800px !important;margin:10px auto !important">
+        <div class="modal-body"></div>
+    </div>
+</div>
+@Html.ValidationSummary(true)
+
+
+<a href="@Url.Action("FileAttachment", "Vendor")" class="modal-link ">
+    File Attachment
+</a>
+@using (Ajax.BeginForm("CreateUpdate", "Vendor", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+{
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="box-body">
+
+                <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+                    <tr><td colspan="2"><b>SEARCH</b></td></tr>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td>
+                            @Html.Editor("SearchName")
+
+                        </td>
+                    </tr>
+                    <tr><td><b>Contact</b></td><td>@Html.Editor("SearchContactName")</td></tr>
+                    <tr>
+                        <td><b>Phone</b></td>
+                        <td>@Html.Editor("SearchPhone")</td>
+                    </tr>
+                    <tr><td colspan="2"><input type="submit" value="Refresh" class="bg-blue" /></td></tr>
+
+                </table>
+                <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+                    <tr>
+                        <td>
+                            <div id="SearchResult">
+                                @Html.Partial("_VendorList")
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <div id="ContentArea">
+            @Html.Partial("_Common")
+        </div>
+
+
+    </div>
+    <div style="padding-left:100px">
+        <input type="submit" value="Save" class="bg-blue" />
+    </div>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

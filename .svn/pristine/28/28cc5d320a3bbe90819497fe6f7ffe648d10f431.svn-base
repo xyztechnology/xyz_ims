@@ -1,0 +1,95 @@
+﻿@model Inventory.Models.Vendor
+
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "file attachment";
+    Layout = null;
+}
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#ajaxUploadForm1').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                j("#FileAttachmentArea").html(result);
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    j('#ajaxUploadForm1').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+
+                    j('#ajaxUploadForm1').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                j('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+
+
+</script>
+@using (Html.BeginForm("_FileAttachment", "Vendor", FormMethod.Post, new { enctype = "multipart/form-data", id = "ajaxUploadForm1" }))
+{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            AddClickEvents();
+
+        });
+    </script>
+
+    <div id="Add-Item">
+
+
+        <div class="modal-body" style="height:400px; overflow-y:scroll">
+            <div class="modal-header">
+                @Html.ActionLink("AddMore ", "_AddMoreFile", null, new { @class = "addProductItem row-button pull-right btn btn-primary", @id = "row-buttonadd", })
+            </div>
+            @foreach (var item in Model.FileAttachmentData.FileList)
+            {
+                Html.RenderPartial("_FileAttachmentAddMore", item);
+            }
+
+
+            <input type="submit" value="Save" />
+
+
+
+
+        </div>
+
+    </div>
+
+
+
+}
+
+
+
+
+
+
+

@@ -1,0 +1,71 @@
+﻿@model Inventory.Models.ProductCategory
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.jstree.js"></script>
+<script src="~/Scripts/jquery.cookie.js"></script>
+
+<style>
+    .modal-content {
+        width: 600px !important;
+        margin: 30px auto !important;
+    }
+</style>
+
+
+
+<section class="content">
+    <div class="general-box">
+
+
+
+        <div class="contentWrapper">
+            @Html.HiddenFor(m => m.Idtosave)
+            <div class="bs-docs-example form-inline">
+                @Html.ValidationSummary(true)
+
+                <fieldset>
+                    <legend>Create Group Here</legend>
+                    <table>
+                        <tr>
+
+
+                            <td style="vertical-align: top">
+                                <div id="TopLevelFolder" class="FolderTreeTitle" style="height: 600px; overflow: scroll; width: 300px;padding-left:10px">
+                                </div>
+                                @Html.Partial("_GroupTree")
+                            </td>
+
+                            <td style="vertical-align: top">
+                                <table>
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div id="Area"></div>
+                                        </td>
+
+
+                                    </tr>
+                                </table>
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                </fieldset>
+
+            </div>
+
+
+        </div>
+    </div>
+</section>

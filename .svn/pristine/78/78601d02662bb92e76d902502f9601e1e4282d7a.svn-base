@@ -1,0 +1,150 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class WorkOrderController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /WorkOrder/
+        public async Task<ActionResult> Index()
+        {
+            var workorder = db.WorkOrder.Include(w => w.CreUserId).Include(w => w.Location).Include(w => w.UserId);
+            return View(await workorder.ToListAsync());
+        }
+
+        // GET: /WorkOrder/Details/5
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            WorkOrder workorder = await db.WorkOrder.FindAsync(id);
+            if (workorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(workorder);
+        }
+
+        // GET: /WorkOrder/Create
+        public ActionResult Create()
+        {
+            WorkOrder wo = new WorkOrder();
+            wo.workOrderLine = new WorkOrderLine();
+            wo.workOrderLine.WorkOrderLineList = new List<WorkOrderLine>();
+            wo.workOrderLine.WorkOrderLineList.Add(wo.workOrderLine);
+            return View(wo);
+        }
+
+
+        public ActionResult _WorkOrderLine()
+        {
+            WorkOrderLine wol = new WorkOrderLine();
+            return PartialView(wol);
+        }
+
+        // POST: /WorkOrder/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Create([Bind(Include="WorkOrderId,WorkOrderNumber,LastModUserId,LastModDttm,CreatedUserId,CreatedDttm,AssembledBy,OrderDate,CompleteDate,LocationId,Status,ExtraCost")] WorkOrder workorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.WorkOrder.Add(workorder);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CreatedUserId = new SelectList(db.User, "UserId", "Name", workorder.CreatedUserId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", workorder.LocationId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", workorder.LastModUserId);
+            return View(workorder);
+        }
+
+        // GET: /WorkOrder/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            WorkOrder workorder = await db.WorkOrder.FindAsync(id);
+            if (workorder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CreatedUserId = new SelectList(db.User, "UserId", "Name", workorder.CreatedUserId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", workorder.LocationId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", workorder.LastModUserId);
+            return View(workorder);
+        }
+
+        // POST: /WorkOrder/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include="WorkOrderId,WorkOrderNumber,LastModUserId,LastModDttm,CreatedUserId,CreatedDttm,AssembledBy,OrderDate,CompleteDate,LocationId,Status,ExtraCost")] WorkOrder workorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(workorder).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.CreatedUserId = new SelectList(db.User, "UserId", "Name", workorder.CreatedUserId);
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", workorder.LocationId);
+            ViewBag.LastModUserId = new SelectList(db.User, "UserId", "Name", workorder.LastModUserId);
+            return View(workorder);
+        }
+
+        // GET: /WorkOrder/Delete/5
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            WorkOrder workorder = await db.WorkOrder.FindAsync(id);
+            if (workorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(workorder);
+        }
+
+        // POST: /WorkOrder/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            WorkOrder workorder = await db.WorkOrder.FindAsync(id);
+            db.WorkOrder.Remove(workorder);
+            await db.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

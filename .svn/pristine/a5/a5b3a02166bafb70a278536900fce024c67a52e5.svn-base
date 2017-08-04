@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class ProductCategoryController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+
+        public bool AlreadyPopulatedForTopLevel
+        {
+            get
+            {
+                return (Session["AlreadyPopulatedForTopLevel"] == null
+                            ? false
+                            : (bool)Session["AlreadyPopulatedForTopLevel"]);
+            }
+            set { Session["AlreadyPopulatedForTopLevel"] = value; }
+        }
+
+
+
+        public ActionResult Create()
+        {
+            AlreadyPopulatedForTopLevel = false;
+            ProductCategory model = new ProductCategory();
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult GetGroupListData()
+        {
+            if (!AlreadyPopulatedForTopLevel)
+            {
+                AlreadyPopulatedForTopLevel = true;
+                object data = GetFolderData();
+                return Json(data);
+            }
+
+            return null;
+
+        }
+
+
+        public object GetFolderData()
+        {
+            var tt = new List<FolderTreeModel.JsTreeModel>();
+
+            foreach (var item in GetFolderName())
+            {
+                tt.Add(new FolderTreeModel.JsTreeModel
+                {
+                    attr = new FolderTreeModel.JsTreeAttribute { id = item.FolderId },
+                    ParentId = item.ParentFolderId,
+                    data = item.FolderName
+                });
+
+            }
+
+
+            List<FolderTreeModel.JsTreeModel> rootNode = PopulateTree(tt);
+            return rootNode;
+
+        }
+
+
+
+
+
+        public List<FolderTreeModel.FolderData> GetFolderName()
+        {
+
+            var list = new List<FolderTreeModel.FolderData>();
+
+            var list2 = db.ProductCategory.ToList();
+            foreach (var item in list2)
+            {
+                list.Add(new FolderTreeModel.FolderData() { FolderId = item.CategoryId, ParentFolderId = item.ParentCategoryId, FolderName = item.Name });
+            }
+
+            return list;
+
+        }
+
+
+        private List<FolderTreeModel.JsTreeModel> PopulateTree(IList<FolderTreeModel.JsTreeModel> flatList)
+        {
+            var treeViewList = new List<FolderTreeModel.JsTreeModel>();
+            foreach (FolderTreeModel.JsTreeModel row in flatList.Where(f => f.ParentId == 0))
+            {
+                PopulateTreeChild(row, flatList);
+                treeViewList.Add(row);
+            }
+            return treeViewList;
+        }
+
+        private void PopulateTreeChild(FolderTreeModel.JsTreeModel parent, IList<FolderTreeModel.JsTreeModel> flatList)
+        {
+            foreach (FolderTreeModel.JsTreeModel child in flatList.Where(f => f.ParentId == parent.attr.id))
+            {
+                parent.children.Add(child);
+                PopulateTreeChild(child, flatList);
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateGroup(string path, string newname)
+        {
+            
+            ProductCategory model = new ProductCategory();
+            model.ParentCategoryId = Convert.ToInt32(path);
+            model.Name = newname;
+            db.ProductCategory.Add(model);
+            db.SaveChanges();
+            AlreadyPopulatedForTopLevel = false;
+            return PartialView("_GroupTree");
+        }
+
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        public ActionResult RenameGroup(int path, string newname)
+        {
+            var data = db.ProductCategory.Where(x => x.CategoryId == path).FirstOrDefault();
+            data.Name = newname;
+            db.SaveChanges();
+            AlreadyPopulatedForTopLevel = false;
+            return RedirectToAction("Create");
+        }
+
+        public ActionResult Delete(int id)
+        {
+            ProductCategory group = db.ProductCategory.Find(id);
+            db.ProductCategory.Remove(group);
+            db.SaveChanges();
+            AlreadyPopulatedForTopLevel = false;
+            return PartialView("_GroupTree");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

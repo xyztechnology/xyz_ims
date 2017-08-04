@@ -1,0 +1,38 @@
+﻿USE [IMS]
+GO
+/****** Object:  StoredProcedure [dbo].[Prod_SearchList]    Script Date: 6/28/2017 4:22:37 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE  Prod_SearchList
+	-- Add the parameters for the stored procedure here
+	@Name nvarchar(255),
+	@Code nvarchar(255),
+	@CategoryId int
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+ SELECT        dbo.Product.Name, dbo.ItemType.ItemName, dbo.ProductCategory.Name AS Expr1, dbo.PurchaseOrderDetail.UnitPrice, dbo.Vendor.Name AS Expr2
+FROM            dbo.ItemType INNER JOIN
+                         dbo.Product ON dbo.ItemType.ItemTypeId = dbo.Product.ItemTypeId INNER JOIN
+                         dbo.ProductCategory ON dbo.Product.CategoryId = dbo.ProductCategory.CategoryId INNER JOIN
+                         dbo.PurchaseOrder ON dbo.Product.ProdId = dbo.PurchaseOrder.Product_ProdId INNER JOIN
+                         dbo.PurchaseOrderDetail ON dbo.Product.ProdId = dbo.PurchaseOrderDetail.ProdId AND dbo.PurchaseOrder.PurchaseOrderId = dbo.PurchaseOrderDetail.PurchaseOrderId INNER JOIN
+                         dbo.Vendor ON dbo.Product.LastVendorId = dbo.Vendor.VendorId AND dbo.PurchaseOrder.VendorId = dbo.Vendor.VendorId 
+
+						 WHERE (Product.Name=@Name or @Name IS NULL)
+						 AND (Product.ProductCode=@Code or @Code IS NULL)
+						 And (Product.CategoryId=@CategoryId or @CategoryId=0 or @CategoryId is null)
+
+						 order by Product.Name
+
+					
+END
+
+
+----------------------------------------------------------------------------------------------------------------------

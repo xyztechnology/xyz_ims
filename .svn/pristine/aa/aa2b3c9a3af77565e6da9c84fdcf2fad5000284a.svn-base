@@ -1,0 +1,28 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using Inventory.Models;
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Entity;
+    using System.Data.Entity.Migrations;
+    using System.Linq;
+
+    internal sealed class Configuration : DbMigrationsConfiguration<InventroryManagementSystem.Models.ApplicationDbContext>
+    {
+        public Configuration()
+        {
+            AutomaticMigrationsEnabled = false;
+        }
+
+        protected override void Seed(InventroryManagementSystem.Models.ApplicationDbContext context)
+        {
+            IList<ProductCategory> Catlist = new List<ProductCategory>();
+
+            Catlist.Add(new ProductCategory() { Name = "Product Categories", CategoryId = 1, ParentCategoryId = 1 });
+
+
+            foreach (ProductCategory std in Catlist)
+                context.ProductCategory.AddOrUpdate(std);
+        }
+    }
+}

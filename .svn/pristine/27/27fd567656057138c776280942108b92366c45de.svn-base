@@ -1,0 +1,39 @@
+﻿@model Inventory.Models.ProductCategory
+
+<div>
+    <div class="modal-body">
+
+
+        <span class="glyphicon glyphicon-sign"></span>
+        @using (Html.BeginForm())
+        {
+            @Html.HiddenFor(m => m.ParentCategoryId)
+            <table>
+
+                <tr>
+                    <td><label class="control-label col-md-2">Name</label></td>
+                    <td>
+                        @Html.EditorFor(model => model.Name)
+                        @Html.ValidationMessageFor(model => model.Name)
+                    </td>
+                </tr>
+                <tr></tr>
+
+            </table>
+
+
+        }
+
+
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>
+

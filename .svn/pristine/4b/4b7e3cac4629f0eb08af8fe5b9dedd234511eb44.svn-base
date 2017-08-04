@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Inventory.Models.PurchaseOrder>
+
+<table class="table">
+    <tr>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNo)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNo)
+            </td>
+           
+        
+        </tr>
+    }
+
+</table>
+

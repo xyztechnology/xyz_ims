@@ -1,0 +1,133 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class akjdfkjdkfj : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.UnitMeasure",
+                c => new
+                    {
+                        UnitMeasureId = c.Int(nullable: false, identity: true),
+                        UnitName = c.String(),
+                    })
+                .PrimaryKey(t => t.UnitMeasureId);
+            
+            CreateTable(
+                "dbo.WorkOrder",
+                c => new
+                    {
+                        WorkOrderId = c.Int(nullable: false, identity: true),
+                        WorkOrderNumber = c.String(),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(),
+                        CreatedUserId = c.Int(),
+                        CreatedDttm = c.DateTime(),
+                        AssembledBy = c.String(),
+                        OrderDate = c.DateTime(),
+                        CompleteDate = c.DateTime(),
+                        LocationId = c.Int(),
+                        Status = c.Int(nullable: false),
+                        ExtraCost = c.Decimal(precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.WorkOrderId)
+                .ForeignKey("dbo.User", t => t.CreatedUserId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.CreatedUserId)
+                .Index(t => t.LocationId)
+                .Index(t => t.LastModUserId);
+            
+            CreateTable(
+                "dbo.WorkOrderLine",
+                c => new
+                    {
+                        WorkOrderLineId = c.Int(nullable: false, identity: true),
+                        WorkOrderId = c.Int(nullable: false),
+                        ParentWorkOrderLineId = c.Int(nullable: false),
+                        Description = c.String(),
+                        Quantity = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        QuantityUom = c.String(),
+                        QuantityDisplay = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        PartsCost = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        ProdId = c.Int(nullable: false),
+                        TotalAverageCost = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        LineNum = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.WorkOrderLineId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.WorkOrder", t => t.WorkOrderId)
+                .Index(t => t.ProdId)
+                .Index(t => t.WorkOrderId);
+            
+            AddColumn("dbo.Inventorystore", "Rate", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Inventorystore", "Amount", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "Uom", c => c.Int());
+            AddColumn("dbo.Product", "soUomName", c => c.Int());
+            AddColumn("dbo.Product", "soUomRatioStd", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "soUomRatio", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            AddColumn("dbo.Product", "PoUomName", c => c.Int());
+            AddColumn("dbo.Product", "PoUomRatioStd", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "PoUomRatio", c => c.Decimal(precision: 18, scale: 2));
+            CreateIndex("dbo.Product", "Uom");
+            AddForeignKey("dbo.Product", "Uom", "dbo.UnitMeasure", "UnitMeasureId");
+            DropColumn("dbo.Product", "ReorderPoint");
+            DropColumn("dbo.Product", "ReorderQuantity");
+            DropColumn("dbo.Product", "MasterPackQty");
+            DropColumn("dbo.Product", "Custom1");
+            DropColumn("dbo.Product", "Custom2");
+            DropColumn("dbo.Product", "Custom3");
+            DropColumn("dbo.Product", "Custom4");
+            DropColumn("dbo.Product", "Custom5");
+            DropColumn("dbo.Product", "Custom6");
+            DropColumn("dbo.Product", "Custom7");
+            DropColumn("dbo.Product", "Custom8");
+            DropColumn("dbo.Product", "Custom9");
+            DropColumn("dbo.Product", "Custom10");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Product", "Custom10", c => c.String());
+            AddColumn("dbo.Product", "Custom9", c => c.String());
+            AddColumn("dbo.Product", "Custom8", c => c.String());
+            AddColumn("dbo.Product", "Custom7", c => c.String());
+            AddColumn("dbo.Product", "Custom6", c => c.String());
+            AddColumn("dbo.Product", "Custom5", c => c.String());
+            AddColumn("dbo.Product", "Custom4", c => c.String());
+            AddColumn("dbo.Product", "Custom3", c => c.String());
+            AddColumn("dbo.Product", "Custom2", c => c.String());
+            AddColumn("dbo.Product", "Custom1", c => c.String());
+            AddColumn("dbo.Product", "MasterPackQty", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "ReorderQuantity", c => c.Decimal(precision: 18, scale: 2));
+            AddColumn("dbo.Product", "ReorderPoint", c => c.Decimal(precision: 18, scale: 2));
+            DropForeignKey("dbo.WorkOrderLine", "WorkOrderId", "dbo.WorkOrder");
+            DropForeignKey("dbo.WorkOrderLine", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.WorkOrder", "LastModUserId", "dbo.User");
+            DropForeignKey("dbo.WorkOrder", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.WorkOrder", "CreatedUserId", "dbo.User");
+            DropForeignKey("dbo.Product", "Uom", "dbo.UnitMeasure");
+            DropIndex("dbo.WorkOrderLine", new[] { "WorkOrderId" });
+            DropIndex("dbo.WorkOrderLine", new[] { "ProdId" });
+            DropIndex("dbo.WorkOrder", new[] { "LastModUserId" });
+            DropIndex("dbo.WorkOrder", new[] { "LocationId" });
+            DropIndex("dbo.WorkOrder", new[] { "CreatedUserId" });
+            DropIndex("dbo.Product", new[] { "Uom" });
+            DropColumn("dbo.Product", "PoUomRatio");
+            DropColumn("dbo.Product", "PoUomRatioStd");
+            DropColumn("dbo.Product", "PoUomName");
+            DropColumn("dbo.Product", "soUomRatio");
+            DropColumn("dbo.Product", "soUomRatioStd");
+            DropColumn("dbo.Product", "soUomName");
+            DropColumn("dbo.Product", "Uom");
+            DropColumn("dbo.Inventorystore", "Amount");
+            DropColumn("dbo.Inventorystore", "Rate");
+            DropTable("dbo.WorkOrderLine");
+            DropTable("dbo.WorkOrder");
+            DropTable("dbo.UnitMeasure");
+        }
+    }
+}

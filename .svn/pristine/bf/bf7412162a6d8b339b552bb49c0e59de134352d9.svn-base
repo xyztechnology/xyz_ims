@@ -1,0 +1,224 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+using Inventory.Models.StoreProcedure;
+using System.Data.Entity.Infrastructure;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class PurchaseOrderController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /PurchaseOrder/
+        public ActionResult Index()
+        {
+            PurchaseOrderViewModel model = new PurchaseOrderViewModel();
+            model.PurchaseOrderService = new PurchaseOrderService();
+            model.PurchaseOrderService.PurchaseOrderSearchList = new List<PurchaseOrderService>();
+
+
+            string purchaseorderlist = "Purchaseorder_SearchList" + " " + "null" + "," + "null" + "," + "null";
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<PurchaseOrderService>(purchaseorderlist).ToList();
+
+            model.PurchaseOrderService.PurchaseOrderSearchList = list.ToList();
+
+            return View("Index", model);
+
+ 
+
+
+        }
+
+        // GET: /PurchaseOrder/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Create
+        public ActionResult Create()
+        {
+            PurchaseOrder po  = new PurchaseOrder();
+            po.PurchaseOrderDetail = new PurchaseOrderDetail();
+            po.PurchaseOrderDetail.PurchaseOrderDetailList = new List<PurchaseOrderDetail>();
+            po.PurchaseOrderDetail.PurchaseOrderDetailList.Add(po.PurchaseOrderDetail);       
+
+            //po.PurchaseOrderDetail = new Product();
+            //po.PurchaseOrderDetail.ProductList = new List<Product>();
+            //po.PurchaseOrderDetail.ProductList.Add(po.PurchaseOrderDetail);
+
+
+            return View(po);
+        }
+
+        public ActionResult _OrderList()
+        {
+            PurchaseOrderDetail pr = new PurchaseOrderDetail();
+            return PartialView(pr);
+        }
+
+
+
+        // POST: /PurchaseOrder/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(PurchaseOrder purchaseorder)
+        {
+
+            using (ApplicationDbContext dbnew = new ApplicationDbContext())
+            {
+
+                dbnew.PurchaseOrder.Add(purchaseorder);
+                purchaseorder.PurchaseOrderDetail.PurchaseOrderId = purchaseorder.PurchaseOrderId;
+                if (purchaseorder.PurchaseOrderDetail != null && purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList != null)
+                {
+                    foreach (var item in purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList)
+                    {
+
+                        item.PurchaseOrderId = purchaseorder.PurchaseOrderId;
+               
+                        dbnew.PurchaseOrderDetail.Add(item);
+                    }
+
+
+                }
+
+                dbnew.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        public ActionResult SearchPurchaseordertList(PurchaseOrderViewModel model)
+        {
+            model.PurchaseOrderService = new PurchaseOrderService();
+            model.PurchaseOrderService.PurchaseOrderSearchList = new List<PurchaseOrderService>();
+
+            string orderno = model.PurchaseOrderObj.OrderNo;
+            if (string.IsNullOrEmpty(orderno))
+            {
+                orderno = "null";
+            }
+            var orderdt = model.PurchaseOrderObj.OrderDate.ToString();
+            if (string.IsNullOrEmpty(orderdt))
+            {
+                orderdt = "null";
+            }
+            else
+            {
+                orderdt = "'" + Convert.ToDateTime(model.PurchaseOrderObj.OrderDate).ToString("yyyy/MM/dd") + "'";
+
+            }
+            var vendor = model.PurchaseOrderObj.VendorId.ToString();
+            if (string.IsNullOrEmpty(vendor))
+            {
+                vendor = "null";
+            }
+
+            string purchaseorderlist = "Purchaseorder_SearchList" + " " + orderno + "," + vendor + "," + orderdt;
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<PurchaseOrderService>(purchaseorderlist).ToList();
+
+            model.PurchaseOrderService.PurchaseOrderSearchList = list.ToList();
+
+            return View("Index", model);
+
+
+        }
+
+
+        // GET: /PurchaseOrder/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // POST: /PurchaseOrder/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="PurchaseOrderId,VendorId,Contact,Phone,VendorAddress,LocationId,OrderNo,OrderDate,Status,SubTotal,TaxAmount,AditionalCost,Paid,Balance")] PurchaseOrder purchaseorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(purchaseorder).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // POST: /PurchaseOrder/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            db.PurchaseOrder.Remove(purchaseorder);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

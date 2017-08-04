@@ -1,0 +1,49 @@
+﻿@model Inventory.Models.Vendor
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered" style="background-color: #D5D4D3">
+            <tr>
+                <td><strong>Order Number</strong></td>
+                <td><strong>Order Date</strong></td>
+                <td><strong>Inventory Status</strong></td>
+                <td><strong>Payment Status</strong></td>
+                <td><strong>Customer</strong></td>
+                <td><strong>PO #</strong></td>
+                <td><strong>Location</strong></td>
+                <td><strong>Requested Ship Date</strong></td>
+                <td><strong>Due Date</strong></td>
+                <td><strong>Total</strong></td>
+                <td><strong>Paid</strong></td>
+                <td><strong>Balance</strong></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+</div>

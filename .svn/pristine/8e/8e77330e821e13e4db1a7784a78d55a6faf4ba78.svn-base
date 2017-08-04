@@ -1,0 +1,149 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class fdsdfsdfsdf : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.PurchaseRequisition", "LocationId", "dbo.Location");
+            DropForeignKey("dbo.PurchaseRequisition", "VendorId", "dbo.Vendor");
+            DropForeignKey("dbo.PurchaseRequisitionLine", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionId", "dbo.PurchaseRequisition");
+            DropIndex("dbo.PurchaseRequisition", new[] { "LocationId" });
+            DropIndex("dbo.PurchaseRequisition", new[] { "VendorId" });
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "ProdId" });
+            DropIndex("dbo.PurchaseRequisitionLine", new[] { "PurchaseRequisitionId" });
+            CreateTable(
+                "dbo.ReceivedOrder",
+                c => new
+                    {
+                        ReceivedOrderId = c.Int(nullable: false, identity: true),
+                        ReceivedNumber = c.String(),
+                        ReceivedDate = c.DateTime(),
+                        PurchaseOrderId = c.Int(),
+                        VendorId = c.Int(),
+                        LocationId = c.Int(),
+                        OrderRemarks = c.String(),
+                        AmountPaid = c.Decimal(precision: 18, scale: 2),
+                        SubTotal = c.Decimal(precision: 18, scale: 2),
+                        Total = c.Decimal(precision: 18, scale: 2),
+                        Balance = c.Decimal(precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.ReceivedOrderId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .ForeignKey("dbo.PurchaseOrder", t => t.PurchaseOrderId)
+                .ForeignKey("dbo.Vendor", t => t.VendorId)
+                .Index(t => t.LocationId)
+                .Index(t => t.PurchaseOrderId)
+                .Index(t => t.VendorId);
+            
+            CreateTable(
+                "dbo.ReceivedOrderDetail",
+                c => new
+                    {
+                        ReceivedOrderDetailId = c.Int(nullable: false, identity: true),
+                        ReceivedOrderId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        VendorItemCode = c.String(),
+                        Quantity = c.Decimal(precision: 18, scale: 2),
+                        UnitPrice = c.Decimal(precision: 18, scale: 2),
+                        Discount = c.Decimal(precision: 18, scale: 2),
+                        SubTotal = c.Decimal(precision: 18, scale: 2),
+                        IsReceived = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.ReceivedOrderDetailId)
+                .ForeignKey("dbo.Product", t => t.ProdId)
+                .ForeignKey("dbo.ReceivedOrder", t => t.ReceivedOrderId)
+                .Index(t => t.ProdId)
+                .Index(t => t.ReceivedOrderId);
+            
+            CreateTable(
+                "dbo.TransactionAnalysisSetup",
+                c => new
+                    {
+                        TransactionAnalysisId = c.Int(nullable: false, identity: true),
+                        ParentId = c.Int(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.TransactionAnalysisId);
+            
+            CreateTable(
+                "dbo.TransactionAnalysisSubSetup",
+                c => new
+                    {
+                        TransactionAnalysisSubSetupId = c.Int(nullable: false, identity: true),
+                        TransactionAnalysisId = c.Int(nullable: false),
+                        Name = c.String(),
+                        Code = c.String(),
+                    })
+                .PrimaryKey(t => t.TransactionAnalysisSubSetupId)
+                .ForeignKey("dbo.TransactionAnalysisSetup", t => t.TransactionAnalysisId)
+                .Index(t => t.TransactionAnalysisId);
+            
+            AddColumn("dbo.PurchaseOrderDetail", "IsReceived", c => c.Boolean(nullable: false));
+            DropColumn("dbo.PurchaseOrder", "Status");
+            DropTable("dbo.PurchaseRequisition");
+            DropTable("dbo.PurchaseRequisitionLine");
+        }
+        
+        public override void Down()
+        {
+            CreateTable(
+                "dbo.PurchaseRequisitionLine",
+                c => new
+                    {
+                        PurchaseRequisitionLineId = c.Int(nullable: false, identity: true),
+                        PurchaseRequisitionId = c.Int(),
+                        ProdId = c.Int(),
+                        Description = c.String(),
+                        VendorItemCode = c.String(),
+                        Quantity = c.Decimal(precision: 18, scale: 2),
+                    })
+                .PrimaryKey(t => t.PurchaseRequisitionLineId);
+            
+            CreateTable(
+                "dbo.PurchaseRequisition",
+                c => new
+                    {
+                        PurchaseRequisitionId = c.Int(nullable: false, identity: true),
+                        RequisitionNo = c.String(),
+                        RequisitionDate = c.DateTime(),
+                        VendorId = c.Int(),
+                        LocationId = c.Int(),
+                        AdditionalRequirements = c.String(),
+                        Remarks = c.String(),
+                    })
+                .PrimaryKey(t => t.PurchaseRequisitionId);
+            
+            AddColumn("dbo.PurchaseOrder", "Status", c => c.String());
+            DropForeignKey("dbo.TransactionAnalysisSubSetup", "TransactionAnalysisId", "dbo.TransactionAnalysisSetup");
+            DropForeignKey("dbo.ReceivedOrderDetail", "ReceivedOrderId", "dbo.ReceivedOrder");
+            DropForeignKey("dbo.ReceivedOrderDetail", "ProdId", "dbo.Product");
+            DropForeignKey("dbo.ReceivedOrder", "VendorId", "dbo.Vendor");
+            DropForeignKey("dbo.ReceivedOrder", "PurchaseOrderId", "dbo.PurchaseOrder");
+            DropForeignKey("dbo.ReceivedOrder", "LocationId", "dbo.Location");
+            DropIndex("dbo.TransactionAnalysisSubSetup", new[] { "TransactionAnalysisId" });
+            DropIndex("dbo.ReceivedOrderDetail", new[] { "ReceivedOrderId" });
+            DropIndex("dbo.ReceivedOrderDetail", new[] { "ProdId" });
+            DropIndex("dbo.ReceivedOrder", new[] { "VendorId" });
+            DropIndex("dbo.ReceivedOrder", new[] { "PurchaseOrderId" });
+            DropIndex("dbo.ReceivedOrder", new[] { "LocationId" });
+            DropColumn("dbo.PurchaseOrderDetail", "IsReceived");
+            DropTable("dbo.TransactionAnalysisSubSetup");
+            DropTable("dbo.TransactionAnalysisSetup");
+            DropTable("dbo.ReceivedOrderDetail");
+            DropTable("dbo.ReceivedOrder");
+            CreateIndex("dbo.PurchaseRequisitionLine", "PurchaseRequisitionId");
+            CreateIndex("dbo.PurchaseRequisitionLine", "ProdId");
+            CreateIndex("dbo.PurchaseRequisition", "VendorId");
+            CreateIndex("dbo.PurchaseRequisition", "LocationId");
+            AddForeignKey("dbo.PurchaseRequisitionLine", "PurchaseRequisitionId", "dbo.PurchaseRequisition", "PurchaseRequisitionId");
+            AddForeignKey("dbo.PurchaseRequisitionLine", "ProdId", "dbo.Product", "ProdId");
+            AddForeignKey("dbo.PurchaseRequisition", "VendorId", "dbo.Vendor", "VendorId");
+            AddForeignKey("dbo.PurchaseRequisition", "LocationId", "dbo.Location", "LocationId");
+        }
+    }
+}

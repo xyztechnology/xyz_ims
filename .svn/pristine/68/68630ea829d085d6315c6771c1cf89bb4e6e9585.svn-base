@@ -1,0 +1,154 @@
+﻿@model Inventory.Models.WorkOrder
+@using InventroryManagementSystem.Helpers
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="AddLocation"></div>
+<div id="AddProduct"></div>
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+
+
+
+
+<style>
+    .payrollentrylabel {
+        height: 20px !important;
+        font-size: 12px;
+        margin-left: 0px;
+    }
+
+    .payrollentryinput {
+        height: 25px !important;
+        font-size: 11px !important;
+    }
+
+    #row-buttonadd {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/index.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    #row-button {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/del.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+
+    .background {
+        background-color: pink;
+    }
+</style>
+
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("Search", "WorkOrder", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+    {
+        <div class="col-md-3">
+            <b>SEARCH</b>
+            <div class="form-group">
+                @Html.LabelFor(model => model.WorkOrderNumber, new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.EditorFor(model => model.WorkOrderNumber)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Refresh" class="bg-blue" />
+            </div>
+
+
+            <div id="SearchResult">
+                @Html.Partial("_CreateSearchlist")
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    function ClearList() {
+        j("#SearchResult").html(null);
+    }
+</script>
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#LocationId').change(function (e) {
+            var value = j('#LocationId').val();
+            if (value == -1) {
+
+                j("#AddLocation").dialog({
+                    autoOpen: true,
+                    position: { my: "center", at: "top+150", of: window },
+                    width: 600,
+                    resizable: false,
+                    title: 'Create Location here',
+                    modal: true,
+                    open: function () {
+                        j(this).load('/GeneralSetting/LocationSetup');
+
+                    },
+
+                    buttons: {
+                        Create: function () {
+                            j("#LocationForm").submit();
+                            RefreshLocationData();
+
+                        },
+
+                        Close: function () {
+                            j(this).dialog("close");
+                        }
+                    }
+                });
+            }
+            return false;
+        });
+
+    });
+
+    function RefreshLocationData() {
+
+        j.ajax({
+            url: "@Url.Action("GetLocation", "JsonRequest")",
+
+            type: "POST",
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+
+                j("#LocationId").html("");
+                var items = "";
+                j.each(data, function (i, item) {
+
+                    items += "<option value=\"" + item.Value + "\">" + item.Text + "</option>";
+                });
+
+                j("#LocationId").html(items);
+            }
+        });
+    }
+
+</script>
+

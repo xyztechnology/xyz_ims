@@ -1,0 +1,11 @@
+﻿@model Inventory.Models.Customer
+
+
+@foreach (var item in Model.CustomerList)
+{
+    <tr>
+        <td>@item.Name</td>
+    </tr>
+
+}
+

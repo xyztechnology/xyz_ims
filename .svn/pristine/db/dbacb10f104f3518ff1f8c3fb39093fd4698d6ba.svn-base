@@ -1,0 +1,171 @@
+﻿@model Inventory.Models.WorkOrder
+@using InventroryManagementSystem.Helpers
+
+
+<style>
+    #container {
+        display: flex; /* establish flex container */
+        flex-direction: row; /* default value; can be omitted */
+        flex-wrap: nowrap; /* default value; can be omitted */
+        justify-content: space-between; /* switched from default (flex-start, see below) */
+        /*background-color: lightyellow;*/
+    }
+
+        #container > div {
+           
+          
+        }
+</style>
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+<style>
+    #row-buttonadd {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/index.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    #row-button {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/del.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+</style>
+
+
+
+
+
+@using (Ajax.BeginForm("Create", "WorkOrder", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="box box-primary">
+
+
+            <div class="col-md-12">
+                <div class="row well well-smal" id="container">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AssembledBy, new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.AssembledBy)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
+                            <div class="col-md-1">
+                                @Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select")
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ExtraCost, new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.ExtraCost)
+                            </div>
+                        </div>
+                      
+                    </div>
+
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.WorkOrderNumber, "Order#", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.WorkOrderNumber)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, "Order Date", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.OrderDate, new { @class = "date-picker" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CompleteDate, "Completed Date", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.CompleteDate, new { @class = "date-picker" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.Status)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row well well-small col-md-12" id="Add-Item">
+
+                    @Html.ActionLink(" ", "_WorkOrderLine", null, new { @class = "addProductItem row-button pull-right", @id = "row-buttonadd" })
+                    <table id="example2" class="table table-bordered">
+                        <tr>
+                           
+                            <th><strong>Item</strong></th>
+                            <th><strong>Quantity</strong></th>
+                            <th></th>
+
+                        </tr>
+                    </table>
+
+                    @foreach (var item in Model.workOrderLine.WorkOrderLineList)
+                    {
+
+                        Html.RenderPartial("_WorkOrderLine", item);
+
+                    }
+                </div>
+
+
+                <div class="row">
+                    <div style="padding-left:130px">
+                        <br /> <input type="submit" value="Save" class="bg-blue" id="btncatsave" />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+<script>
+    var j = jQuery.noConflict();
+    j(function () {
+        j("#OrderDate").datepicker();
+        j("#CompleteDate").datepicker();
+        
+    });
+</script>

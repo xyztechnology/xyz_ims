@@ -1,0 +1,113 @@
+﻿@model Inventory.Models.Vendor
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+
+
+
+
+</script>
+
+
+
+
+
+<hr />
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" style="border:5px solid #3A87AD">
+    <a href="#Close" title="Close" class="modal-close btn btn-danger">close</a>
+    <div class="modal-content" style="width:800px !important;margin:10px auto !important">
+        <div class="modal-body"></div>
+    </div>
+</div>
+
+
+<div class="form-horizontal">
+    <div class="col-sm-3">
+        @using (Ajax.BeginForm("Search", "Vendor", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "SearchResult" }))
+        {
+            <div class="box-body">
+                <div class="box box-primary">
+
+
+                    <strong>SEARCH</strong>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                        <div class="col-md-1">
+                            @Html.TextBoxFor(model => model.Name)
+                            @Html.ValidationMessageFor(model => model.Name)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactName, "Contact", new { @class = "control-label col-md-2" })
+                        <div class="col-md-1">
+                            @Html.TextBoxFor(model => model.ContactName)
+                            @Html.ValidationMessageFor(model => model.ContactName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+                        <div class="col-md-1">
+                            @Html.TextBoxFor(model => model.Phone)
+                            @Html.ValidationMessageFor(model => model.Phone)
+                            <br /><br />
+                            <input type="submit" value="Search" class="bg-blue" />
+                        </div>
+
+
+
+
+                    </div>
+                    <table id="example2" class="table table-bordered">
+                        <tr>
+                            <td>
+                                <div id="SearchResult">
+                                    @Html.Partial("_VendorList")
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+﻿@model Inventory.Models.PurchaseOrder
+
+
+
+
+<table id="example2" class="table table-bordered table-hover">
+
+    @foreach (var item in Model.PurchaseOrderList)
+    {
+
+        if (item.Vendor.Name != null)
+        {
+            <tr>
+                <td>
+                    @item.Vendor.Name
+                </td>
+                <td>
+                    @Ajax.ActionLink(@item.Vendor.Name, "Edit", // <-- Text to display
+                              "Vendor",
+
+
+                 new
+                 {
+                     id = item.OrderNo
+                 }, // <-- Action Method Name
+
+
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                </td>
+            </tr>
+        }
+
+
+    }
+</table>

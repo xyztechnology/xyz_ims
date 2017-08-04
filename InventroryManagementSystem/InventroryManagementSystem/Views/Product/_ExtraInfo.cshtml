@@ -1,0 +1,108 @@
+﻿@model Inventory.Models.Product
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+  
+    function bindStandardMesaure(value) {
+    
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+                  
+                    j("label[for='lblstandard']").html(data.UnitName);
+                }
+            });
+        }
+   
+    }
+
+
+
+    function bindSalesMesaure(value) {
+    
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                  
+                j("label[for='lablsale']").html(data.UnitName);
+            }
+        });
+    }
+   
+    }
+
+
+
+    function bindPurchaseMesaure(value) {
+    
+        if (value != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetUnitMeasure", "JsonRequest")",
+                data: { measureid: value },
+
+
+            error: function () {
+                alert("An error occurred.");
+            },
+            success: function (data) {
+                  
+                j("label[for='lblpurchase']").html(data.UnitName);
+            }
+        });
+    }
+   
+    }
+
+  
+</script>
+
+
+<table>
+    <tr><th><b>Unit Of Measure</b></th></tr>
+    <tr>
+        <th><strong> UOM</strong></th>
+        
+        <td>@Html.DropDownListFor(m => m.Uom, @Utility.GetMeasureList(),"Select", new {@onchange="bindStandardMesaure(this.value)" })</td>
+    </tr>
+
+    <tr>
+        <th>@Html.LabelFor(m => m.soUomName)</th>
+        <td>@Html.DropDownListFor(m => m.soUomName, @Utility.GetMeasureList(), "Select", new { @onchange = "bindSalesMesaure(this.value)" })</td>
+    </tr>
+    <tr>
+        <th>Conversion</th>
+        <td>@Html.TextBoxFor(m => m.soUomRatio)<label for="lablsale"></label>
+   
+
+        <td>@Html.TextBoxFor(m => m.soUomRatioStd)<label for="lblstandard"></label></td>
+    </tr>
+
+    <tr>
+        <th>Purchase UOM</th>
+        <td>@Html.DropDownListFor(m => m.PoUomName, @Utility.GetMeasureList(), "Select", new { @onchange = "bindPurchaseMesaure(this.value)" })</td>
+    </tr>
+    <tr>
+        <th>Conversion</th>
+        <td>@Html.TextBoxFor(m=>m.PoUomRatio)<label for="lblpurchase"></label></td>
+        <td>@Html.TextBoxFor(m=>m.PoUomRatioStd)<label for="lblstandard" ></label></td>
+    </tr>
+</table>

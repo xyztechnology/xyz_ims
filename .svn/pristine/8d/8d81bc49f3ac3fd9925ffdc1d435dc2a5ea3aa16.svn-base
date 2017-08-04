@@ -1,0 +1,156 @@
+﻿@model Inventory.Models.PurchaseOrder
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+
+<script type="text/javascript">
+    $(function () {
+        
+        $('.date-picker').datepicker();
+    })
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+    });
+
+    function TotalSum() {
+        alert('haneo');
+        var sum = 0;
+        var dis = 0;
+
+        j('.totalsum').each(function () {
+
+            var al = $(this).closest("tr");
+            var alltotal = al.find(".totalsum").val();
+            var alldis = al.find(".discount").val();
+
+
+            sum += Number(alltotal);
+            dis+=Number(alldis)
+
+        });
+        alert(sum);
+        j("#Total").val(Number(sum));
+        
+
+    }
+
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+
+<style>
+    .payrollentrylabel {
+        height: 20px !important;
+        font-size: 12px;
+        margin-left: 0px;
+    }
+
+    .payrollentryinput {
+        height: 25px !important;
+        font-size: 11px !important;
+    }
+
+    #row-buttonadd {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/index.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    #row-button {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/del.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+
+    .background {
+        background-color: pink;
+    }
+</style>
+
+
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("SearchPurchaseordertList", "PurchaseOrder", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+    {
+          <div class="col-md-3">
+                    <b>SEARCH</b>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderNo, new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.EditorFor(model => model.OrderNo)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.EditorFor(model => model.Status)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Vendor,"Vendor Name", new { @class = "control-label col-md-3" })
+
+                        <div class="col-md-1">
+                            @Html.DropDownListFor(model => model.VendorId, Utility.GetVendor(), "Select")
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Search" class="bg-blue" />
+                    </div>
+
+
+              @*<div id="SearchResult">
+                  @Html.Partial("_CreateSearchlist")
+              </div>*@
+                </div>
+    }
+
+
+</div>
+
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>

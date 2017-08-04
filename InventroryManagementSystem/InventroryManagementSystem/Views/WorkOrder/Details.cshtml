@@ -1,0 +1,107 @@
+﻿@model Inventory.Models.WorkOrder
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>WorkOrder</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CreUserId.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreUserId.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserId.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserId.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WorkOrderNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WorkOrderNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastModDttm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastModDttm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDttm)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDttm)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssembledBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssembledBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CompleteDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompleteDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ExtraCost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExtraCost)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WorkOrderId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

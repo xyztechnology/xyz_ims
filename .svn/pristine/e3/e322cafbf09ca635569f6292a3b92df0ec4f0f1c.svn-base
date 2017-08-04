@@ -1,0 +1,26 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class init1 : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.Customer", "DefaultLocationId", "dbo.Location");
+            DropIndex("dbo.Customer", new[] { "DefaultLocationId" });
+            AlterColumn("dbo.Customer", "DefaultLocationId", c => c.Int(nullable: false));
+            CreateIndex("dbo.Customer", "DefaultLocationId");
+            AddForeignKey("dbo.Customer", "DefaultLocationId", "dbo.Location", "LocationId");
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Customer", "DefaultLocationId", "dbo.Location");
+            DropIndex("dbo.Customer", new[] { "DefaultLocationId" });
+            AlterColumn("dbo.Customer", "DefaultLocationId", c => c.Int());
+            CreateIndex("dbo.Customer", "DefaultLocationId");
+            AddForeignKey("dbo.Customer", "DefaultLocationId", "dbo.Location", "LocationId");
+        }
+    }
+}

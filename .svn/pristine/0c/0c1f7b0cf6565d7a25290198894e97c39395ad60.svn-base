@@ -1,0 +1,18 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class inti12345 : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.ReceivedOrderDetail", "IsReceived", c => c.Boolean(nullable: false));
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.ReceivedOrderDetail", "IsReceived");
+        }
+    }
+}

@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
+namespace Inventory.Models
+{
+   public  class User
+    {
+        [Key()]
+        public int UserId { get; set; }
+        public string Name { get; set; }
+        public Byte[] PasswordHash { get; set; }
+        public Byte[] PasswordSalt { get; set; }
+        public bool IsAdministrator { get; set; }
+        public Byte[] Timestamp { get; set; }
+        public bool IsActive { get; set; }
+        public int Location { get; set; }
+        public string DefaultSalesRep { get; set; }
+        public string ThousandsSeparator { get; set; }
+        public int TargetEdition { get; set; }
+        public bool IsInternal { get; set; }
+        public int? UserRole { get; set; }
+
+      
+       
+    }
+}

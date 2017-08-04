@@ -1,0 +1,35 @@
+﻿@model Inventory.Models.TransactionAnalysisSubSetup
+<div class="box-body" style="border:groove">
+    <div class="form-horizontal">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <td style="width:400px"><b>Name</b> </td>
+                    <td style="width:400px"><b>Code</b> </td>
+                    <td style="width:400px"><b>Action</b></td>
+                </tr>
+
+
+            </thead>
+
+            @foreach (var item in Model.TransactionAnalysisSubSetupList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                       
+                    </td>
+
+
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>
+

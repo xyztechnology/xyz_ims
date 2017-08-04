@@ -1,0 +1,31 @@
+﻿using InventroryManagementSystem.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class JsonRequestController : Controller
+    {
+        //
+        // GET: /JsonRequest/
+        public ActionResult GetVendorDetail(int vendorid)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            Vendor vendor = new Vendor();
+            vendor = db.Vendor.Where(x => x.VendorId == vendorid).FirstOrDefault();
+            return Json(vendor, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetProductcode(int prodid)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            Product product = new Product();
+            product = db.Product.Where(x => x.ProdId == prodid).FirstOrDefault();
+            return Json(product, JsonRequestBehavior.AllowGet);
+        }
+
+	}
+}

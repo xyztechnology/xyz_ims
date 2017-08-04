@@ -1,0 +1,34 @@
+﻿@model Inventory.Models.Report.CurrentStock
+
+
+
+<table class="table table-bordered">
+    <tr>
+        <td><strong>Item</strong></td>
+        <td><strong>Category</strong></td>
+        <td><strong>Last Vendor</strong></td>
+        <td><strong>Location</strong></td>
+        <td><strong>Quantity</strong></td>
+
+    </tr>
+
+
+    @if (Model.CurrentStockList != null)
+    {
+        foreach (var item in Model.CurrentStockList)
+        {
+
+            <tr>
+                <td>@item.ItemName </td>
+                <td>@item.CategoryName</td>
+                <td>@item.LastVendor</td>
+                <td>@item.LocationName</td>
+                <td>@item.Quantity</td>
+
+            </tr>
+        }
+    }
+
+</table>
+
+

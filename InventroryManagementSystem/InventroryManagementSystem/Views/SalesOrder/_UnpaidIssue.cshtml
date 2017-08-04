@@ -1,0 +1,43 @@
+﻿@model Inventory.Models.StoreProcedure.SalesOrderViewModel
+@{
+    ViewBag.Title = "_UnpaidIssue";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Unpaid Issues</h2>
+<br/>
+<br/>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered" style="background-color: #D5D4D3">
+            <tr>
+               
+                <td><strong>Issue Date</strong></td>
+                <td><strong>Customer</strong></td>
+                <td><strong>Phone</strong></td>
+                <td><strong>Location</strong></td>
+                <td><strong>Total</strong></td>
+                <td><strong>Balance</strong></td>
+            </tr>
+            @if (Model.SalesOrderService.SalesOrderSearchList != null)
+            {
+
+                foreach (var item in Model.SalesOrderService.SalesOrderSearchList)
+                {
+                    <tr>
+                       
+                        <td>@item.OrderDate</td>
+                        <td>@item.CustomerName</td>
+                        <td>@item.Phone</td>
+                        <td>@item.Location</td>
+                        <td>@item.Total</td>
+                        <td>@item.Balance</td>
+
+                    </tr>
+                }
+            }
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,24 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class sfdsfdf : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropIndex("dbo.Product", new[] { "PictureFileAttachmentId" });
+            CreateIndex("dbo.Product", "PictureFileAttachmentId");
+            AddForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment", "FileAttachmentId");
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment");
+            DropIndex("dbo.Product", new[] { "PictureFileAttachmentId" });
+            CreateIndex("dbo.Product", "PictureFileAttachmentId");
+            AddForeignKey("dbo.Product", "PictureFileAttachmentId", "dbo.FileAttachment", "FileAttachmentId");
+        }
+    }
+}

@@ -1,0 +1,33 @@
+﻿@model Inventory.Models.Product
+
+@foreach (var item in Model.ProductList)
+{
+
+
+
+
+    if (item.Name != null)
+    {
+
+
+        @Ajax.ActionLink(@item.Name, "Edit", // <-- Text to display
+                              "Product",
+                         
+
+                 new
+                 {
+                     id = item.ProdId
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+    }
+    <br />
+
+}

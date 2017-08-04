@@ -1,0 +1,106 @@
+﻿@model Inventory.Models.Customer
+@Html.HiddenFor(m => m.CustomerId)
+    <div class="col-sm-3">
+        .
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextBoxFor(model => model.Name)
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+        <div class="form-group">
+
+            <div class="col-md-2">
+                <strong>CONTACT</strong>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ContactName, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.ContactName)
+                @Html.ValidationMessageFor(model => model.ContactName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Phone)
+                @Html.ValidationMessageFor(model => model.Phone)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fax, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Fax)
+                @Html.ValidationMessageFor(model => model.Fax)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Email)
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.WebSite, new { @class = "control-label col-md-2" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.WebSite)
+                @Html.ValidationMessageFor(model => model.WebSite)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.Remarks, new { @style = "width:700px;height:80px" })
+                @Html.ValidationMessageFor(model => model.Remarks)
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.State, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.EditorFor(model => model.State)
+                @Html.ValidationMessageFor(model => model.State)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, new { @class = "control-label col-md-2" })
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.City)
+                    @Html.ValidationMessageFor(model => model.City)
+                </div>
+                @Html.LabelFor(model => model.State, new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.State)
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Country, new { @class = "control-label col-md-2" })
+            <div class="row">
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Country)
+                    @Html.ValidationMessageFor(model => model.Country)
+                </div>
+                @Html.LabelFor(model => model.PostalCode, new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.PostalCode)
+
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.TextAreaFor(model => model.Remarks, new { @style = "width:400px;height:80px" })
+                @Html.ValidationMessageFor(model => model.Remarks)
+            </div>
+        </div>
+
+    </div>

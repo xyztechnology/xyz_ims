@@ -1,0 +1,40 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class dajfkafj : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.TaxCode",
+                c => new
+                    {
+                        TaxCodeId = c.Int(nullable: false, identity: true),
+                        Name = c.String(),
+                        Tax1Rate = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Tax2Rate = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        IsActive = c.Boolean(nullable: false),
+                        LastModUserId = c.Int(),
+                        LastModDttm = c.DateTime(nullable: false),
+                        TimeStamp = c.Binary(),
+                    })
+                .PrimaryKey(t => t.TaxCodeId)
+                .ForeignKey("dbo.User", t => t.LastModUserId)
+                .Index(t => t.LastModUserId);
+            
+            AddColumn("dbo.Product", "PoUotmName", c => c.String());
+            DropColumn("dbo.Product", "PoUomName");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Product", "PoUomName", c => c.String());
+            DropForeignKey("dbo.TaxCode", "LastModUserId", "dbo.User");
+            DropIndex("dbo.TaxCode", new[] { "LastModUserId" });
+            DropColumn("dbo.Product", "PoUotmName");
+            DropTable("dbo.TaxCode");
+        }
+    }
+}

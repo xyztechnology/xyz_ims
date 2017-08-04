@@ -1,0 +1,38 @@
+﻿@model Inventory.Models.Report.Vendor
+
+<br /><br />
+
+<table class="table table-bordered">
+    <tr>
+        <td><strong>Item</strong></td>
+        <td><strong>Category</strong></td>
+        <td><strong>Vendor</strong></td>
+        <td><strong>Vendor Product Code</strong></td>
+        <td><strong>Unit Cost</strong></td>
+
+    </tr>
+
+
+    @if (Model.VendorList != null)
+    {
+        foreach (var item in Model.VendorList)
+        {
+            
+        <tr>
+            <td colspan="5">@item.VendorName</td>
+        </tr>
+            <tr>
+                <td>@item.Item </td>
+                <td>@item.Category</td>
+                <td>@item.VendorName</td>
+                <td>@item.VendorProductCode</td>
+                <td>@item.UnitPrice</td>
+
+            </tr>
+        <tr><td colspan="5"></td></tr>
+        }
+    }
+
+</table>
+
+

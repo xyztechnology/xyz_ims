@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inventory.Models.StoreProcedure
+{
+   public  class PurchaseOrderService
+   {
+       
+       public string OrderNo { get; set; }
+       public DateTime OrderDate { get; set; }
+       public string Status { get; set; }
+       public string Vendor { get; set; }
+       public string Location { get; set; }
+       public DateTime RequestedShipDate { get; set; }
+       public DateTime DueDate { get; set; }
+       public decimal Total { get; set; }
+       public decimal AmountPaid { get; set; }
+       public decimal Balance { get; set; }
+       public string @DocNo { get; set; }
+     
+       public List<PurchaseOrderService> PurchaseOrderSearchList { get; set; }
+
+   }
+}

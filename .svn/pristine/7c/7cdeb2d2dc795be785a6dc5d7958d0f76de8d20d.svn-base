@@ -1,0 +1,74 @@
+﻿@model Inventory.Models.Vendor
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript">
+    function ClearList() {
+        $("#SearchResult").html(null);
+    }
+</script>
+
+@using (Ajax.BeginForm("CreateUpdate", "Vendor", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="box-body">
+                    <table id="example2" class="table table-bordered table-hover">
+
+                        <tr><td>Search</td></tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>
+                                @Html.Editor("SearchName")
+
+                            </td>
+                        </tr>
+                        <tr><td>Contact</td><td>@Html.Editor("SearchContactName")</td></tr>
+                        <tr>
+                            <td>Phone</td>
+                            <td>@Html.Editor("SearchPhone")</td>
+                        </tr>
+                        <tr><td colspan="2"><input type="submit" value="Refresh" /></td></tr>
+
+                    </table>
+                    <div id="SearchResult">
+                        @Html.Partial("_VendorList")
+                    </div>
+                </div>
+            </div>
+            <div id="ContentArea">
+                @Html.Partial("_Common")
+            </div>
+
+
+        </div>
+        <div style="padding-left:100px">
+            <input type="submit" value="Save" />
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+

@@ -1,0 +1,364 @@
+﻿@model Inventory.Models.PurchaseOrder
+@using InventroryManagementSystem.Helpers
+
+
+<div id="AddVendor"></div>
+<div id="AddLocation"></div>
+
+<script type="text/javascript">
+
+    var j = jQuery.noConflict();
+    j(function () {
+        j('#btnAddVendor').on('click', function () {
+            j("#AddVendor").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 850,
+                resizable: false,
+                title: 'Vendor details',
+                modal: true,
+                open: function () {
+                    $(this).load('/Vendor/_Common');
+
+                },
+
+
+            });
+            return false;
+        });
+
+    });
+
+    function AddNewLocation(value) {
+       
+        if (value == -1) {
+            j("#AddLocation").dialog({
+                autoOpen: true,
+                position: { my: "center", at: "top+150", of: window },
+                width: 600,
+                resizable: false,
+                title: 'Location details',
+                modal: true,
+                open: function () {
+                    $(this).load('/GeneralSetting/LocationSetup');
+
+                },
+
+                buttons: {
+                    //Create: function () {
+                    //    j("form").submit();
+                    //},
+
+                    Close: function () {
+                        j(this).dialog("close");
+                    }
+                }
+
+            });
+
+        }
+    }
+</script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+    function bindVendorlist(VendorId) {
+
+
+        if (VendorId != 0) {
+
+            j.ajax({
+                url: "@Url.Action("GetVendorDetail", "JsonRequest")",
+                data: { vendorid: VendorId },
+
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data) {
+
+                    j("#ContactName").val(data.ContactName);
+                    j("#Phone").val(data.Phone);
+                    j("#VendorAddress1").val(data.Address1);
+                }
+            });
+        }
+    }
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+    });
+
+
+
+</script>
+
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+
+    function TotalSum() {
+
+        var sum = 0;
+        var dis = 0;
+
+        j('.totalsum').each(function () {
+
+            var al = $(this).closest("tr");
+            var alltotal = al.find(".totalsum").val();
+            var alldis = al.find(".discount").val();
+
+
+            sum += Number(alltotal);
+            dis += Number(alldis)
+
+        });
+        alert(sum);
+        j("#Total").val(Number(sum));
+    }
+
+
+
+
+
+</script>
+
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+
+<style>
+    .payrollentrylabel {
+        height: 20px !important;
+        font-size: 12px;
+        margin-left: 0px;
+    }
+
+    .payrollentryinput {
+        height: 25px !important;
+        font-size: 11px !important;
+    }
+
+    #row-buttonadd {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/index.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    #row-button {
+        height: 26px;
+        width: 30px;
+        background-image: url(/Content/del.jpg);
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+
+    .background {
+        background-color: pink;
+    }
+</style>
+
+
+@using (Ajax.BeginForm("Create", "PurchaseOrder", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="box box-primary">
+
+
+            <div class="col-md-12">
+                <div class="row well well-smal">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VendorId, "Vendor", new { @class = "control-label col-md-2" })
+
+                            <div class="col-md-3">
+                                @Html.DropDownListFor(model => model.VendorId, Utility.GetVendor(), "Select", new { @onchange = "bindVendorlist(this.value)" })
+                            </div>
+
+
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ContactName, "Contact", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.ContactName)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Phone, "Phone", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.Phone)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VendorAddress1, "Address", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.VendorAddress1)
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
+                            <div class="col-md-1">
+                                @Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select", new { @onchange = "AddNewLocation(this.value)" })
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderNo, "Issue No", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.OrderNo)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OrderDate, "Issue Date", new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.TextBoxFor(model => model.OrderDate, new { @class = "date-picker" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Status, new { @class = "control-label col-md-3" })
+
+                            <div class="col-md-1">
+                                @Html.EditorFor(model => model.Status)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row well well-small col-md-12" id="Add-Item" style="height:200px; overflow:scroll">
+
+                    @Html.ActionLink(" ", "_OrderList", null, new { @class = "addProductItem row-button pull-right", @id = "row-buttonadd" })
+                    <table id="example2" class="table table-bordered">
+                        <tr>
+                            <th><strong>Item</strong></th>
+                            <th><strong>Vendor Product Code</strong></th>
+                            <th><strong>Quantity</strong></th>
+                            <th><strong>Unit Price</strong></th>
+                            <th><strong>Discount</strong></th>
+                            <th><strong>Sub-Total</strong></th>
+
+                        </tr>
+                    </table>
+
+                    @foreach (var item in Model.PurchaseOrderDetail.PurchaseOrderDetailList)
+                    {
+
+                        Html.RenderPartial("_OrderList", item);
+
+                    }
+                </div>
+
+
+                <div class="row well well-smal">
+                    <div class="col-sm-6">
+                        <table>
+
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.OrderRemarks, "Remarks", new { @class = "control-label col-md-4" })
+                                        <div class="col-md-1">
+                                            @Html.TextAreaFor(model => model.OrderRemarks, new { @style = "width:180px;height:60px" })
+                                            @Html.ValidationMessageFor(model => model.OrderRemarks)
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.SubTotal, new { @class = "control-label col-md-10" })
+                                        <div class="col-md-1">
+                                            @Html.EditorFor(model => model.SubTotal)
+                                            @Html.ValidationMessageFor(model => model.SubTotal)
+                                        </div>
+                                    </div><div class="form-group">
+                                        @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-10" })
+                                        <div class="col-md-1">
+                                            @Html.EditorFor(model => model.Total)
+                                            @Html.ValidationMessageFor(model => model.Total)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.AmountPaid, "Paid", new { @class = "control-label col-md-10" })
+                                        <div class="col-md-1">
+                                            @Html.EditorFor(model => model.AmountPaid)
+                                            @Html.ValidationMessageFor(model => model.AmountPaid)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Balance, new { @class = "control-label col-md-10" })
+                                        <div class="col-md-1">
+                                            @Html.EditorFor(model => model.Balance)
+                                            @Html.ValidationMessageFor(model => model.Balance)
+                                        </div>
+                                    </div>
+
+
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div style="padding-left:130px">
+                        <br /> <input type="submit" value="Save" class="bg-blue" id="btncatsave" />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+}
+
+<script>
+    var j = jQuery.noConflict();
+    j(function () {
+        j("#OrderDate").datepicker();
+    });
+</script>

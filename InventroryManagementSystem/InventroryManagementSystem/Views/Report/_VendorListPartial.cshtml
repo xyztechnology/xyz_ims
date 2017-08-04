@@ -1,0 +1,33 @@
+﻿@model Inventory.Models.Report.Vendor
+
+
+
+<table class="table table-bordered">
+    <tr>
+        <td><strong>Name</strong></td>
+        <td><strong>Contact</strong></td>
+        <td><strong>Phone</strong></td>
+        <td><strong>Email</strong></td>
+        <td><strong>Address</strong></td>
+
+    </tr>
+
+
+    @if (Model.VendorList != null)
+    {
+        foreach (var item in Model.VendorList)
+        {
+
+            <tr>
+                <td>@item.Name </td>
+                <td>@item.Contact</td>
+                <td>@item.Phone</td>
+                <td>@item.Email</td>
+                <td>@item.Address</td>
+
+            </tr>
+        }
+    }
+
+</table>
+

@@ -1,0 +1,43 @@
+﻿@model Inventory.Models.UnitMeasure
+
+
+<table id="example2" class="table table-bordered table-hover">
+    @if(Model.UnitMeasureList !=null)
+    {     
+    foreach (var item in Model.UnitMeasureList)
+    {
+    if (item.UnitName != null)
+        {
+
+            <tr>
+              
+                <td>
+
+                    @Ajax.ActionLink(@item.UnitName, // <-- Text to display
+                              "UnitMeasure",
+
+
+                 new
+                 {
+                     id = item.UnitMeasureId
+                 }, // <-- Action Method Name
+
+
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+                </td>
+            </tr>
+        }
+
+
+    }
+    }
+</table>
+

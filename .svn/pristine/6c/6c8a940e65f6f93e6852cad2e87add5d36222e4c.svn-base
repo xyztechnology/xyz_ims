@@ -1,0 +1,24 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class initailcare : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.Product", "DefaultLocationId", "dbo.Location");
+            DropIndex("dbo.Product", new[] { "DefaultLocationId" });
+            CreateIndex("dbo.Product", "DefaultLocationId");
+            AddForeignKey("dbo.Product", "DefaultLocationId", "dbo.Location", "LocationId");
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Product", "DefaultLocationId", "dbo.Location");
+            DropIndex("dbo.Product", new[] { "DefaultLocationId" });
+            CreateIndex("dbo.Product", "DefaultLocationId");
+            AddForeignKey("dbo.Product", "DefaultLocationId", "dbo.Location", "LocationId");
+        }
+    }
+}

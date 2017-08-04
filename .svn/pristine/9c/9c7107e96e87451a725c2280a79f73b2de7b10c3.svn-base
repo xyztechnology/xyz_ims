@@ -1,0 +1,466 @@
+﻿@model IEnumerable<Inventory.Models.SalesOrder>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Currency.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentTerms.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sales.OrderNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Version)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalesRep)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PONumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestShipDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DueDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderSubTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderExtra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PickingRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PackedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PackingRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoicedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountPaid)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Balance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnSubTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnExtra)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnTotal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnFee)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RestockRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingAddress2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingAddressRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BillingAddressType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddress1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddress2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingCountry)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingPostalCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddressRemarks)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippingAddressType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Custom5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastModDttm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeStamp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SplitPartNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShowShipping)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShipToCompanyName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCancelled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SummaryLinePermutation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NonCustomerCost)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NonCustomerCostIsPercemt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsQuote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsInvoiced)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsCompleted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SameBillingAndShipping)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsTaxInclusive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Currency.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Location.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentTerms.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sales.OrderNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserId.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Version)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalesRep)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PONumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestShipDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DueDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderSubTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderExtra)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PickingRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PackedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PackingRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InvoicedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountPaid)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Balance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnSubTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnExtra)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnTotal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnFee)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestockRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingAddress1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingAddress2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingAddressRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BillingAddressType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingAddress1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingAddress2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingCity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingState)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingCountry)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingPostalCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingAddressRemarks)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippingAddressType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Custom5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastModDttm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TimeStamp)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SplitPartNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShowShipping)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShipToCompanyName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ExchangeRate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PaymentStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsCancelled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SummaryLinePermutation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NonCustomerCost)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NonCustomerCostIsPercemt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsQuote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsInvoiced)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsCompleted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SameBillingAndShipping)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsTaxInclusive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SalesOrderId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SalesOrderId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SalesOrderId })
+        </td>
+    </tr>
+}
+
+</table>

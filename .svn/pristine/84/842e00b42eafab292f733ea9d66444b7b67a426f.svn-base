@@ -1,0 +1,18 @@
+﻿@model Inventory.Models.SalesOrder
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+                   </div>
+             
+ 
+}

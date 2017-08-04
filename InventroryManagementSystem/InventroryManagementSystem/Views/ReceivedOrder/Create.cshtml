@@ -1,0 +1,49 @@
+﻿@model Inventory.Models.ReceivedOrder
+@using InventroryManagementSystem.Helpers
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/Scripts/OrderManagerScript.js"></script>
+
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("Search", "ReceivedOrder", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+    {
+        <div class="col-md-3">
+            <b>SEARCH</b>
+            <div class="form-group">
+                @Html.LabelFor(model => model.PurchaseOrder.OrderNo, new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.Editor("Purchaseorderno")
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Vendor, "Vendor Name", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.DropDownListFor(model => model.VendorId, Utility.GetVendor(), "Select")
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="bg-blue" />
+            </div>
+
+
+            <div id="SearchResult">
+                @Html.Partial("_ReceivedSearchlist")
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>

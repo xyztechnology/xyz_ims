@@ -1,0 +1,62 @@
+﻿@model Inventory.Models.Product
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <strong>Search</strong>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name,"Item Name/Code", new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.Name, new { @style = "width:700px;height:25px" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CategoryId, "Catogory", new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(model => model.CategoryId, new { @style = "width:700px;height:25px" })
+                    <br /><br />
+                    <input type="button" value="Refresh" />
+                </div>
+            </div>
+         
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table id="example2" class="table table-bordered table-hover">
+                <tr>
+                    <td><strong>Item</strong></td>
+                    <td><strong>Type</strong></td>
+                    <td><strong>Category</strong></td>
+                    <td><strong>Normal Price</strong></td>
+                    <td><strong>Vendor</strong></td>
+                    
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

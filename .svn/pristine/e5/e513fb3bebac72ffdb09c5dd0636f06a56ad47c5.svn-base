@@ -1,0 +1,81 @@
+﻿@model Inventory.Models.WorkOrderLine
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+    });
+
+    j("#Add-Items").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+
+        j(".Qty").on("keyup", function (e) {
+
+
+            var al = j(this).closest("tr");
+            var Quantity = al.find(".Qty").val();
+            var Amount = al.find(".totalamt").val();
+           
+            var Rate = Amount / Quantity;
+            al.find(".amt").val(Rate);
+
+
+        });
+
+        //j(".amt").on("keyup", function (e) {
+
+        //    var al = j(this).closest("tr");
+        //    var Quantity = al.find(".Qty").val();
+        //    var Amount = al.find(".amt").val();
+        //    var rate = Amount / Quantity;
+        //    al.find(".rte").val(rate)
+
+
+        //});
+
+
+    });
+</script>
+
+
+
+
+
+@using (Html.BeginCollectionItem("workOrderLine.DestiProductLineList"))
+{
+    <table>
+        <tr>
+            @Html.HiddenFor(m => m.WorkOrderLineId)
+
+            <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new { @style = "width:80px" })</td>
+
+            <td>@Html.TextBoxFor(m => m.Quantity, new { @class = "Qty", @style = "width:50px" })</td>
+            <td>@Html.TextBoxFor(m => m.PartsCost, new {@class = "rte", @style = "width:50px" })</td>
+            <td>@Html.TextBoxFor(m => m.TotalAverageCost, new {@class = "totalamt", @style = "width:70px" })</td>
+           
+
+
+
+
+        </tr>
+
+    </table>
+
+
+}
+
+

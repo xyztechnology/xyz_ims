@@ -1,0 +1,145 @@
+﻿
+<div id="DetailsId"></div>
+
+<div id="dialog-confirm" title="Remove folder" style="display: none" class="CenteralContent">
+    Are you sure you want to delete folder?
+</div>
+<div id="AddNewGroup"></div>
+
+<script type="text/javascript">
+
+
+    var tmp = $.cookie('jstree_select');
+
+    refreshTopData();
+    if (tmp == null) {
+        $('#TAMenuHead').bind("loaded.jstree", function (event, data) {
+            data.inst.select_node('ul > li:first ul > li:first ');
+
+        });
+
+    }
+
+
+
+
+    function refreshTopData() {
+        $('#TAMenuHead').jstree({
+            "json_data": {
+                "ajax": {
+                    "url": '@Url.RouteUrl(new { controller = "TransactionAnalysisSetup", action = "GetGroupListData" })',
+                    "type": "POST",
+                    "dataType": "json",
+                    "contentType": "application/json charset=utf-8"
+                }
+            },
+            "themes": {
+                "theme": "default",
+                "dots": false,
+                "icons": true,
+                "url": '@Url.Content("~/Content/default/style.css")'
+            },
+
+            "plugins": ["themes", "json_data", "dnd", "contextmenu", "ui", "crrm", "cookies"],
+            "contextmenu": {
+                "items": function ($node) {
+                    return {
+
+                        "Delete": {
+                            "label": "Delete",
+                            "action": function (obj) {
+                                this.remove(obj);
+
+
+                            }
+                        },
+
+                        "Create": {
+                            "label": "Create",
+                            "action": function (obj) {
+                                this.create(obj);
+
+
+                            }
+                        },
+
+                        "Rename": {
+                            "label": "Rename",
+                            "action": function (obj) {
+                                this.rename(obj);
+
+
+                            }
+                        },
+
+                    }
+                }
+
+
+
+            }
+
+        });
+
+
+    }
+
+
+
+
+    $('#TAMenuHead').bind("select_node.jstree", function (event, data) {
+        var selectedFolderId = (data.rslt.obj.attr("id"));
+
+        document.getElementById("Idtosave").value = selectedFolderId;
+        $.ajax({
+            type: 'GET',
+            url: '@Url.RouteUrl(new { controller = "TransactionAnalysisSetup", action = "GetSubMenu" })',
+            data: {
+                "id": (data.rslt.obj.attr("id"))
+
+            },
+            success: function (data) {
+                if (data == "Error") {
+                    alert("cannnot be Created it is leaf level")
+                }
+                $('#Area').html(data);
+            }
+
+
+        });
+
+
+
+    });
+
+
+    function Remove() {
+
+
+        $.ajax({
+            async: false,
+            type: 'POST',
+            url: '@Url.RouteUrl(new { controller = "TransactionAnalysisSetup", action = "DeleteNode" })',
+            data: {
+
+                "id": document.getElementById("Idtosave").value
+
+            },
+            success: function (r) {
+
+                if (r == "Error") {
+                    alert("Folder cannot be deleted, please make sure folder is empty.");
+
+                }
+
+                else {
+                    $("#TAMenuHead").html(r);
+                }
+
+
+            }
+        })
+
+    }
+
+</script>

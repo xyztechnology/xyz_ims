@@ -1,0 +1,42 @@
+﻿@model Inventory.Models.SubLocation
+
+
+<table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+    @foreach (var item in Model.SubLocationList)
+    {
+        <tr>
+            <td>@item.SubLocationName</td>
+
+            <td>
+                @if (item.SubLocationName != null)
+                {
+
+
+                    @Ajax.ActionLink("Edit", "SubLocationSetupEdit", // <-- Text to display
+                                   "GeneralSetting",
+
+                 new
+                 {
+                     id = item.SubLocationId,
+
+
+
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     HttpMethod = "GET",
+                     OnSuccess = "GetData"
+
+                 })
+                }
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+

@@ -1,0 +1,71 @@
+﻿@model Inventory.Models.ProductCategory
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<script src="~/Scripts/jquery.jstree.js"></script>
+
+
+<div id="modal-container" class="modal fade" tabindex="-1" role="dialog" style="border:5px solid #3A87AD">
+    <a href="#Close" title="Close" class="modal-close-btn">close</a>
+    <div class="modal-content" style="width:500px !important;margin:10px auto !important">
+        <div class="modal-body"></div>
+    </div>
+</div>
+
+<!-- Main content -->
+<section class="content">
+    @Html.HiddenFor(m => m.Idtosave)
+    <div class="bs-docs-example form-inline">
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            <legend>Create Product Catogory Here</legend>
+            <table>
+                <tr>
+
+
+                    <td style="vertical-align: top">
+                        <div id="TopLevelFolder" class="FolderTreeTitle" style="height: 600px; overflow: scroll; width: 300px;padding-left:10px">
+                        </div>
+                        @Html.Partial("_GroupTree")
+
+
+                        <a href="" class="modal-link btn btn-success" id="CreateId">Create</a>
+                        <input class="btn btn-danger" type="button" value="Delete" onclick="Remove()" />
+                    </td>
+
+                    <td style="vertical-align: top">
+                        <table>
+
+                            <tr>
+
+                                <td>
+
+                                    <div id="Area">
+
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                        </table>
+                    </td>
+
+                </tr>
+
+            </table>
+
+
+        </fieldset>
+
+    </div>
+
+</section>
+
+
+

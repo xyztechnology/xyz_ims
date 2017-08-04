@@ -1,0 +1,237 @@
+﻿
+<aside class="main-sidebar">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+  
+       
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+                <input type="text" name="q" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu" id="menu">
+            <li class="header">MAIN NAVIGATION</li>
+
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>General</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu ">
+                    <li class="active"><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Homepage</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Dashboard</a></li>
+                    
+                </ul>
+            </li>
+
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Issue</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                   
+
+                    <li><a href="@Url.Action("Create", "SalesOrder")"><i class="fa fa-circle-o"></i> New Issue</a></li>
+
+                    <li>
+                        <a href="">
+                            <i class="fa fa-circle-o"></i> Issue List
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "SalesOrder")"><i class="fa fa-circle-o"></i>Issue List</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Unfulfilled Issue</a></li>
+                            <li><a href="@Url.Action("_UnpaidIssue", "SalesOrder")"><i class="fa fa-circle-o"></i>Unpaid Issue</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Uninvoiced Issue</a></li>
+                            <li><a href="@Url.Action("_RecentIssues", "SalesOrder")"><i class="fa fa-circle-o"></i>Recent Issue</a></li>
+                        </ul>
+                    </li>
+                   
+                    <li><a href="@Url.Action("Create", "Customer")"><i class="fa fa-circle-o"></i> Employee SetUp</a></li>
+                    <li><a href="@Url.Action("Index", "Customer")"><i class="fa fa-circle-o"></i> Employee List</a></li>
+                </ul>
+
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Purchasing</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Create", "PurchaseOrder")"><i class="fa fa-circle-o"></i> New Purchase Order</a></li>
+
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-circle-o"></i> Purchase Order List
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "PurchaseOrder")"><i class="fa fa-circle-o"></i>Order List</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Unreceived Order</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Unpaid Order</a></li>
+
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Recent Orders</a></li>
+                        </ul>
+                    </li>
+                    <hr />
+                    <li><a href="@Url.Action("Create", "Vendor")"><i class="fa fa-circle-o"></i> New Vendor</a></li>
+                    <li><a href="@Url.Action("Index", "Vendor")"><i class="fa fa-circle-o"></i> Vendor List</a></li>
+                </ul>
+
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Purchase Requisition</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Create", "PurchaseRequisition")"><i class="fa fa-circle-o"></i>Create</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> List</a></li>
+
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Inventory</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Create", "Product")"><i class="fa fa-circle-o"></i> New Product</a></li>
+                    <li><a href="@Url.Action("Index", "Product")"><i class="fa fa-circle-o"></i> Product List</a></li>
+                    <li><a href="@Url.Action("Create", "ProductCategory")"><i class="fa fa-circle-o"></i>Product Category</a></li>
+                    <li><a href="pages/UI/sliders.html"><i class="fa fa-circle-o"></i> Product Pricing</a></li>
+                    <hr />
+                    <li><a href="@Url.Action("CurrentStock", "Report")"><i class="fa fa-circle-o"></i> Current Stock</a></li>
+                    <li><a href="pages/UI/modals.html"><i class="fa fa-circle-o"></i> Movement History</a></li>
+                    <li><a href="@Url.Action("Create", "WorkOrder")"><i class="fa fa-circle-o"></i>Worked Order</a></li>
+                    <hr />
+                    
+
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Reports</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+
+                    <li>
+                        <a href="pages/UI/buttons.html">
+                            <i class="fa fa-circle-o"></i> Issue Report
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+
+
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Issue by Product</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Issue by Order</a></li>
+
+
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="pages/UI/buttons.html">
+                            <i class="fa fa-circle-o"></i> Purchasing Report
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>purchase by Product</a></li>
+                            <li><a href="@Url.Action("PurchaseOrderSummary", "Report")"><i class="fa fa-circle-o"></i>Purchase Order Summary</a></li>
+                            <li><a href="@Url.Action("VendorProductList", "Report")"><i class="fa fa-circle-o"></i> Vendor Product List</a></li>
+                            <li><a href="@Url.Action("VendorList", "Report")"><i class="fa fa-circle-o"></i> Vendor List</a></li>
+                           
+
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="pages/UI/buttons.html">
+                            <i class="fa fa-circle-o"></i> Inventory Report
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Issue by Product</a></li>
+                            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i>Issue by Order</a></li>
+
+
+                        </ul>
+                    </li>
+                   
+                </ul>
+
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-laptop"></i>
+                    <span>Option</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index", "GeneralSetting")" id="btngeneralsetting"><i class="fa fa-circle-o"></i>  General Setting</a></li>
+                    <li><a href="pages/UI/icons.html"><i class="fa fa-circle-o"></i> Print Setting</a></li>
+                    
+                </ul>
+            </li>
+
+            <li class="treeview">
+               
+            <a href="@Url.Action("Create", "TransactionAnalysisSetup")" id="btngeneralsetting"><i class="fa fa-laptop"></i>Transaction Analysis</a>
+                
+            </li>
+
+
+
+       
+
+        </ul>
+    </section>
+    <!-- /.sidebar -->
+</aside>
+

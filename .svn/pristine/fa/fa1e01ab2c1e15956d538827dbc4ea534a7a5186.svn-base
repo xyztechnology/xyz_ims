@@ -1,0 +1,43 @@
+﻿@model Inventory.Models.Location
+
+
+<div class="modal-body">
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <table>
+            <tr>
+                <td style="background-color: #DBE5E0">
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Name, "Location Name", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Name, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="row">
+                        <div style="padding-left:130px">
+                            <br /> <input type="button" value="Save" class="bg-blue" />
+                        </div>
+                    </div>
+
+
+                
+            </tr>
+        </table>
+
+    }
+
+</div>

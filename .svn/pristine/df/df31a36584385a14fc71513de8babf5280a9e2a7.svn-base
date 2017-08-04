@@ -1,0 +1,28 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ini585 : DbMigration
+    {
+        public override void Up()
+        {
+            DropForeignKey("dbo.Location", "LastModUserId", "dbo.User");
+            DropIndex("dbo.Location", new[] { "LastModUserId" });
+            AlterColumn("dbo.Location", "LastModUserId", c => c.Int());
+            AlterColumn("dbo.Location", "LastModDttm", c => c.DateTime());
+            CreateIndex("dbo.Location", "LastModUserId");
+            AddForeignKey("dbo.Location", "LastModUserId", "dbo.User", "UserId");
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.Location", "LastModUserId", "dbo.User");
+            DropIndex("dbo.Location", new[] { "LastModUserId" });
+            AlterColumn("dbo.Location", "LastModDttm", c => c.DateTime(nullable: false));
+            AlterColumn("dbo.Location", "LastModUserId", c => c.Int(nullable: false));
+            CreateIndex("dbo.Location", "LastModUserId");
+            AddForeignKey("dbo.Location", "LastModUserId", "dbo.User", "UserId");
+        }
+    }
+}

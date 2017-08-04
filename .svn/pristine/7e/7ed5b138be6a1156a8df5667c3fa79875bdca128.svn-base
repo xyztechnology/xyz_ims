@@ -1,0 +1,32 @@
+﻿@model Inventory.Models.Customer
+
+
+@foreach (var item in Model.CustomerList)
+{
+
+
+
+
+
+
+
+    @Ajax.ActionLink(@item.Name, "Edit", // <-- Text to display
+                              "Customer",
+
+                 new
+                 {
+                     id = item.CustomerId
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                     InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                     HttpMethod = "GET", //
+
+                 })
+    <br />
+
+}
+

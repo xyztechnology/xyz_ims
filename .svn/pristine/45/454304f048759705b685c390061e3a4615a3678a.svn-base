@@ -1,0 +1,141 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class PurchaseOrderController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /PurchaseOrder/
+        public ActionResult Index()
+        {
+            PurchaseOrder model = new PurchaseOrder();
+            model.PurchaseOrderList = new List<PurchaseOrder>();
+            model.PurchaseOrderList = db.PurchaseOrder.Include(p => p.Location).Include(p => p.Vendor).ToList();
+            return View(model);
+
+
+        }
+
+        // GET: /PurchaseOrder/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Create
+        public ActionResult Create()
+        {
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name");
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name");
+            return View();
+        }
+
+        // POST: /PurchaseOrder/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="PurchaseOrderId,VendorId,Contact,Phone,VendorAddress,LocationId,OrderNo,OrderDate,Status,SubTotal,TaxAmount,AditionalCost,Paid,Balance")] PurchaseOrder purchaseorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.PurchaseOrder.Add(purchaseorder);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // POST: /PurchaseOrder/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="PurchaseOrderId,VendorId,Contact,Phone,VendorAddress,LocationId,OrderNo,OrderDate,Status,SubTotal,TaxAmount,AditionalCost,Paid,Balance")] PurchaseOrder purchaseorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(purchaseorder).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // POST: /PurchaseOrder/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            db.PurchaseOrder.Remove(purchaseorder);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

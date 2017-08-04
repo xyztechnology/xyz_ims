@@ -1,0 +1,59 @@
+﻿@model Inventory.Models.UnitMeasure
+
+<script src="~/Scripts/jquery-1.12.4.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script src="~/dist/js/app.js"></script>
+
+<script type="text/javascript">
+    function GetUnitMeasureData(dataunit) {
+
+        var j = jQuery.noConflict();
+     
+        j("#UnitName").val(dataunit.UnitName)
+        j("#UnitMeasureId").val(dataunit.UnitMeasureId)
+    }
+    function Clearfields() {
+        j("#UnitName").val(null)
+    }
+</script>
+
+
+<div class="modal-body">
+
+
+
+    @using (Ajax.BeginForm("UnitMeasure", "GeneralSetting", null, new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "showarea", InsertionMode = InsertionMode.Replace, OnSuccess = "Clearfields" }, new {id="UnitMeasureId" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.UnitMeasureId)
+
+        <h4>Unit Measure</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+    <div class="box box-primary">
+        <div class="box-body" style="border:groove">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UnitName, "Unit Name", new { @class = "control-label col-md-2" })
+                <div class="col-md-9">
+                    @Html.TextBoxFor(model => model.UnitName)
+                    @Html.ValidationMessageFor(model => model.UnitName)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    }
+    <div id="showarea">
+
+        @Html.Partial("_PartialUnitMeasureList")
+    </div>
+
+
+</div>

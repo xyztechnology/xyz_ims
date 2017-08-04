@@ -1,0 +1,11 @@
+﻿@model Inventory.Models.Product
+    <table>
+        <tr>Unit Of Measure</tr>
+        <tr><td>@Html.DisplayNameFor(m=>m.Uom)</td>
+        <td>@Html.DropDownListFor(m => m.Uom, @Utility.GetMeasureList())</td>
+        </tr>
+        <tr>
+            <td>Conversion</td><td>@Html.TextBoxFor(m=>m.soUomRatio)<label id=""></label></td>
+            <td>@Html</td>
+        </tr>
+    </table>

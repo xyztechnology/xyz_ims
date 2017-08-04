@@ -1,0 +1,18 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class dfsdfsdf : DbMigration
+    {
+        public override void Up()
+        {
+            AddColumn("dbo.Product", "Vendor", c => c.String());
+        }
+        
+        public override void Down()
+        {
+            DropColumn("dbo.Product", "Vendor");
+        }
+    }
+}

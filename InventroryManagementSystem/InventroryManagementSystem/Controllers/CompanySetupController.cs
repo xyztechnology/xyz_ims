@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class CompanySetupController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /CompanySetup/
+        public ActionResult Index()
+        {
+            var companysetup = db.CompanySetup.Include(c => c.FileAttachment);
+            return View(companysetup.ToList());
+        }
+
+        // GET: /CompanySetup/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CompanySetup companysetup = db.CompanySetup.Find(id);
+            if (companysetup == null)
+            {
+                return HttpNotFound();
+            }
+            return View(companysetup);
+        }
+
+        // GET: /CompanySetup/Create
+        public ActionResult Create()
+        {
+            ViewBag.PictureFileAttachmentId = new SelectList(db.FileAttachment, "FileAttachmentId", "FileName");
+            return View();
+        }
+
+        // POST: /CompanySetup/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include="CompanyId,Name,Phone,Fax,Email,Website,Address1,Address2,City,State,Country,PostalCode,TaxNumber,TimeStamp,PictureFileAttachmentId")] CompanySetup companysetup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.CompanySetup.Add(companysetup);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.PictureFileAttachmentId = new SelectList(db.FileAttachment, "FileAttachmentId", "FileName", companysetup.PictureFileAttachmentId);
+            return View(companysetup);
+        }
+
+        // GET: /CompanySetup/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CompanySetup companysetup = db.CompanySetup.Find(id);
+            if (companysetup == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.PictureFileAttachmentId = new SelectList(db.FileAttachment, "FileAttachmentId", "FileName", companysetup.PictureFileAttachmentId);
+            return View(companysetup);
+        }
+
+        // POST: /CompanySetup/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="CompanyId,Name,Phone,Fax,Email,Website,Address1,Address2,City,State,Country,PostalCode,TaxNumber,TimeStamp,PictureFileAttachmentId")] CompanySetup companysetup)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(companysetup).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.PictureFileAttachmentId = new SelectList(db.FileAttachment, "FileAttachmentId", "FileName", companysetup.PictureFileAttachmentId);
+            return View(companysetup);
+        }
+
+        // GET: /CompanySetup/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            CompanySetup companysetup = db.CompanySetup.Find(id);
+            if (companysetup == null)
+            {
+                return HttpNotFound();
+            }
+            return View(companysetup);
+        }
+
+        // POST: /CompanySetup/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            CompanySetup companysetup = db.CompanySetup.Find(id);
+            db.CompanySetup.Remove(companysetup);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

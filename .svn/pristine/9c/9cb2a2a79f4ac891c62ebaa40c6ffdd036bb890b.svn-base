@@ -1,0 +1,52 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class initialcre : DbMigration
+    {
+        public override void Up()
+        {
+            DropColumn("dbo.Customer", "UsingBillingAddress");
+            DropColumn("dbo.Customer", "BillingAddress1");
+            DropColumn("dbo.Customer", "BillingAddress2");
+            DropColumn("dbo.Customer", "BillingCity");
+            DropColumn("dbo.Customer", "BillingState");
+            DropColumn("dbo.Customer", "BillingCountry");
+            DropColumn("dbo.Customer", "BillingPostalCode");
+            DropColumn("dbo.Customer", "BillingAddressRemarks");
+            DropColumn("dbo.Customer", "BillingAddress");
+            DropColumn("dbo.Customer", "UsingShippingAddress");
+            DropColumn("dbo.Customer", "ShippingAddress1");
+            DropColumn("dbo.Customer", "ShippingAddress2");
+            DropColumn("dbo.Customer", "ShippingCity");
+            DropColumn("dbo.Customer", "ShippingState");
+            DropColumn("dbo.Customer", "ShippingCountry");
+            DropColumn("dbo.Customer", "ShippingPostalCode");
+            DropColumn("dbo.Customer", "ShippingAddressRemarks");
+            DropColumn("dbo.Customer", "ShippingAddress");
+        }
+        
+        public override void Down()
+        {
+            AddColumn("dbo.Customer", "ShippingAddress", c => c.Int(nullable: false));
+            AddColumn("dbo.Customer", "ShippingAddressRemarks", c => c.String());
+            AddColumn("dbo.Customer", "ShippingPostalCode", c => c.String());
+            AddColumn("dbo.Customer", "ShippingCountry", c => c.String());
+            AddColumn("dbo.Customer", "ShippingState", c => c.String());
+            AddColumn("dbo.Customer", "ShippingCity", c => c.String());
+            AddColumn("dbo.Customer", "ShippingAddress2", c => c.String());
+            AddColumn("dbo.Customer", "ShippingAddress1", c => c.String());
+            AddColumn("dbo.Customer", "UsingShippingAddress", c => c.Boolean(nullable: false));
+            AddColumn("dbo.Customer", "BillingAddress", c => c.Int(nullable: false));
+            AddColumn("dbo.Customer", "BillingAddressRemarks", c => c.String());
+            AddColumn("dbo.Customer", "BillingPostalCode", c => c.String());
+            AddColumn("dbo.Customer", "BillingCountry", c => c.String());
+            AddColumn("dbo.Customer", "BillingState", c => c.String());
+            AddColumn("dbo.Customer", "BillingCity", c => c.String());
+            AddColumn("dbo.Customer", "BillingAddress2", c => c.String());
+            AddColumn("dbo.Customer", "BillingAddress1", c => c.String());
+            AddColumn("dbo.Customer", "UsingBillingAddress", c => c.Boolean(nullable: false));
+        }
+    }
+}

@@ -1,0 +1,31 @@
+namespace InventroryManagementSystem.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class ini58 : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.SubLocation",
+                c => new
+                    {
+                        SubLocationId = c.Int(nullable: false, identity: true),
+                        LocationId = c.Int(nullable: false),
+                        SubLocationName = c.String(),
+                    })
+                .PrimaryKey(t => t.SubLocationId)
+                .ForeignKey("dbo.Location", t => t.LocationId)
+                .Index(t => t.LocationId);
+            
+        }
+        
+        public override void Down()
+        {
+            DropForeignKey("dbo.SubLocation", "LocationId", "dbo.Location");
+            DropIndex("dbo.SubLocation", new[] { "LocationId" });
+            DropTable("dbo.SubLocation");
+        }
+    }
+}

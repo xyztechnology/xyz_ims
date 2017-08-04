@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Inventory.Models.Product>
+
+
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            Item
+        </tr>
+
+        <tr>
+            @Html.DisplayNameFor(model => model.Description)
+        </tr>
+
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+
+
+        </tr>
+    }
+
+</table>

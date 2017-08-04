@@ -1,0 +1,41 @@
+﻿@model Inventory.Models.Location
+
+
+
+<table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+
+    @foreach (var item in Model.LocationList)
+    {
+        <tr>
+            <td>@item.Name</td>
+
+            <td>
+                @if (item.Name != null)
+                {
+
+
+                    @Ajax.ActionLink("Edit", "LocationSetupEdit", // <-- Text to display
+                                   "GeneralSetting",
+
+                 new
+                 {
+                     id = item.LocationId,
+                     
+
+
+                 }, // <-- Action Method Name
+
+                              // <-- Action Method Name
+                 new AjaxOptions
+                 {
+                     HttpMethod = "GET",
+                     OnSuccess = "GetData"
+
+                 })
+                }
+            </td>
+
+        </tr>
+    }
+
+</table>

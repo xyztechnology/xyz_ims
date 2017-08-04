@@ -1,0 +1,85 @@
+﻿@model Inventory.Models.SubLocation
+
+<script type="text/javascript">
+    function BindList(data) {
+        $("#ListAreaSubLocation").html(data)
+
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    function GetData(data) {
+        var j = jQuery.noConflict();
+        j("#SubLocationName").val(data.SubLocationName);
+        j("#SubLocationId").val(data.SubLocationId);
+    }
+</script>
+
+<div class="modal-body">
+    @using (Ajax.BeginForm("SubLocationSetup", "GeneralSetting", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, OnSuccess = "BindList" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SubLocationId)
+        <div class="box box-primary">
+            <div class="box-body" style="border:groove">
+                <table>
+                    <tr>
+                        <td>
+                            <br />
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <br />
+                                        @Html.LabelFor(model => model.LocationId, "Location", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+                                            @Html.DropDownListFor(model => model.LocationId, Utility.GetLocation(), "Select", new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.LocationId)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <br />
+                                        @Html.LabelFor(model => model.SubLocationName, "Sub Location", new { @class = "control-label col-md-4" })
+
+                                        <div class="col-md-2">
+
+                                            @Html.TextBoxFor(model => model.SubLocationName, new { @style = "width:360px;height:25px" })
+                                            @Html.ValidationMessageFor(model => model.SubLocationName)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div style="padding-left:130px">
+                                    <br /> <input type="submit" value="Save" class="bg-blue" />
+                                </div>
+                            </div>
+
+
+
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div id="ListAreaSubLocation">
+            @{
+        Html.RenderPartial("_SubLocationAddMore");
+            }
+        </div>
+
+
+    }
+
+</div>

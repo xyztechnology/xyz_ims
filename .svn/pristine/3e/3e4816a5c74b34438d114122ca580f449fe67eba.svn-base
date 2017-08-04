@@ -1,0 +1,64 @@
+﻿using Inventory.Models.Report;
+using InventroryManagementSystem.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InventroryManagementSystem.Controllers.Report
+{
+    public class ReportController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        // GET: /Report/
+        public ActionResult VendorList()
+        {
+            Vendor vendor = new Vendor();
+            vendor.VendorList = new List<Vendor>();
+            string vendorlist = "SP_GetVendorListReport" + " " + "null" + "," + "null" + "," + "null";
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<Vendor>(vendorlist).ToList();
+
+            vendor.VendorList = list.ToList();
+            return View(vendor);
+           
+        }
+        [HttpPost]
+        public ActionResult VendorList(Vendor model)
+        {
+
+            var vendorid = model.VendorId.ToString();
+            if (string.IsNullOrEmpty(vendorid))
+            {
+                vendorid = "null";
+            }
+            if (string.IsNullOrEmpty(model.Phone))
+            {
+                model.Phone = "null";
+            }
+
+            if (string.IsNullOrEmpty(model.City))
+            {
+                model.City = "null";
+            }
+
+            string s = "SP_GetVendorListReport" + " " + vendorid + "," + model.Phone + "," + model.City;
+
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 180;
+
+            var list = db.Database.SqlQuery<Vendor>(s).ToList();
+            //model.ExpensesOfficeWiseList = list.ToList();
+
+            model.VendorList = list.ToList();
+
+            return PartialView("_VendorListPartial",model);
+
+        }
+
+	}
+}

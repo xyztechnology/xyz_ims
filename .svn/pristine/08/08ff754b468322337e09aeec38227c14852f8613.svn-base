@@ -1,0 +1,257 @@
+﻿@model Inventory.Models.CompanySetup
+
+<script src="~/Scripts/JQueryForm.js"></script>
+<script>
+    function ChangeImage(input) {
+
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgThumbnail').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+
+    $(function () {
+        $('#ajaxUploadForm').ajaxForm({
+            iframe: true,
+
+            type: 'POST',
+
+            beforeSubmit: function () {
+
+            },
+            success: function (result) {
+
+                iframe = false
+
+                if (result.length == 5914) {
+                    $('#ajaxUploadForm').resetForm();
+                    window.location.reload();
+
+
+                }
+                else {
+
+
+                    $('#ajaxUploadForm').resetForm();
+
+                }
+
+            },
+            error: function (xhr, textStatus, errorThrown) {
+
+                $('#ajaxUploadForm').resetForm();
+                window.location.reload();
+
+
+            }
+        });
+    });
+</script>
+
+
+
+<div class="modal-body">
+    @using (Html.BeginForm("CompanySetup", "GeneralSetting", FormMethod.Post, new { enctype = "multipart/form-data", id = "ajaxUploadForm" }))
+    {
+        @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CompanyId)
+     
+        @Html.HiddenFor(m => m.PictureFileAttachmentId)
+         <div class="box box-primary">
+            <div class="box-body" style="border:groove"><table>
+            <tr>
+                <td>
+                    <br />
+
+
+
+                    <div class="col-md-8">
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Logo, new { @class = "control-label col-md-4" })
+
+                            <div class="col-md-2">
+
+                                <input type="file" id="document" name="file" onchange="ChangeImage(this)" />
+                                <div id="preview">
+                                    @if (Model != null && Model.Data != null)
+                                    {
+                                        <img src="data:image/jpg;base64,@(Convert.ToBase64String(Model.Data))" id="imgThumbnail" style="width: 210px; height: 80px" />
+
+                                    }
+                                    else
+                                    {
+
+                                        <img src="~/Image/noimage.png" id="imgThumbnail" style="width: 210px; height: 80px" />
+
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Name, "Company Name", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Name, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Name)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Address1, "Address1", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Address1, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Address1)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Address2, "Address2", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Address2, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Address2)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.City, "City", new { @class = "control-label col-md-5" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.City)
+                                        @Html.ValidationMessageFor(model => model.City)
+                                    </div>
+                                </div>
+                            </div><div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.State, "State", new { @class = "control-label col-md-4" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.State)
+                                        @Html.ValidationMessageFor(model => model.State)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.Country, "Country", new { @class = "control-label col-md-5" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.Country)
+                                        @Html.ValidationMessageFor(model => model.Country)
+                                    </div>
+                                </div>
+                            </div><div class="col-md-6">
+                                <div class="form-group">
+                                    <br />
+                                    @Html.LabelFor(model => model.PostalCode, "PostalCode", new { @class = "control-label col-md-4" })
+
+                                    <div class="col-md-1">
+                                        @Html.EditorFor(model => model.PostalCode)
+                                        @Html.ValidationMessageFor(model => model.PostalCode)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Phone, "Phone", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Phone, new { @style = "width:160px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Phone)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Fax, "Fax", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Fax, new { @style = "width:160px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Fax)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Email, "Email", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Email, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <br />
+                                @Html.LabelFor(model => model.Website, "Website", new { @class = "control-label col-md-4" })
+
+                                <div class="col-md-2">
+                                    @Html.TextBoxFor(model => model.Website, new { @style = "width:360px;height:25px" })
+                                    @Html.ValidationMessageFor(model => model.Website)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div style="padding-left:130px">
+                            <br /> <input type="submit" value="Save" class="bg-blue" id="btncatsave" />
+                        </div>
+                    </div>
+
+
+                </td>
+            </tr>
+        </table></div></div>
+
+    }
+
+</div>

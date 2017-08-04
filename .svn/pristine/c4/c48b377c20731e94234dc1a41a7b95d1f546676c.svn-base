@@ -1,0 +1,338 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+using Inventory.Models.StoreProcedure;
+using System.Data.Entity.Infrastructure;
+using System.Threading.Tasks;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class PurchaseOrderController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+        // GET: /PurchaseOrder/
+        public ActionResult Index()
+        {
+            PurchaseOrderViewModel model = new PurchaseOrderViewModel();
+            model.PurchaseOrderService = new PurchaseOrderService();
+            model.PurchaseOrderService.PurchaseOrderSearchList = new List<PurchaseOrderService>();
+
+
+            string purchaseorderlist = "SP_GetPurchaseOrderSearch" + " " + "null" + "," + "null" + "," + "null";
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<PurchaseOrderService>(purchaseorderlist).ToList();
+
+            model.PurchaseOrderService.PurchaseOrderSearchList = list.ToList();
+
+
+            PurchaseOrder purchaseorder = new PurchaseOrder();
+            purchaseorder.PurchaseOrderList = new List<PurchaseOrder>();
+            purchaseorder.PurchaseOrderList = db.PurchaseOrder.Include(v => v.Vendor).ToList();
+
+            return View("Index", model);
+
+ 
+
+
+        }
+
+        // GET: /PurchaseOrder/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Create
+        public ActionResult Create()
+        {
+            PurchaseOrder po  = new PurchaseOrder();
+            po.PurchaseOrderAnalayis = new PurchaseOrderAnalayis();
+            po.PurchaseOrderDetail = new PurchaseOrderDetail();
+            po.TransactionAnalysisSetup = new TransactionAnalysisSetup();
+            po.TransactionAnalysisSetup.TransactionAnalysisSetupList = new List<TransactionAnalysisSetup>();
+            po.TransactionAnalysisSetup.TransactionAnalysisSetupList = db.TransactionAnalysisSetup.ToList();
+            po.TransactionAnalysisSubSetup = new TransactionAnalysisSubSetup();
+            po.TransactionAnalysisSubSetup.TransactionAnalysisSubSetupList = new List<TransactionAnalysisSubSetup>();
+            po.TransactionAnalysisSubSetup.TransactionAnalysisSubSetupList = db.TransactionAnalysisSubSetup.ToList();
+            po.PurchaseOrderDetail.PurchaseOrderDetailList = new List<PurchaseOrderDetail>();
+            po.PurchaseOrderDetail.PurchaseOrderDetailList.Add(po.PurchaseOrderDetail);
+
+            string prolist = "Sp_PurchaseOrder_GetOrderNo";
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var OrderNumber = db.Database.SqlQuery<string>(prolist).FirstOrDefault();
+            po.OrderNo = OrderNumber;
+
+            po.PurchaseOrderList = db.PurchaseOrder.Include(v => v.Vendor).ToList();
+
+
+            return View(po);
+        }
+
+        public ActionResult _OrderList()
+        {
+            PurchaseOrderDetail pr = new PurchaseOrderDetail();
+            return PartialView(pr);
+        }
+
+        public ActionResult _PurchaseAnalysis()
+        {
+            TransactionAnalysisSubSetup pr = new TransactionAnalysisSubSetup();
+            return PartialView(pr);
+        }
+
+
+
+        // POST: /PurchaseOrder/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(PurchaseOrder purchaseorder)
+        {
+            using (ApplicationDbContext dbnew = new ApplicationDbContext())
+            {
+              
+                if (purchaseorder.PurchaseOrderId == 0)
+                {
+                    PurchaseOrder purchaseordernew = new PurchaseOrder();
+                    purchaseordernew.VendorId = purchaseorder.VendorId;
+                    purchaseordernew.LocationId = purchaseorder.LocationId;
+                    purchaseordernew.OrderNo = purchaseorder.OrderNo;
+                    purchaseordernew.OrderDate = purchaseorder.OrderDate;
+                    purchaseordernew.OrderRemarks = purchaseorder.OrderRemarks;
+                    purchaseordernew.AmountPaid = purchaseorder.AmountPaid;
+                   
+                    purchaseordernew.SubTotal = purchaseorder.SubTotal;
+                    purchaseordernew.Total = purchaseorder.Total;
+                    purchaseordernew.Balance = purchaseorder.Balance;
+
+                    dbnew.PurchaseOrder.Add(purchaseordernew);
+
+
+                    if (purchaseorder.PurchaseOrderDetail != null && purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList != null)
+                    {
+                        foreach (var item in purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList)
+                        {
+
+                            item.PurchaseOrderId = purchaseordernew.PurchaseOrderId;
+
+                            dbnew.PurchaseOrderDetail.Add(item);
+                        }
+
+                        dbnew.SaveChanges();
+                    }
+
+
+                    return RedirectToAction("Create");
+                }
+                else
+                {
+                    dbnew.Entry(purchaseorder).State = EntityState.Modified;
+                    if (purchaseorder.PurchaseOrderDetail != null && purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList != null)
+                        {
+                            foreach (var item in purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList)
+                            {
+                                ApplicationDbContext po = new ApplicationDbContext();
+                                var data = po.PurchaseOrderDetail.Where(x => x.PurchaseOrderDetailId == item.PurchaseOrderDetailId).FirstOrDefault();
+                                if (data == null)
+                                {
+                                    item.PurchaseOrderId = purchaseorder.PurchaseOrderId;
+                                    item.ProdId = purchaseorder.PurchaseOrderDetail.ProdId;
+                                    po.PurchaseOrderDetail.Add(item);
+                                    po.SaveChanges();
+                                }
+
+                                else
+                                {
+                                    data.PurchaseOrderId=purchaseorder.PurchaseOrderId;
+                                    data.ProdId = item.ProdId; 
+                                    data.VendorItemCode=item.VendorItemCode;
+                                    data.Quantity = item.Quantity;
+                                    data.UnitPrice = item.UnitPrice;
+                                    data.Discount = item.Discount;
+                                    data.SubTotal = item.SubTotal;
+                                    po.Entry(data).State = EntityState.Modified;
+                                    po.SaveChanges();
+                                }
+
+                            }
+                                        
+                        }
+
+                        dbnew.SaveChanges();
+
+                    }
+
+                purchaseorder.PurchaseOrderList = new List<PurchaseOrder>();
+                purchaseorder.PurchaseOrderList = db.PurchaseOrder.Include(v => v.Vendor).ToList();
+                return RedirectToAction("Create");
+                  
+                }
+            
+        }
+
+
+        public ActionResult SearchPurchaseordertList(PurchaseOrderViewModel model)
+        {
+            model.PurchaseOrderService = new PurchaseOrderService();
+            model.PurchaseOrderService.PurchaseOrderSearchList = new List<PurchaseOrderService>();
+
+            string orderno = model.PurchaseOrderObj.OrderNo;
+            if (string.IsNullOrEmpty(orderno))
+            {
+                orderno = "null";
+            }
+            var orderdt = model.PurchaseOrderObj.OrderDate.ToString();
+            if (string.IsNullOrEmpty(orderdt))
+            {
+                orderdt = "null";
+            }
+            else
+            {
+                orderdt = "'" + Convert.ToDateTime(model.PurchaseOrderObj.OrderDate).ToString("yyyy/MM/dd") + "'";
+
+            }
+            var vendor = model.PurchaseOrderObj.VendorId.ToString();
+            if (string.IsNullOrEmpty(vendor))
+            {
+                vendor = "null";
+            }
+
+            string purchaseorderlist = "SP_GetPurchaseOrderSearch" + " " + orderno + "," + vendor + "," + orderdt;
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 280;
+
+            var list = db.Database.SqlQuery<PurchaseOrderService>(purchaseorderlist).ToList();
+
+            model.PurchaseOrderService.PurchaseOrderSearchList = list.ToList();
+
+            return View("Index", model);
+
+
+        }
+
+        public ActionResult Search(PurchaseOrder model, string Purchaseorderno)
+        {
+            IEnumerable<PurchaseOrder> list = db.PurchaseOrder;
+            if (!string.IsNullOrEmpty(Purchaseorderno))
+            {
+
+                list = list.Where(x => x.OrderNo==Purchaseorderno);
+
+            }
+
+           
+            int? vendorid = model.VendorId;
+            if (!string.IsNullOrEmpty(vendorid.ToString()))
+            {
+                list = list.Where(x => x.VendorId == vendorid);
+
+
+            }
+            model.PurchaseOrderList = list.ToList();
+            return PartialView("_CreateSearchlist", model);
+        }
+
+       
+
+        // GET: /PurchaseOrder/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = await db.PurchaseOrder.FindAsync(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+
+            purchaseorder.Location = new Location();
+            purchaseorder.Location = db.Location.Where(x => x.LocationId == purchaseorder.LocationId).FirstOrDefault();
+
+
+
+            purchaseorder.PurchaseOrderDetail = new PurchaseOrderDetail();
+            purchaseorder.PurchaseOrderDetail.PurchaseOrderDetailList = db.PurchaseOrderDetail.Where(x => x.PurchaseOrderId == purchaseorder.PurchaseOrderId).ToList();
+            
+            return PartialView("_Common", purchaseorder);
+
+          
+        }
+
+        // POST: /PurchaseOrder/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include="PurchaseOrderId,VendorId,Contact,Phone,VendorAddress,LocationId,OrderNo,OrderDate,Status,SubTotal,TaxAmount,AditionalCost,Paid,Balance")] PurchaseOrder purchaseorder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(purchaseorder).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            ViewBag.LocationId = new SelectList(db.Location, "LocationId", "Name", purchaseorder.LocationId);
+            ViewBag.VendorId = new SelectList(db.Vendor, "VendorId", "Name", purchaseorder.VendorId);
+            return View(purchaseorder);
+        }
+
+        // GET: /PurchaseOrder/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            if (purchaseorder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(purchaseorder);
+        }
+
+        // POST: /PurchaseOrder/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            PurchaseOrder purchaseorder = db.PurchaseOrder.Find(id);
+            db.PurchaseOrder.Remove(purchaseorder);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

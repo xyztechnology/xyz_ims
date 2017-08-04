@@ -1,0 +1,97 @@
+﻿@model Inventory.Models.PurchaseOrder
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="form-horizontal">
+        <table id="example2" class="table table-bordered table-hover" style="background-color: #D5D4D3">
+            <tr>
+                <td>
+                    <h2>SEARCH</h2>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderNo, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.OrderNo, new { @style = "width:900px;height:25px" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                        @Html.LabelFor(model => model.InventoryStatus, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.InventoryStatus, new { @style = "width:900px;height:25px" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PaymentStatus, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.PaymentStatus, new { @style = "width:900px;height:25px" })
+                        </div>
+                    </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Vendor, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.DropDownListFor(model => model.VendorId,Utility.GetVendor(),"Select", new { @style = "width:900px;height:25px" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.OrderDate, new { @class = "control-label col-md-2" })
+                        <div class="col-md-2">
+                            @Html.TextBoxFor(model => model.OrderDate, new { @style = "width:900px;height:25px" })
+                            <br />
+                            <br />
+                            <div class="Button">
+                                <input type="submit" value="Search" class="bg-blue">
+                            </div>
+                        </div>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" style="background-color: #D5D4D3">
+                                <tr>
+                                    <td><strong>Order Number</strong></td>
+                                    <td><strong>Order Date</strong></td>
+                                    <td><strong>Status</strong></td>
+                                    <td><strong>Vendor</strong></td>
+                                    <td><strong>Vendor #</strong></td>
+                                    <td><strong>Location</strong></td>
+                                    <td><strong>Requested Ship Date</strong></td>
+                                    <td><strong>Due Date</strong></td>
+                                    <td><strong>Total</strong></td>
+                                    <td><strong>Paid</strong></td>
+                                    <td><strong>Balance</strong></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                   
+                                </tr>
+                              
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+
+
+
+</div>

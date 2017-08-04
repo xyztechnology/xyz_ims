@@ -1,0 +1,50 @@
+﻿using Inventory.Models.Report;
+using InventroryManagementSystem.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InventroryManagementSystem.Controllers.Report
+{
+    public class ReportController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        // GET: /Report/
+        public ActionResult VendorList()
+        {
+            Vendor vendor = new Vendor();
+            vendor.VendorList = new List<Vendor>();
+            return View(vendor);
+
+           
+        }
+        [HttpPost]
+        public ActionResult VendorList(Vendor model)
+        {
+
+            var vendorid = model.VendorId.ToString();
+            if (string.IsNullOrEmpty(vendorid))
+            {
+                vendorid = "null";
+            }
+
+
+            string s = "SP_GetVendorListReport" + " " + vendorid;
+
+
+            ((IObjectContextAdapter)db).ObjectContext.CommandTimeout = 180;
+
+            var list = db.Database.SqlQuery<Vendor>(s).ToList();
+            //model.ExpensesOfficeWiseList = list.ToList();
+
+            model.VendorList = list.ToList();
+
+            return View (model);
+
+        }
+
+	}
+}

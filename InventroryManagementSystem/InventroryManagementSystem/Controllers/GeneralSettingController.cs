@@ -1,0 +1,244 @@
+﻿using Inventory.Models;
+using InventroryManagementSystem.Models;
+using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace InventroryManagementSystem.Controllers
+{
+    public class GeneralSettingController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public ActionResult Index()
+        {
+            return View();
+        }
+        public ActionResult CompanySetup()
+        {
+            CompanySetup model = new CompanySetup();
+            model = db.CompanySetup.FirstOrDefault();
+            if (model != null)
+            {
+                var aatchmodel = db.FileAttachment.Where(x => x.FileAttachmentId == model.PictureFileAttachmentId).FirstOrDefault();
+                if (aatchmodel != null)
+                {
+                    model.Data = aatchmodel.Data;
+                }
+            }
+            return PartialView("_CompanySetUp", model);
+        }
+        [HttpPost]
+        public ActionResult CompanySetup(CompanySetup model, HttpPostedFileBase file)
+        {
+            using (ApplicationDbContext dbnew = new ApplicationDbContext())
+            {
+                if (model.CompanyId == 0)
+                {
+                    FileAttachment _fileattach = new FileAttachment();
+                    if (file != null)
+                    {
+                        _fileattach.Data = Utility.ReturnByte(file);
+                        _fileattach.TimeStamp = Utility.ReturnByte(file);
+                        _fileattach.FileName = Path.GetFileName(file.FileName);
+                        dbnew.FileAttachment.Add(_fileattach);
+
+                    }
+                    model.PictureFileAttachmentId = _fileattach.FileAttachmentId;
+                    dbnew.CompanySetup.Add(model);
+                    dbnew.SaveChanges();
+                }
+                else
+                {
+
+                    FileAttachment _fileattach = dbnew.FileAttachment.Where(x => x.FileAttachmentId == model.PictureFileAttachmentId).FirstOrDefault();
+                    if (file != null)
+                    {
+
+                        _fileattach.Data = Utility.ReturnByte(file);
+                        _fileattach.TimeStamp = Utility.ReturnByte(file);
+                        _fileattach.FileName = Path.GetFileName(file.FileName);
+
+                        dbnew.Entry(_fileattach).State = EntityState.Modified;
+
+                        //dbnew.FileAttachment.Add(_fileattach);
+
+
+                    }
+
+
+                    dbnew.Entry(model).State = EntityState.Modified;
+
+                    dbnew.SaveChanges();
+
+                }
+            }
+            return PartialView("_CompanySetUp", model);
+        }
+
+
+
+        public ActionResult LocationSetup()
+        {
+            Location loc = new Location();
+            loc.LocationList = new List<Location>();
+            loc.LocationList = db.Location.ToList();
+
+            return PartialView("_Location", loc);
+        }
+
+
+        public JsonResult LocationSetupEdit(int? id)
+        {
+
+            Location loc = new Location();
+            loc = db.Location.Where(x => x.LocationId == id).FirstOrDefault();
+            return Json(loc, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+        [HttpPost]
+        public ActionResult LocationSetup(Location model)
+        {
+            if (model.LocationId == 0)
+            {
+                db.Location.Add(model);
+            }
+            else
+            {
+                db.Entry(model).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+
+            model.LocationList = new List<Location>();
+            model.LocationList = db.Location.ToList();
+            return PartialView("_LocationAddMore", model);
+        }
+
+        public ActionResult SubLocationSetup()
+        {
+            SubLocation loc = new SubLocation();
+            loc.SubLocationList = new List<SubLocation>();
+            loc.SubLocationList = db.SubLocation.ToList();
+            return PartialView("_SubLocation", loc);
+        }
+        public ActionResult GetsublocationDetail(int locid)
+        {
+            ApplicationDbContext db = new ApplicationDbContext();
+            SubLocation subloc = new SubLocation();
+            subloc.SubLocationList=new List<SubLocation>();
+            subloc.SubLocationList = db.SubLocation.Where(x => x.LocationId == locid).ToList();
+            return PartialView("_SubLocationAddMore", subloc);
+
+        }
+
+        public JsonResult SubLocationSetupEdit(int? id)
+        {
+
+            SubLocation loc = new SubLocation();
+            loc = db.SubLocation.Where(x => x.SubLocationId == id).FirstOrDefault();
+            return Json(loc, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+
+        [HttpPost]
+        public ActionResult SubLocationSetup(SubLocation model)
+        {
+            if (model.SubLocationId == 0)
+            {
+                db.SubLocation.Add(model);
+            }
+            else
+            {
+                db.Entry(model).State = EntityState.Modified;
+            }
+            db.SaveChanges();
+            model.SubLocationList = new List<SubLocation>();
+            model.SubLocationList = db.SubLocation.ToList();
+            return PartialView("_SubLocationAddMore", model);
+        }
+
+        public ActionResult DocNumber()
+        {
+
+            DoCumentNoFormat loc = new DoCumentNoFormat();
+            loc.DoCumentNoFormatList = new List<DoCumentNoFormat>();
+            loc.DoCumentNoFormatList = db.DoCumentNoFormat.ToList();
+            return PartialView("_DocNum", loc);
+        }
+
+
+        [HttpPost]
+        public ActionResult DocNumber(DoCumentNoFormat model)
+        {
+
+            foreach (var item in model.DoCumentNoFormatList)
+            {
+                item.MinDigits = item.MinDigits.ToString().Length;
+
+                db.Entry(item).State = EntityState.Modified;
+                db.SaveChanges();
+
+            }
+
+            return PartialView("_DocNum", model);
+        }
+        // GET: /UnitMeasure/Create
+        public ActionResult UnitMeasure()
+        {
+            UnitMeasure unitmeasure = new UnitMeasure();
+            unitmeasure.UnitMeasureList = new List<UnitMeasure>();
+            unitmeasure.UnitMeasureList = db.UnitMeasure.ToList();
+            return PartialView("_UnitMeasure", unitmeasure);
+
+        }
+
+        public JsonResult UnitMeasureEdit(int? id)
+        {
+
+            UnitMeasure unit = new UnitMeasure();
+            unit = db.UnitMeasure.Where(x => x.UnitMeasureId == id).FirstOrDefault();
+            return Json(unit, JsonRequestBehavior.AllowGet);
+
+
+        }
+
+
+        // POST: /UnitMeasure/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UnitMeasure(UnitMeasure model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (model.UnitMeasureId == 0)
+                {
+                    db.UnitMeasure.Add(model);
+                }
+                else
+                {
+                    db.Entry(model).State = EntityState.Modified;
+                }
+                db.SaveChanges();
+            
+
+            }
+            model.UnitMeasureList = new List<UnitMeasure>();
+            model.UnitMeasureList = db.UnitMeasure.ToList();
+            return PartialView("_PartialUnitMeasureList", model);
+        }
+
+
+
+
+
+    }
+}

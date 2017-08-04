@@ -1,0 +1,107 @@
+﻿@model Inventory.Models.Product
+
+@{
+    ViewBag.Title = "Create Product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="form-horizontal">
+    <div class="row">
+        <div class="col-sm-4 col-md-4">
+            <div class="box-body">
+                <table id="example2" class="table table-bordered table-hover">
+
+                    <tr><td>Search</td></tr>
+                    <tr>
+                        <td>Iteam Name/Code</td>
+                        <td>
+                            @Html.EditorFor(model => model.Name)
+
+                        </td>
+                    </tr>
+                    <tr><td>Category</td><td>@Html.EditorFor(model => model.Name)</td></tr>
+                    
+                    <tr><td colspan="2"><input type="submit" value="Refresh" /></td></tr>
+
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4">
+ <div class="form-group">
+                @Html.LabelFor(model => model.Name,"Name", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Name)
+
+                </div>
+ </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, "Type",new { @class = "control-label col-md-3" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Name)
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name,"Category", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Name)
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-4 col-md-4">
+
+            @Html.TextAreaFor(model => model.PictureFileAttachmentId, new { @style = "width:300px;height:80px" })
+            @Html.ValidationMessageFor(model => model.PictureFileAttachmentId)
+            <br />
+            <input type="file" name="file" value="Browse " class="btn btn-default" />
+            <input type="button" value="Clear " class="btn btn-default" />
+
+        </div>
+       
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-3 col-md-3"></div>
+        <div class="col-sm-3 col-md-3"><strong>Cost And Price</strong>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, "Cost", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Name)
+
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name, "Normal Price", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Name)
+
+                </div>
+            </div></div>
+        <div class="col-sm-3 col-md-3">MarkUp<br />0%</div>
+        <div class="col-sm-3 col-md-3"><strong>Inventory</strong>
+            <table id="example2" class="table table-bordered table-hover">
+                <tr>
+                    <td>
+                        Location
+                    </td>
+                    <td>Quantity</td>
+                </tr>
+                <tr><td>Default Location</td><td>0</td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><td colspan="2"></td></tr>
+                <tr><td>Quantity On Hand</td><td>0</td></tr>
+
+            </table></div>
+    </div>

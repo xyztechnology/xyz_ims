@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Inventory.Models.StoreProcedure
+{
+    public  class SalesOrderViewModel
+    {
+
+        public SalesOrderService SalesOrderService { get; set; }
+        public SalesOrder SalesOrderObj { get; set; }
+    }
+}

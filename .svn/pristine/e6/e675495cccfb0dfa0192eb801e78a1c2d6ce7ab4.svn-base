@@ -1,0 +1,94 @@
+﻿@model Inventory.Models.PurchaseOrderDetail
+@using InventroryManagementSystem.Helpers
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/OrderManagerScript.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+    function bindProductCode(ProdId) {
+       
+
+        if (ProdId != 0) {
+         
+            j.ajax({
+                url: "@Url.Action("GetProductcode", "JsonRequest")",
+                data: { prodid: ProdId },
+
+                error: function () {
+                    alert("An error occurred.");
+                },
+                success: function (data)
+                {
+                   
+
+                    j("#VendorItemCode").val(data.ProductCode);
+                }
+            });
+        }
+    }
+</script>
+
+<script type="text/javascript">
+    var j = jQuery.noConflict();
+
+    j(document).ready(function () {
+        AddClickEvents();
+
+        j(".price").on("focusin", function (e) {
+
+            var al = $(this).closest("tr");
+            var qty = al.find(".qty").val();
+            var price = al.find(".price").val();
+
+            var sum = qty * price;
+            al.find(".total").val(sum);
+
+        });
+
+
+
+    });
+
+    j("#Add-Item").on('click', '.row-button', function () {
+        //var df = $(this).closest("tr");
+        j(this).closest("tr").remove();
+
+    });
+
+
+</script>
+
+@using (Html.BeginCollectionItem("PurchaseOrderDetail.PurchaseOrderDetailList"))
+{
+
+    <div class="row">
+        <div class="col-sm-6">
+            <table id="example2" class="table table-bordered" style="width:50%">
+                <tr>
+
+
+                    <td>@Html.DropDownListFor(model => model.ProdId, Utility.GetProductList(), "Select", new { @onchange = "bindProductCode(this.value)", @style = "width:82px" })</td>
+                    <td>@Html.TextBoxFor(model => model.VendorItemCode, new { @style = "width:130px" })</td>
+                    <td>@Html.TextBoxFor(model => model.Quantity, new { @style = "width:100px", @class = "qty" })</td>
+                    <td>@Html.TextBoxFor(model => model.UnitPrice, new { @style = "width:100px", @class = "price" })</td>
+                    <td>@Html.TextBoxFor(model => model.Discount, new { @style = "width:100px", @class = "discount" })</td>
+                    <td>@Html.TextBoxFor(model => model.SubTotal, new { @style = "width:100px", @class = "total" })</td>
+
+
+                    <td>
+                        <button type="button" class="row-button" title="Delete row" id="row-button"></button>
+                    </td>
+
+
+
+                </tr>
+
+
+            </table>
+</div>
+        </div>
+
+}
+
+

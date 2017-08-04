@@ -1,0 +1,118 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_LayoutNull.cshtml";
+
+
+}
+<script src="~/plugins/jQuery/jquery-2.2.3.min.js"></script>
+
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+
+    <div class="modal-body">
+
+       
+      
+            
+
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">Company Setup</a></li>
+                    <li><a href="#tabs-2">Add User</a></li>
+                    <li><a href="#tabs-3">Doc Number</a></li>
+                    <li><a href="#tabs-4">Inventory Location</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <div>
+                        @{
+                            Html.RenderAction("CompanySetup", "GeneralSetting");
+                        }
+                    </div>
+                </div>
+                <div id="tabs-2">
+                   dasdasdasd
+                </div>
+                <div id="tabs-3">
+                   
+
+                </div>
+                <div id="tabs-4">
+                    <div>
+                        @{
+                            Html.RenderAction("LocationSetup", "GeneralSetting");
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <script>
+                $(function () {
+                    $("#tabs").tabs();
+                    $("#dialog").dialog({ width: 900 });
+                });
+            </script>
+
+            </div>
+
+
+
+
+
+
+            @*<table>
+                <tr>
+                    <td>
+
+                        @Ajax.ActionLink("Company", "AddCompany", // <-- Text to display
+                                  "Vendor",
+
+
+                     new AjaxOptions
+                     {
+                         UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                         HttpMethod = "GET", //
+
+                     })
+                        <br />
+
+                        @Ajax.ActionLink("User", "AddUser", // <-- Text to display
+                                  "Vendor",
+
+
+                     new AjaxOptions
+                     {
+                         UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                         HttpMethod = "GET", //
+
+                     })
+                        <br />
+
+                        @Ajax.ActionLink("Doc Number", "AddUser", // <-- Text to display
+                                  "Vendor",
+
+
+                     new AjaxOptions
+                     {
+                         UpdateTargetId = "ContentArea", // <-- DOM element ID to update
+                         InsertionMode = InsertionMode.Replace, // <-- Replace the content of DOM element
+                         HttpMethod = "GET", //
+
+                     })
+                        <br />
+                    </td>
+                    <td>
+                        <div id="ContentArea">
+                            @{
+                                Html.RenderAction("CompanySetup", "GeneralSetting");
+                            }
+                        </div>
+                    </td>
+                </tr>
+            </table>*@
+
+
+
+
+

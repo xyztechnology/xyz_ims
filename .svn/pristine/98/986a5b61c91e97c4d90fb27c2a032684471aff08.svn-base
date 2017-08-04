@@ -1,0 +1,270 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Inventory.Models;
+using InventroryManagementSystem.Models;
+
+namespace InventroryManagementSystem.Controllers
+{
+
+
+    public class TransactionAnalysisSetupController : Controller
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+
+        public bool AlreadyPopulatedForTopLevel
+        {
+            get
+            {
+                return (Session["AlreadyPopulatedForTopLevel"] == null
+                            ? false
+                            : (bool)Session["AlreadyPopulatedForTopLevel"]);
+            }
+            set { Session["AlreadyPopulatedForTopLevel"] = value; }
+        }
+
+
+
+        public ActionResult Create()
+        {
+            AlreadyPopulatedForTopLevel = false;
+            TransactionAnalysisSetup model = new TransactionAnalysisSetup();
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult GetGroupListData()
+        {
+            if (!AlreadyPopulatedForTopLevel)
+            {
+                AlreadyPopulatedForTopLevel = true;
+                object data = GetFolderData();
+                return Json(data);
+            }
+
+            return null;
+
+        }
+
+
+        public object GetFolderData()
+        {
+            var tt = new List<FolderTreeModel.JsTreeModel>();
+
+            foreach (var item in GetFolderName())
+            {
+                tt.Add(new FolderTreeModel.JsTreeModel
+                {
+                    attr = new FolderTreeModel.JsTreeAttribute { id = item.FolderId },
+                    ParentId = item.ParentFolderId,
+                    data = item.FolderName
+                });
+
+            }
+
+
+            List<FolderTreeModel.JsTreeModel> rootNode = PopulateTree(tt);
+            return rootNode;
+
+        }
+
+
+
+
+
+        public List<FolderTreeModel.FolderData> GetFolderName()
+        {
+
+            var list = new List<FolderTreeModel.FolderData>();
+
+            var list2 = db.TransactionAnalysisSetup.ToList();
+            foreach (var item in list2)
+            {
+                list.Add(new FolderTreeModel.FolderData() { FolderId = item.TransactionAnalysisId, ParentFolderId = item.ParentId, FolderName = item.Name });
+            }
+
+            return list;
+
+        }
+
+
+        private List<FolderTreeModel.JsTreeModel> PopulateTree(IList<FolderTreeModel.JsTreeModel> flatList)
+        {
+            var treeViewList = new List<FolderTreeModel.JsTreeModel>();
+            foreach (FolderTreeModel.JsTreeModel row in flatList.Where(f => f.ParentId == 0))
+            {
+                PopulateTreeChild(row, flatList);
+                treeViewList.Add(row);
+            }
+            return treeViewList;
+        }
+
+        private void PopulateTreeChild(FolderTreeModel.JsTreeModel parent, IList<FolderTreeModel.JsTreeModel> flatList)
+        {
+            foreach (FolderTreeModel.JsTreeModel child in flatList.Where(f => f.ParentId == parent.attr.id))
+            {
+                parent.children.Add(child);
+                PopulateTreeChild(child, flatList);
+            }
+        }
+
+
+    
+
+        public ActionResult DeleteHead(int id)
+        {
+            try
+            {
+                TransactionAnalysisSetup group = db.TransactionAnalysisSetup.Find(id);
+                db.TransactionAnalysisSetup.Remove(group);
+                db.SaveChanges();
+                AlreadyPopulatedForTopLevel = false;
+
+            }
+            catch (Exception ex)
+            {
+                AlreadyPopulatedForTopLevel = false;
+
+                return Content("Error");
+            }
+            return RedirectToAction("Create");
+        }
+
+
+        [HttpGet]
+        public ActionResult CreateHead()
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            TransactionAnalysisSetup data = new TransactionAnalysisSetup();
+          
+
+            return PartialView("_CreateHead", data);
+        }
+
+
+
+
+        [HttpPost]
+        public ActionResult CreateHead(TransactionAnalysisSetup model)
+        {
+
+            db.TransactionAnalysisSetup.Add(model);
+            db.SaveChanges();
+
+            AlreadyPopulatedForTopLevel = false;
+            return RedirectToAction("Create");
+        }
+
+
+        [HttpGet]
+        public ActionResult EditHead(string id)
+        {
+           
+            TransactionAnalysisSetup data = new TransactionAnalysisSetup();
+            data.TransactionAnalysisId = Convert.ToInt32(id);
+            var dataEdit = db.TransactionAnalysisSetup.Where(x => x.TransactionAnalysisId == data.TransactionAnalysisId).FirstOrDefault();
+            return PartialView("_EditSubHead", dataEdit);
+        }
+
+
+
+          [HttpPost]
+        public ActionResult EditHead(TransactionAnalysisSetup model)
+        {
+            var dataEdit = db.TransactionAnalysisSetup.Where(x => x.TransactionAnalysisId == model.TransactionAnalysisId).FirstOrDefault();
+            dataEdit.Name = model.Name;
+            db.SaveChanges();
+            return RedirectToAction("Create");
+        }
+
+
+
+        [HttpGet]
+        public ActionResult CreateSubHead(string id)
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            TransactionAnalysisSubSetup data = new TransactionAnalysisSubSetup();
+            data.TransactionAnalysisId = Convert.ToInt32(id);
+
+            return PartialView("_CreateSubHead", data);
+        }
+
+
+        [HttpPost]
+        public ActionResult CreateSubHead(TransactionAnalysisSubSetup model)
+        {
+
+            db.TransactionAnalysisSubSetup.Add(model);
+            db.SaveChanges();
+
+            AlreadyPopulatedForTopLevel = false;
+            return RedirectToAction("Create");
+        }
+
+
+        public ActionResult GetSubHead(string id)
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            TransactionAnalysisSubSetup data = new TransactionAnalysisSubSetup();
+            data.TransactionAnalysisId = Convert.ToInt32(id);
+            var list = ent.TransactionAnalysisSubSetup.Where(x => x.TransactionAnalysisId == data.TransactionAnalysisId).ToList();
+            data.TransactionAnalysisSubSetupList = list;
+            return PartialView("_SubHeadMenuList", data);
+        }
+
+        public ActionResult EditSubHead(string id)
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            TransactionAnalysisSubSetup data = new TransactionAnalysisSubSetup();
+            var subid = Convert.ToInt32(id);
+            var list = ent.TransactionAnalysisSubSetup.Where(x => x.TransactionAnalysisSubSetupId == subid).FirstOrDefault();
+            data = list;
+            return PartialView("_EditSubHead", data);
+        }
+        [HttpPost]
+        public ActionResult EditSubHead(TransactionAnalysisSubSetup model)
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            
+            var data = ent.TransactionAnalysisSubSetup.Where(x => x.TransactionAnalysisSubSetupId == model.TransactionAnalysisSubSetupId).FirstOrDefault();
+            db.TransactionAnalysisSubSetup.Remove(data);
+            db.SaveChanges();
+            return RedirectToAction("Create");
+           
+        }
+
+
+        public ActionResult DeleteSubHead(string id)
+        {
+            ApplicationDbContext ent = new ApplicationDbContext();
+            TransactionAnalysisSubSetup data = new TransactionAnalysisSubSetup();
+            data.TransactionAnalysisId = Convert.ToInt32(id);
+            var subdata = ent.TransactionAnalysisSubSetup.Where(x => x.TransactionAnalysisSubSetupId == data.TransactionAnalysisId).FirstOrDefault();
+            db.TransactionAnalysisSubSetup.Remove(subdata);
+            db.SaveChanges();
+            return RedirectToAction("Create");
+           
+        }
+
+      
+
+
+       
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+    }
+}

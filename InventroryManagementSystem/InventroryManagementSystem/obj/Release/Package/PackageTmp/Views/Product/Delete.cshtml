@@ -1,0 +1,424 @@
+﻿@model Inventory.Models.Product
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Delete</title>
+</head>
+<body>
+    <h3>Are you sure you want to delete this?</h3>
+    <div>
+        <h4>Product</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Category.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Category.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.FileAttachmentId.FileName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.FileAttachmentId.FileName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LocationId.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LocationId.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.UserId.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.UserId.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.VendorId.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.VendorId.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Version)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Version)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ItemTypeId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ItemTypeId)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Remarks)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BarCode)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BarCode)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DefaultSublocation)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DefaultSublocation)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReorderPoint)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReorderPoint)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ReorderQuantity)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ReorderQuantity)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Uom)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Uom)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.MasterPackQty)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.MasterPackQty)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.InnerPackQty)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.InnerPackQty)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CaseLength)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CaseLength)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CaseWidth)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CaseWidth)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CaseHeight)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CaseHeight)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CaseWeight)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CaseWeight)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductLength)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProductLength)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductWidth)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProductWidth)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductHeight)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProductHeight)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductWeight)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.ProductWeight)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom1)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom1)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom2)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom2)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom3)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom3)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom4)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom4)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom5)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom5)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsSellable)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsSellable)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsPurchaseable)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsPurchaseable)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DateIntroduced)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DateIntroduced)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.DateUpdated)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.DateUpdated)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.LastModDttm)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.LastModDttm)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TimeStamp)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TimeStamp)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.IsActive)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom6)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom6)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom7)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom7)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom8)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom8)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom9)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom9)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Custom10)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Custom10)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SoUomName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SoUomName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SoUomRatioStd)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SoUomRatioStd)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.SoUomRatio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SoUomRatio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PoUotmName)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PoUotmName)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PoUomRatioStd)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PoUomRatioStd)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PoUomRatio)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PoUomRatio)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TrackSerials)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TrackSerials)
+            </dd>
+    
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-default" /> |
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+        }
+    </div>
+</body>
+</html>

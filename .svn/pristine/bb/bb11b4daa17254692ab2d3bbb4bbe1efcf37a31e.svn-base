@@ -1,0 +1,22 @@
+﻿@model Inventory.Models.Vendor
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <tr>
+                <td><strong>Item</strong></td>
+                <td><strong>Description</strong></td>
+                <td><strong>Product Code</strong></td>
+                <td><strong>Cost</strong></td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+
+            </tr>
+
+        </table>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+﻿@model Inventory.Models.PurchaseRequisition
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="form-horizontal">
+    @using (Ajax.BeginForm("Search", "PurchaseRequisition", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "SearchResult", InsertionMode = InsertionMode.Replace, OnBegin = "ClearList" }))
+    {
+        <div class="col-md-3">
+            <b>SEARCH</b>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RequisitionNo,"Requisition No", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.Editor("RequisitionNo")
+                </div>
+            </div>
+            
+            <div class="form-group">
+                @Html.LabelFor(model => model.RequisitionDate, "Requisition Date", new { @class = "control-label col-md-3" })
+
+                <div class="col-md-1">
+                    @Html.TextBoxFor(model => model.RequisitionDate)
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="bg-blue" />
+            </div>
+
+            <table id="example2" class="table table-bordered table-hover">
+                <tr>
+                    <td><strong>Requisition Date</strong></td>
+                    <td><strong>Vendor</strong></td>
+
+
+                </tr>
+            </table>
+
+            <div id="SearchResult">
+                @Html.Partial("_CreateSearchlist")
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+<div class="col-md-9">
+    <div id="ContentArea">
+        @Html.Partial("_Common")
+    </div>
+
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
